@@ -128,32 +128,29 @@ public class EmployeeDao extends CommonDao {
 		return clockInTime;
 	}
 	
-
-	public EmployeeBean getInfo(int args_employeeCD) {
-		String query = "SELECT * FROM users WHERE employeeCD = ?";
-		try (Connection con = DriverManager.getConnection(URL, USER, PASS);
-			PreparedStatement statement = con.prepareStatement(query)) {
-			statement.setInt(1, args_employeeCD);
-			ResultSet rs = statement.executeQuery();
-
-			while (rs.next()) {
-				int employeeCD = rs.getInt("employeeCD");
-				String name = rs.getString("name");
-				String email = rs.getString("email");
-				String password = null;
-				int storeCD = rs.getInt("storeCD");
-				java.sql.Date hire_date = rs.getDate("hire_date");
-				int position = rs.getInt("position");
-
-				EmployeeBean employeeInfo = new EmployeeBean(employeeCD, storeCD, position, name, password, email, hire_date);
-				System.out.println(employeeInfo.getName());
-				return employeeInfo;
-			}
-			statement.close();
-			con.close();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return null;
-	}
+	public EmployeeBean getInfo(int args_employeeCD) { 
+		String query = "SELECT * FROM users WHERE employeeCD = ?"; 
+		try (Connection con = DriverManager.getConnection(URL, USER, PASS); 
+			PreparedStatement statement = con.prepareStatement(query)) { 
+			statement.setInt(1, args_employeeCD); 
+			ResultSet rs = statement.executeQuery(); 
+			while (rs.next()) { 
+				int employeeCD = rs.getInt("employeeCD"); 
+				String name = rs.getString("name"); 
+				String email = rs.getString("email"); 
+				String password = null; 
+				int storeCD = rs.getInt("storeCD"); 
+				java.sql.Date hire_date = rs.getDate("hire_date"); 
+				int position = rs.getInt("position"); 
+				EmployeeBean employeeInfo = new EmployeeBean(employeeCD, storeCD, position, name, password, email, hire_date); 
+				System.out.println(employeeInfo.getName()); 
+				return employeeInfo; 
+			} 
+			statement.close(); 
+			con.close(); 
+		} catch (SQLException e) { 
+			e.printStackTrace(); 
+		} 
+		return null; 
+	} 
 }

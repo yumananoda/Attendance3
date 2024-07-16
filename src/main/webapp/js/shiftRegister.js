@@ -117,7 +117,7 @@ btn.addEventListener("click", function () {
     console.log("入力されていない項目があります。");
   } else {
     console.log("実行");
-    fetch("/DateTime12/ShiftRegisterServlet", {
+    fetch("/DateTime/ShiftRegisterServlet", {
       method: "POST",
       body: JSON.stringify(shift),
     }).finally(() => {

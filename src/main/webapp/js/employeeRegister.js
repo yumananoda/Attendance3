@@ -88,7 +88,7 @@ const removeSelectedUsers = () => {
 
 registerbtn.addEventListener("click", function () {
   console.log("aaa");
-  fetch("/DateTime12/EmployeeRegisterServlet", {
+  fetch("/DateTime/EmployeeRegisterServlet", {
     method: "POST",
     body: JSON.stringify(info),
   })

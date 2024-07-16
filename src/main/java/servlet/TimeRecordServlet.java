@@ -36,6 +36,7 @@ public class TimeRecordServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		System.out.println("called TimneRecordServlet");
 		HttpSession session = request.getSession();
 		String employeeCD = (String) session.getAttribute("employeeCD");
 		int employeeCD2 = Integer.parseInt(employeeCD);

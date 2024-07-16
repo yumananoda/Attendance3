@@ -5,7 +5,7 @@ const total = document.getElementById("totalData");
 let jsValue = document.getElementById("dataHolder").value;
 jsValue = JSON.parse(jsValue);
 console.log("jsValue:", jsValue);
-let unixTime = jsValue[0].clockInTime;
+let unixTime = jsValue[0].clock_in_time;
 let dateTime = new Date(unixTime * 1000);
 console.log("unixtime変換後:", dateTime);
 
@@ -33,6 +33,7 @@ function getDateAndDay() {
   const th8 = document.createElement("th");
   const th9 = document.createElement("th");
   const th10 = document.createElement("th");
+  const th11 = document.createElement("th");
 
   th1.innerText = "日";
   th2.innerText = "曜日";
@@ -44,6 +45,7 @@ function getDateAndDay() {
   th8.innerText = "退勤予定時間";
   th9.innerText = "稼働予定時間";
   th10.innerText = "残業時間";
+  th10.innerText = "";
   trEl.appendChild(th1);
   trEl.appendChild(th2);
   trEl.appendChild(th3);
@@ -54,6 +56,7 @@ function getDateAndDay() {
   trEl.appendChild(th8);
   trEl.appendChild(th9);
   trEl.appendChild(th10);
+  trEl.appendChild(th11);
   calender.appendChild(trEl);
   let totalWorkingDays = 0;
   let totalWorkingMilliseconds = 0;
@@ -71,6 +74,7 @@ function getDateAndDay() {
     const shift_clockOut = document.createElement("td");
     const shift_clock = document.createElement("td");
     const overTime = document.createElement("td");
+    const edit = document.createElement("button");
 
     const day = new Date(currentYear, currentMonth - 1, i).getDay();
     console.log(i, day);
@@ -151,6 +155,27 @@ function getDateAndDay() {
       }
     }
 
+    edit.innerText = "実績変更";
+    edit.addEventListener("click", function () {
+      console.log("result: ", result);
+      const { recordCD } = result;
+      const clockInTime = new Date(result.clockInTime);
+
+      const clockOutTime = result.clockOutTime
+        ? new Date(result.clockOutTime)
+        : null;
+      const formattedClockOutTime = clockOutTime
+        ? clockOutTime.toLocaleTimeString()
+        : "0:00";
+
+      fetch(
+        `/DateTime/EditTimeRecordServlet?clockInTime=${clockInTime.toLocaleTimeString()}&clockOutTime=${formattedClockOutTime}&recordCD=${recordCD}`,
+        {
+          method: "GET",
+        }
+      );
+    });
+
     col.appendChild(date);
     col.appendChild(week);
     col.appendChild(clockIn);
@@ -161,6 +186,7 @@ function getDateAndDay() {
     col.appendChild(shift_clockOut);
     col.appendChild(shift_clock);
     col.appendChild(overTime);
+    col.appendChild(edit);
     calender.appendChild(col);
   }
 
