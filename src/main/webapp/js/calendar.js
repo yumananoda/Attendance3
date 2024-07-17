@@ -205,17 +205,6 @@ function getDateAndDay() {
   const total_td2 = document.createElement("td");
   total_th2.innerText = "合計勤務時間";
 
-  // 合計勤務時間と残業時間を関数でまとめたい
-  // function TotalTimeCalculation(totalTimeMilliseconds){
-  //   let totalHours = Math.floor(
-  //     totalTimeMilliseconds / (1000 * 60 * 60)
-  //   );
-  //   let remainingMilliseconds = totalTimeMilliseconds % (1000 * 60 * 60);
-  //   let totalMinutes = Math.floor(remainingMilliseconds / (1000 * 60));
-
-  // }
-
-  // 合計勤務時間を計算して表示
   let totalWorkingHours = Math.floor(
     totalWorkingMilliseconds / (1000 * 60 * 60)
   );

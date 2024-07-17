@@ -1,15 +1,15 @@
 import { POSITION_NAME, info, removeUsers } from "./const.js";
 
-let form = document.getElementById("employeeForm");
+const form = document.getElementById("employeeForm");
 const registerbtn = document.getElementById("register");
-let registerUser = document.getElementById("registerUser");
-let id = 1;
+const registerUser = document.getElementById("registerUser");
+const id = 1;
 form.addEventListener("submit", async function (event) {
   event.preventDefault();
-  let inputname = form.name.value;
-  let inputemail = form.email.value;
-  let inputradio = form.position.value;
-  let inputdate = form.hire_date.value;
+  const inputname = form.name.value;
+  const inputemail = form.email.value;
+  const inputradio = form.position.value;
+  const inputdate = form.hire_date.value;
   console.log(inputname, inputemail, inputradio, inputdate);
   info.push({
     id: id,
@@ -31,8 +31,8 @@ const registerShow = () => {
   }
 
   for (let i = 0; i < info.length; i++) {
-    let div4 = document.createElement("div");
-    let check = document.createElement("input");
+    const div = document.createElement("div");
+    const check = document.createElement("input");
     check.setAttribute("type", "checkbox");
     check.setAttribute("name", "remove");
     check.setAttribute("value", info[i].id);
@@ -48,24 +48,24 @@ const registerShow = () => {
       console.log(removeUsers);
     });
 
-    div4.appendChild(check);
-    let p1 = document.createElement("p");
-    let p2 = document.createElement("p");
-    let p3 = document.createElement("p");
-    let p4 = document.createElement("p");
+    div.appendChild(check);
+    const p1 = document.createElement("p");
+    const p2 = document.createElement("p");
+    const p3 = document.createElement("p");
+    const p4 = document.createElement("p");
     p1.innerText = info[i].name;
     p2.innerText = info[i].email;
     p3.innerText = POSITION_NAME[Number(info[i].position)];
     p4.innerText = info[i].hire_date;
-    div4.appendChild(p1);
-    div4.appendChild(p2);
-    div4.appendChild(p3);
-    div4.appendChild(p4);
+    div.appendChild(p1);
+    div.appendChild(p2);
+    div.appendChild(p3);
+    div.appendChild(p4);
     registerUser.appendChild(div4);
   }
 
   if (registerShow !== 0) {
-    let removebtn = document.createElement("button");
+    const removebtn = document.createElement("button");
     removebtn.textContent = "削除する";
     registerUser.appendChild(removebtn);
     removebtn.id = "removebtn";

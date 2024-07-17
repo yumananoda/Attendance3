@@ -1,11 +1,10 @@
 import { DAYS, DAY_TEXTS } from "./const.js";
 
+const selectWeekEl = document.getElementById("selectWeek");
+const inputTimeGroupEl = document.getElementById("inputTimeGroup");
 const employeeCDEl = document.getElementById("employeeCD");
 const employeeCD = employeeCDEl.value;
 const shiftEl = document.getElementById("shift");
-const selectWeekEl = document.getElementById("selectWeek");
-const inputTimeGroupEl = document.getElementById("inputTimeGroup");
-
 const shift = JSON.parse(shiftEl.value);
 console.log("shift: ", shift);
 

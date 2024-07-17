@@ -36,9 +36,10 @@ public class DispEditEmployeeInfoServlet extends HttpServlet {
 		EmployeeBean employeeInfo = empDao.getInfo(employeeCD2);
 		ObjectMapper mapper = new ObjectMapper();
 		String json = mapper.writeValueAsString(employeeInfo);
-		System.out.println(employeeInfo);
-		request.setAttribute("employeeCD", employeeCD2);
+		System.out.println("mployeeInfo:" + employeeInfo);
+//		request.setAttribute("employeeCD", employeeCD2);
 		request.setAttribute("employeeInfo", json);
+		
 		request.getRequestDispatcher("/EditEmployeeInfo.jsp").forward(request, response);
 	}
 }
