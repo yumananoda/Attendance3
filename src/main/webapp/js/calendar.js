@@ -1,13 +1,11 @@
 import { weeks } from "./const.js";
 
+const employeeCD = document.getElementById("employeeCD").value;
 const calender = document.getElementById("calendar");
 const total = document.getElementById("totalData");
 let jsValue = document.getElementById("dataHolder").value;
 jsValue = JSON.parse(jsValue);
 console.log("jsValue:", jsValue);
-let unixTime = jsValue[0].clock_in_time;
-let dateTime = new Date(unixTime * 1000);
-console.log("unixtime変換後:", dateTime);
 
 let jsValue2 = document.getElementById("shiftHolder").value;
 jsValue2 = JSON.parse(jsValue2);
@@ -74,7 +72,8 @@ function getDateAndDay() {
     const shift_clockOut = document.createElement("td");
     const shift_clock = document.createElement("td");
     const overTime = document.createElement("td");
-    const edit = document.createElement("button");
+    // const edit = document.createElement("button");
+    const edit = document.createElement("a");
 
     const day = new Date(currentYear, currentMonth - 1, i).getDay();
     console.log(i, day);
@@ -101,6 +100,7 @@ function getDateAndDay() {
       totalWorkingDays++;
       const input = new Date(result.clockInTime);
       const out = new Date(result.clockOutTime);
+      console.log("input: ", result.clockInTime, input);
 
       clockIn.innerText = input.toLocaleTimeString();
       if (result.clockOutTime !== null) {
@@ -155,27 +155,23 @@ function getDateAndDay() {
       }
     }
 
-    edit.innerText = "実績変更";
-    edit.addEventListener("click", function () {
-      console.log("result: ", result);
-      const { recordCD } = result;
-      const clockInTime = new Date(result.clockInTime);
+    // edit.innerText = "実績変更";
+    // edit.addEventListener("click", function () {
+    //   console.log("result: ", result);
+    //   const { recordCD } = result;
+    //   const clockInTime = new Date(result.clockInTime);
 
-      const clockOutTime = result.clockOutTime
-        ? new Date(result.clockOutTime)
-        : null;
-      const formattedClockOutTime = clockOutTime
-        ? clockOutTime.toLocaleTimeString()
-        : "0:00";
+    //   const clockOutTime = result.clockOutTime
+    //     ? new Date(result.clockOutTime)
+    //     : null;
+    //   const formattedClockOutTime = clockOutTime
+    //     ? clockOutTime.toLocaleTimeString()
+    //     : "0:00";
 
-      fetch(
-        `/DateTime/EditTimeRecordServlet?clockInTime=${clockInTime.toLocaleTimeString()}&clockOutTime=${formattedClockOutTime}&recordCD=${recordCD}`,
-        {
-          method: "GET",
-        }
-      );
-    });
-
+    //   fetch(`/DateTime/DispShiftRegisterServlet`, {
+    //     method: "GET",
+    //   }).then((res) => console.log("res: ", res));
+    // });
     col.appendChild(date);
     col.appendChild(week);
     col.appendChild(clockIn);
@@ -186,7 +182,22 @@ function getDateAndDay() {
     col.appendChild(shift_clockOut);
     col.appendChild(shift_clock);
     col.appendChild(overTime);
-    col.appendChild(edit);
+    if (result) {
+      edit.innerText = "実績変更";
+      const { recordCD, clockInTime, clockOutTime } = result;
+      // const clockInTime = new Date(result.clockInTime);
+      // console.log("clockInTime:", clockInTime);
+      // console.log()
+
+      // const clockOutTime = result.clockOutTime
+      //   ? new Date(result.clockOutTime)
+      //   : null;
+      // const formattedClockOutTime = clockOutTime
+      //   ? clockOutTime.toLocaleTimeString()
+      //   : "0:00";
+      edit.href = `/DateTime/DispEditTimeRecordServlet?employeeCD=${employeeCD}&clockInTime=${clockInTime}&clockOutTime=${clockOutTime}&recordCD=${recordCD}`;
+      col.appendChild(edit);
+    }
     calender.appendChild(col);
   }
 

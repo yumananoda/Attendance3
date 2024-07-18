@@ -2,6 +2,8 @@
     pageEncoding="UTF-8"%>
  <%
  	System.out.println("called jsp");
+ 	int employeeCD = (int) request.getAttribute("employeeCD");
+	System.out.println("employeeCD:" + employeeCD);
  	int recordCD = (int) request.getAttribute("recordCD");
  	System.out.println("recordCD:" + recordCD);
  	String clockInTime = (String) request.getAttribute("clockInTime");
@@ -16,6 +18,15 @@
 <title>実績変更画面</title>
 </head>
 <body>
-	<input type="time" value="clockInTime" />
+<form action="EditTimeRecordServlet" merhod="post">
+	<h1>実績変更</h1>
+	<input type="hidden"  id="clockInTime" value=<%= clockInTime %> />
+	<input type="hidden"  id="clockOutTime" value=<%= clockOutTime %> />
+	<input type="submit" value="変更" /> 
+	<div id="dateArea">
+	 
+	<script type="module" src="js/editTimeRecord.js"></script>
+    <script type="module" src="js/const.js" ></script>
+</form>
 </body>
 </html>

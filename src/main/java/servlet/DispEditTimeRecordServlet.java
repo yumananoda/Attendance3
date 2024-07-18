@@ -11,14 +11,14 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * Servlet implementation class EditTimeRecordServlet
  */
-@WebServlet("/EditTimeRecordServlet")
-public class EditTimeRecordServlet extends HttpServlet {
+@WebServlet("/DispEditTimeRecordServlet")
+public class DispEditTimeRecordServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public EditTimeRecordServlet() {
+    public DispEditTimeRecordServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -29,14 +29,17 @@ public class EditTimeRecordServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		System.out.println("called EditTimeRecordServlet");
 		request.setCharacterEncoding("UTF-8");
+		String employeeCD = (String)request.getParameter("employeeCD");
+		int employeeCD2 = Integer.parseInt(employeeCD);
 		String recordCD = (String)request.getParameter("recordCD");
-		int recordCD2= Integer.parseInt(recordCD);
+		int recordCD2 = Integer.parseInt(recordCD);
 		System.out.println("recordCD:" + recordCD2);
 		String clockInTime = (String)request.getParameter("clockInTime");
 		System.out.println("clockInTime:" + clockInTime);
 		String clockOutTime = (String)request.getParameter("clockOutTime");
 		System.out.println("clockOutTime:" + clockOutTime);
 		
+		request.setAttribute("employeeCD", employeeCD2);
 		request.setAttribute("recordCD", recordCD2);
 		request.setAttribute("clockInTime", clockInTime);
 		request.setAttribute("clockOutTime", clockOutTime);

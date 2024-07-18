@@ -2,8 +2,11 @@
     pageEncoding="UTF-8"%>
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="models.TimeRecordsBean" %>
-<% String timeRecords = (String)session.getAttribute("timeRecords"); %>
-<% String shift = (String)session.getAttribute("shift"); %>
+<%
+	int employeeCD = (int)request.getAttribute("employeeCD");
+	String timeRecords = (String)session.getAttribute("timeRecords");
+	String shift = (String)session.getAttribute("shift");
+%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -22,6 +25,7 @@
     </div>
     
     <div id="calendar"></div>
+    <input id="employeeCD" type="hidden" value=<%= employeeCD %> /> 
     <input id="dataHolder" type="hidden" value=<%= timeRecords %> /> 
     <input id="shiftHolder" type="hidden" value=<%= shift %> /> 
     <div id="totalData"></div>

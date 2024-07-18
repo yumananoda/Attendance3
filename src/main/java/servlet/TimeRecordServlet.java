@@ -38,7 +38,7 @@ public class TimeRecordServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		System.out.println("called TimneRecordServlet");
 		HttpSession session = request.getSession();
-		String employeeCD = (String) session.getAttribute("employeeCD");
+		String employeeCD = request.getParameter("employeeCD");
 		int employeeCD2 = Integer.parseInt(employeeCD);
 		
 		TimeRecordDao timeRecordDao = new TimeRecordDao();
@@ -56,6 +56,7 @@ public class TimeRecordServlet extends HttpServlet {
 		System.out.println(json);
 		System.out.println(json2);
 		
+		request.setAttribute("employeeCD", employeeCD2);
 		session.setAttribute("timeRecords", json);
 		session.setAttribute("shift", json2);
 		request.getRequestDispatcher("/TimeRecord.jsp").forward(request, response);
