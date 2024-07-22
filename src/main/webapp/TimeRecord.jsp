@@ -4,6 +4,8 @@
 <%@ page import="models.TimeRecordsBean" %>
 <%
 	int employeeCD = (int)request.getAttribute("employeeCD");
+	String name = (String)request.getAttribute("name");
+	System.out.println(name);
 	String timeRecords = (String)session.getAttribute("timeRecords");
 	String shift = (String)session.getAttribute("shift");
 %>
@@ -26,6 +28,7 @@
     
     <div id="calendar"></div>
     <input id="employeeCD" type="hidden" value=<%= employeeCD %> /> 
+    <input id="name" type="hidden" value=<%= name %> /> 
     <input id="dataHolder" type="hidden" value=<%= timeRecords %> /> 
     <input id="shiftHolder" type="hidden" value=<%= shift %> /> 
     <div id="totalData"></div>

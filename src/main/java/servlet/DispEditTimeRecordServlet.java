@@ -31,6 +31,7 @@ public class DispEditTimeRecordServlet extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 		String employeeCD = (String)request.getParameter("employeeCD");
 		int employeeCD2 = Integer.parseInt(employeeCD);
+		String name = (String)request.getParameter("name");
 		String recordCD = (String)request.getParameter("recordCD");
 		int recordCD2 = Integer.parseInt(recordCD);
 		System.out.println("recordCD:" + recordCD2);
@@ -40,6 +41,7 @@ public class DispEditTimeRecordServlet extends HttpServlet {
 		System.out.println("clockOutTime:" + clockOutTime);
 		
 		request.setAttribute("employeeCD", employeeCD2);
+		request.setAttribute("name", name);
 		request.setAttribute("recordCD", recordCD2);
 		request.setAttribute("clockInTime", clockInTime);
 		request.setAttribute("clockOutTime", clockOutTime);

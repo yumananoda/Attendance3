@@ -1,6 +1,8 @@
 import { weeks } from "./const.js";
 
 const employeeCD = document.getElementById("employeeCD").value;
+const name = document.getElementById("name").value;
+console.log("name:", name);
 const calender = document.getElementById("calendar");
 const total = document.getElementById("totalData");
 let jsValue = document.getElementById("dataHolder").value;
@@ -195,7 +197,7 @@ function getDateAndDay() {
       // const formattedClockOutTime = clockOutTime
       //   ? clockOutTime.toLocaleTimeString()
       //   : "0:00";
-      edit.href = `/DateTime/DispEditTimeRecordServlet?employeeCD=${employeeCD}&clockInTime=${clockInTime}&clockOutTime=${clockOutTime}&recordCD=${recordCD}`;
+      edit.href = `/DateTime/DispEditTimeRecordServlet?employeeCD=${employeeCD}&clockInTime=${clockInTime}&clockOutTime=${clockOutTime}&recordCD=${recordCD}&name=${name}`;
       col.appendChild(edit);
     }
     calender.appendChild(col);

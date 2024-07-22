@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 import models.TimeRecordsBean;
@@ -38,4 +39,23 @@ public class TimeRecordDao extends CommonDao{
         }
 		return TimeRecords;
     }
+	
+	public void updateTimeRecord(int recordCD, LocalDateTime lafterClockInTime,  LocalDateTime afterClockOutTime) {
+		String sql = "UPDATE time_records SET clock_in_time=?, clock_out_time=? WHERE recordCD=?;";
+        try (Connection con = DriverManager.getConnection(URL, USER, PASS);
+            PreparedStatement statement = con.prepareStatement(sql)) {
+
+            statement.setObject(1, lafterClockInTime);
+            statement.setObject(2, afterClockOutTime);
+            statement.setInt(3, recordCD);
+            statement.executeQuery();
+            
+            statement.close();
+			con.close();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            // エラーハンドリングを適切に行う
+        }
+	}
 }

@@ -40,6 +40,7 @@ public class TimeRecordServlet extends HttpServlet {
 		HttpSession session = request.getSession();
 		String employeeCD = request.getParameter("employeeCD");
 		int employeeCD2 = Integer.parseInt(employeeCD);
+		String name = request.getParameter("name");
 		
 		TimeRecordDao timeRecordDao = new TimeRecordDao();
 		ArrayList<TimeRecordsBean> timeRecords = timeRecordDao.getStatus(employeeCD2);
@@ -57,6 +58,7 @@ public class TimeRecordServlet extends HttpServlet {
 		System.out.println(json2);
 		
 		request.setAttribute("employeeCD", employeeCD2);
+		request.setAttribute("name", name);
 		session.setAttribute("timeRecords", json);
 		session.setAttribute("shift", json2);
 		request.getRequestDispatcher("/TimeRecord.jsp").forward(request, response);
