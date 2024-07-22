@@ -3,7 +3,7 @@
 <%
 	System.out.println("editEmp.Jsp");
 	String employeeInfo = (String)request.getAttribute("employeeInfo");
-System.out.println(employeeInfo);
+	System.out.println(employeeInfo);
 %>
 <!DOCTYPE html>
 <html>
@@ -14,7 +14,8 @@ System.out.println(employeeInfo);
 <body>
 	<input id="employeeInfo" type="hidden" value=<%= employeeInfo %> />
 	<div id="empInfoDiv"></div>
-	
+	<form action="EditEmployeeInfoServlet" method="post" id="editForm">
+	</form>
 	<script type="module" src="js/const.js" ></script>
 	<script type="module" src="js/editEmployeeInfo.js" ></script>
 </body>

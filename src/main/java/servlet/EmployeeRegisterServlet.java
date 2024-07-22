@@ -46,7 +46,7 @@ public class EmployeeRegisterServlet extends HttpServlet {
 		EmployeeDao employeeDao = new EmployeeDao();
 		HttpSession session = request.getSession();
 		System.out.println(session);
-		String managerCD = (String)session.getAttribute("employeeCD");
+		String managerCD = (String)session.getAttribute("employeeCD");//ログイン情報から店長の従業員CDを紐づける
 		int managerCD2 = Integer.parseInt(managerCD);
 		System.out.println(managerCD);
 

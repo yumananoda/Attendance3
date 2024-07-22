@@ -1,11 +1,11 @@
 export const POSITION = {
-  FULL_TIME: 1,
-  PART: 2,
+	FULL_TIME: 1,
+	PART: 2,
 };
 
 export const POSITION_NAME = {
-  1: "正社員",
-  2: "アルバイト",
+	1: "正社員",
+	2: "アルバイト",
 };
 
 export const info = [];
@@ -33,3 +33,8 @@ export const DAY_TEXTS = {
 }
 
 export const weeks = ["日", "月", "火", "水", "木", "金", "土"];
+
+export const storeName = {
+	1:"渋谷店",
+	2:"心斎橋店",
+}
