@@ -27,9 +27,21 @@
 	<input type="hidden"  id="clockInTime" value=<%= clockInTime %> />
 	<input type="hidden"  id="clockOutTime" value=<%= clockOutTime %> />
 	<input type="hidden"  id="recordCD" name="recordCD" value=<%= recordCD %> />
-	<div id="dateArea"></div>
-	<div id="beforeTimeArea"></div>
-	<div id="afterTimeArea"></div>
+	<div id="dateArea">
+		<p><%= name %></p>
+		<p id="selectDate"></p>
+		<input type="hidden" id="selectDateValue" name="selectDateValue" />
+	</div>
+	<div id="beforeTimeArea">
+		<p>変更前</p>
+		<input type="time" id="beforeClockInTime" name="beforeClockInTime" disabled />
+		<input type="time" id="beforeClockOutTime" name="beforeClockOutTime" disabled />
+	</div>
+	<div id="afterTimeArea">
+		<p>変更後</p>
+		<input type="time" id="afterClockInTime" name="afterClockInTime" required />
+		<input type="time" id="afterClockOutTime" name="afterClockOutTime" required />
+	</div>
 	<input type="submit" value="変更" />
 </form>
 <script type="module" src="js/editTimeRecord.js"></script>

@@ -36,7 +36,7 @@ public class EditTimeRecordServlet extends HttpServlet {
 		int recordCD2 = Integer.parseInt(recordCD);
 		System.out.println("recordCD:" + recordCD);
 
-		String selectDate = request.getParameter("selectDate");
+		String selectDate = request.getParameter("selectDateValue");
 		System.out.println("selectDate:" + selectDate);
 		
 		String afterClockInTime = request.getParameter("afterClockInTime");
@@ -61,5 +61,8 @@ public class EditTimeRecordServlet extends HttpServlet {
         
         TimeRecordDao timeRecordDao = new TimeRecordDao();
         timeRecordDao.updateTimeRecord(recordCD2, beforelocalDateTime, afterlocalDateTime);
+
+        request.getRequestDispatcher("/TimeRecord.jsp").forward(request, response);
+
 	}
 }

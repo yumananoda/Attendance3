@@ -19,20 +19,20 @@
 </head>
 <body>
     <h1>sample</h1>
-    <div class="calendar-title">
+    <div class="timeRecord-title">
     <span class="btn-monthMove prev">＜</span>
     <span id="year">2018</span>/
     <span id="month">11</span>
     <span class="btn-monthMove next">＞</span>
     </div>
     
-    <div id="calendar"></div>
+    <div id="timeRecord"></div>
     <input id="employeeCD" type="hidden" value=<%= employeeCD %> /> 
     <input id="name" type="hidden" value=<%= name %> /> 
     <input id="dataHolder" type="hidden" value=<%= timeRecords %> /> 
     <input id="shiftHolder" type="hidden" value=<%= shift %> /> 
     <div id="totalData"></div>
-    <script type="module" src="js/calendar.js"></script>
+    <script type="module" src="js/timeRecord.js"></script>
     <script type="module" src="js/const.js" ></script>
 </body>
 </html>

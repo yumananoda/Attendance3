@@ -3,7 +3,7 @@ import { weeks } from "./const.js";
 const employeeCD = document.getElementById("employeeCD").value;
 const name = document.getElementById("name").value;
 console.log("name:", name);
-const calender = document.getElementById("calendar");
+const timeRecord = document.getElementById("timeRecord");
 const total = document.getElementById("totalData");
 let jsValue = document.getElementById("dataHolder").value;
 jsValue = JSON.parse(jsValue);
@@ -19,8 +19,8 @@ let currentMonth = currentTime.getMonth() + 1;
 let endDate = new Date(currentYear, currentMonth, 0);
 
 function getDateAndDay() {
-  while (calender.firstChild) {
-    calender.removeChild(calender.firstChild);
+  while (timeRecord.firstChild) {
+    timeRecord.removeChild(timeRecord.firstChild);
   }
   const trEl = document.createElement("tr");
   const th1 = document.createElement("th");
@@ -57,7 +57,7 @@ function getDateAndDay() {
   trEl.appendChild(th9);
   trEl.appendChild(th10);
   trEl.appendChild(th11);
-  calender.appendChild(trEl);
+  timeRecord.appendChild(trEl);
   let totalWorkingDays = 0;
   let totalWorkingMilliseconds = 0;
   let totalOverMilliseconds = 0;
@@ -200,7 +200,7 @@ function getDateAndDay() {
       edit.href = `/DateTime/DispEditTimeRecordServlet?employeeCD=${employeeCD}&clockInTime=${clockInTime}&clockOutTime=${clockOutTime}&recordCD=${recordCD}&name=${name}`;
       col.appendChild(edit);
     }
-    calender.appendChild(col);
+    timeRecord.appendChild(col);
   }
 
   const total_tr1 = document.createElement("tr");

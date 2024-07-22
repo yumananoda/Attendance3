@@ -79,9 +79,9 @@ System.out.println("breakOut:" + breakOut);
     <% } %>
 </form>
 
-<a href = "TimeRecordServlet?employeeCD=<%= employeeCD %>">勤怠状況</a>
+<a href = "DispTimeRecordServlet?employeeCD=<%= employeeCD %>">勤怠状況</a>
 <a href = "EmployeeRegister.jsp">従業員登録</a>
-<a href = "SelectEmployeeServlet">シフト登録</a>
+<a href = "DispSelectEmployeeServlet">シフト登録</a>
 
 
 </body>

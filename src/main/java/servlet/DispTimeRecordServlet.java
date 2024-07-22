@@ -18,16 +18,16 @@ import models.ShiftBean;
 import models.TimeRecordsBean;
 
 /**
- * Servlet implementation class TimeRecordServlet
+ * Servlet implementation class DispTimeRecordServlet
  */
-@WebServlet("/TimeRecordServlet")
-public class TimeRecordServlet extends HttpServlet {
+@WebServlet("/DispTimeRecordServlet")
+public class DispTimeRecordServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public TimeRecordServlet() {
+    public DispTimeRecordServlet() {
         super();
         // TODO Auto-generated constructor stub
     }

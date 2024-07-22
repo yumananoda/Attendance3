@@ -34,7 +34,7 @@ export const DAY_TEXTS = {
 
 export const weeks = ["日", "月", "火", "水", "木", "金", "土"];
 
-export const storeName = {
+export const STORE_NAME = {
 	1:"渋谷店",
 	2:"心斎橋店",
 }

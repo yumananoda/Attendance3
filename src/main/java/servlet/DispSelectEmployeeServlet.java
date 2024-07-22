@@ -14,10 +14,10 @@ import dao.EmployeeDao;
 import models.SelectEmployeeBean;
 
 /**
- * Servlet implementation class SelectEmployeeServlet
+ * Servlet implementation class DispSelectEmployeeServlet
  */
-@WebServlet("/SelectEmployeeServlet")
-public class SelectEmployeeServlet extends HttpServlet {
+@WebServlet("/DispSelectEmployeeServlet")
+public class DispSelectEmployeeServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 
