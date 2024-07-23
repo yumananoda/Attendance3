@@ -53,7 +53,7 @@ hireDateValue = hireDateValue.getFullYear() + "年" + String((hireDateValue.getM
 hireDate.value = hireDateValue;
 hireDate.readOnly = true;
 
-function identifyPosition(){
+const identifyPosition = () => {
     while (positionEl.firstChild) {
         positionEl.removeChild(positionEl.firstChild);
     }

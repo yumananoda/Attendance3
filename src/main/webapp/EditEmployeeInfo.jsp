@@ -3,7 +3,7 @@
 <%
 	System.out.println("editEmp.Jsp");
 	String employeeInfo = (String)request.getAttribute("employeeInfo");
-	System.out.println("employeeInfo" + employeeInfo);
+	System.out.println("employeeInfo:" + employeeInfo);
 %>
 <!DOCTYPE html>
 <html>

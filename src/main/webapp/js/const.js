@@ -8,9 +8,9 @@ export const POSITION_NAME = {
 	2: "アルバイト",
 };
 
-export const info = [];
+export const INFO = [];
 
-export const removeUsers = [];
+export const REMOVEUSERS = [];
 
 export const DAYS = {
 	SUNDAY: 1,
@@ -32,7 +32,7 @@ export const DAY_TEXTS = {
 	[DAYS.SATURDAY]: "土",
 }
 
-export const weeks = ["日", "月", "火", "水", "木", "金", "土"];
+export const WEEKS = ["日", "月", "火", "水", "木", "金", "土"];
 
 export const STORE_NAME = {
 	1:"渋谷店",

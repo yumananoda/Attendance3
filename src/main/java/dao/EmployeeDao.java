@@ -153,4 +153,24 @@ public class EmployeeDao extends CommonDao {
 		} 
 		return null; 
 	} 
+	
+	public void updateEmployeeInfo(int employeeCD, String name, int storeName, int position) {
+		String sql = "UPDATE users SET name=?, storeCD=?, position=? WHERE employeeCD=?;";
+        try (Connection con = DriverManager.getConnection(URL, USER, PASS);
+            PreparedStatement statement = con.prepareStatement(sql)) {
+
+            statement.setString(1, name);
+            statement.setInt(2, storeName);
+            statement.setInt(3, position);
+            statement.setInt(4, employeeCD);;
+            statement.executeQuery();
+            
+            statement.close();
+			con.close();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            // エラーハンドリングを適切に行う
+        }
+	}
 }
