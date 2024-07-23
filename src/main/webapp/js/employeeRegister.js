@@ -61,7 +61,7 @@ const registerShow = () => {
     div.appendChild(p2);
     div.appendChild(p3);
     div.appendChild(p4);
-    registerUser.appendChild(div4);
+    registerUser.appendChild(div);
   }
 
   if (registerShow !== 0) {
@@ -92,6 +92,8 @@ registerbtn.addEventListener("click", function () {
     method: "POST",
     body: JSON.stringify(info),
   })
-    .then((res) => console.log("success", res))
-    .then((data) => console.log(data));
+    .finally(() => {
+      sessionStorage.setItem("info", JSON.stringify(info));
+      window.location.href = `DispEmployeeRegisterComp`;
+    });
 });

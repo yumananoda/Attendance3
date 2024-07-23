@@ -5,6 +5,7 @@ import java.sql.Time;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -57,12 +58,13 @@ public class EditTimeRecordServlet extends HttpServlet {
         
         System.out.println("beforelocalDateTime:" + beforelocalDateTime);
         System.out.println("afterlocalDateTime:" + afterlocalDateTime);
-		
         
         TimeRecordDao timeRecordDao = new TimeRecordDao();
         timeRecordDao.updateTimeRecord(recordCD2, beforelocalDateTime, afterlocalDateTime);
 
-        request.getRequestDispatcher("/TimeRecord.jsp").forward(request, response);
+//        request.getRequestDispatcher("/TimeRecord.jsp").forward(request, response);
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/DispTimeRecordServlet");
+        dispatcher.forward(request, response);
 
 	}
 }

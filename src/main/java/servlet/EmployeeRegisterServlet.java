@@ -34,19 +34,18 @@ public class EmployeeRegisterServlet extends HttpServlet {
         // TODO Auto-generated constructor stub
     }
 
-
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		request.setCharacterEncoding("UTF-8");
 		System.out.println("called");
 		ArrayList<EmployeeBean> EmployeeRegisterList = new ArrayList<>();
 		EmployeeDao employeeDao = new EmployeeDao();
 		HttpSession session = request.getSession();
 		System.out.println(session);
-		String managerCD = (String)session.getAttribute("employeeCD");//ログイン情報から店長の従業員CDを紐づける
+		String managerCD = (String)session.getAttribute("employeeCD");
+		System.out.println(managerCD);
 		int managerCD2 = Integer.parseInt(managerCD);
 		System.out.println(managerCD);
 
@@ -63,7 +62,7 @@ public class EmployeeRegisterServlet extends HttpServlet {
 		System.out.println(line);
 
 		String requestBody = sb.toString();
-		
+
 		ObjectMapper objectMapper = new ObjectMapper();
 		System.out.println("requestBody:");
 		System.out.println(requestBody);
@@ -72,7 +71,6 @@ public class EmployeeRegisterServlet extends HttpServlet {
 		System.out.println(dataList);
 		for(Map<String, Object> data: dataList) {
 			String name = (String) data.get("name");
-			// System.out.println(name);
 			String email = (String) data.get("email");
 			String position = (String)data.get("position");
 			int position2 = Integer.parseInt(position);
@@ -80,14 +78,11 @@ public class EmployeeRegisterServlet extends HttpServlet {
 			String hire_date = (String) data.get("hire_date");
 			LocalDate localDate = LocalDate.parse(hire_date);
 			Date sqlDate = Date.valueOf(localDate);
-			
-			//GeneratorPassword generatorPassword = new GeneratorPassword();
-			//String password = generatorPassword.generate();
+
 			String password ="aaaaa";
-			// System.out.println(password);
-			Integer employeeCD=null; //employeeCDは自動生成のためnull
+			Integer employeeCD=null;
 			int storeCD = employeeDao.findStoreCD(managerCD2);
-			
+
 			EmployeeBean EmployeeRegisterRequest = new EmployeeBean(employeeCD, storeCD, position2, name, password, email, sqlDate);
 			EmployeeRegisterList.add(EmployeeRegisterRequest);
 		}
@@ -95,6 +90,7 @@ public class EmployeeRegisterServlet extends HttpServlet {
 			employeeDao.Register(EmployeeRegister);
 		}
 		
+		request.setAttribute("EmployeeRegisterList", EmployeeRegisterList);
+		request.getRequestDispatcher("/EmployeeRegisterComp.jsp").forward(request, response);
 	}
-
 }

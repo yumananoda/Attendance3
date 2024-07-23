@@ -21,7 +21,7 @@
     <h1>sample</h1>
     <div class="timeRecord-title">
     <span class="btn-monthMove prev">＜</span>
-    <span id="year">2018</span>/
+    <span id="year">2018</span>
     <span id="month">11</span>
     <span class="btn-monthMove next">＞</span>
     </div>
