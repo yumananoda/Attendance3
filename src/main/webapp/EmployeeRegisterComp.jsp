@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>従業員登録完了画面</title>
 </head>
 <body>
 	<script type="module" src="js/employeeRegisterComp.js" ></script>
