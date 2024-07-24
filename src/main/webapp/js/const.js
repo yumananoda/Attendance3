@@ -10,7 +10,7 @@ export const POSITION_NAME = {
 
 export const INFO = [];
 
-export const REMOVEUSERS = [];
+export const REMOVE_USERS = [];
 
 export const DAYS = {
 	SUNDAY: 1,

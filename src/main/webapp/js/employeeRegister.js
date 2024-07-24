@@ -1,4 +1,4 @@
-import { POSITION_NAME, INFO, REMOVEUSERS } from "./const.js";
+import { POSITION_NAME, INFO, REMOVE_USERS } from "./const.js";
 
 const formEl = document.getElementById("registerForm");
 const registerbtn = document.getElementById("registerbtn");
@@ -64,15 +64,15 @@ const registerShow = () => {
     check.name = "remove";
     check.value = INFO[i].id;
     check.addEventListener("change", (e) => {
-      if (REMOVEUSERS.some((x) => x === e.target.value)) {
-        const index = REMOVEUSERS.findIndex((y) => y === e.target.value);
-        REMOVEUSERS.splice(index, 1);
-        console.log("removeUsersから削除");
+      if (REMOVE_USERS.some((x) => x === e.target.value)) {
+        const index = REMOVE_USERS.findIndex((y) => y === e.target.value);
+        REMOVE_USERS.splice(index, 1);
+        console.log("REMOVE_USERSから削除");
       } else {
-        REMOVEUSERS.push(e.target.value);
-        console.log("removeUsersに追加");
+        REMOVE_USERS.push(e.target.value);
+        console.log("REMOVE_USERSに追加");
       }
-      console.log(REMOVEUSERS);
+      console.log(REMOVE_USERS);
     });
 
     div.appendChild(check);
@@ -104,13 +104,13 @@ const registerShow = () => {
   }
 };
 const removeSelectedUsers = () => {
-  for (const userId of REMOVEUSERS) {
+  for (const userId of REMOVE_USERS) {
     const index = INFO.findIndex((user) => user.id === parseInt(userId, 10));
     if (index !== -1) {
       INFO.splice(index, 1);
     }
   }
-  REMOVEUSERS.length = 0;
+  REMOVE_USERS.length = 0;
 };
 
 registerbtn.addEventListener("click", function () {
