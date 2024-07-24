@@ -1,8 +1,8 @@
 import { POSITION_NAME, INFO, REMOVEUSERS } from "./const.js";
 
-const form = document.getElementById("registerForm");
+const formEl = document.getElementById("registerForm");
 const registerbtn = document.getElementById("registerbtn");
-const registerUserList = document.getElementById("registerUserList");
+const registerUserListEl = document.getElementById("registerUserList");
 const positionEl = document.getElementById("position");
 
 const identifyPosition = () => {
@@ -31,12 +31,12 @@ const identifyPosition = () => {
 identifyPosition();
 
 const id = 1;
-form.addEventListener("submit", async function (event) {
+formEl.addEventListener("submit", async function (event) {
   event.preventDefault();
-  const inputname = form.name.value;
-  const inputemail = form.email.value;
-  const inputradio = form.position.value;
-  const inputdate = form.hireDate.value;
+  const inputname = formEl.name.value;
+  const inputemail = formEl.email.value;
+  const inputradio = formEl.position.value;
+  const inputdate = formEl.hireDate.value;
   console.log(inputname, inputemail, inputradio, inputdate);
   INFO.push({
     id: id,
@@ -46,23 +46,23 @@ form.addEventListener("submit", async function (event) {
     hireDate: inputdate,
   });
   console.log(INFO);
-  form.reset();
+  formEl.reset();
   registerShow();
   console.log(id);
   id++;
 });
 
 const registerShow = () => {
-  while (registerUserList.firstChild) {
-    registerUserList.removeChild(registerUserList.firstChild);
+  while (registerUserListEl.firstChild) {
+    registerUserListEl.removeChild(registerUserListEl.firstChild);
   }
 
   for (let i = 0; i < INFO.length; i++) {
     const div = document.createElement("div");
     const check = document.createElement("input");
-    check.setAttribute("type", "checkbox");
-    check.setAttribute("name", "remove");
-    check.setAttribute("value", INFO[i].id);
+    check.type = "checkbox";
+    check.name = "remove";
+    check.value = INFO[i].id;
     check.addEventListener("change", (e) => {
       if (REMOVEUSERS.some((x) => x === e.target.value)) {
         const index = REMOVEUSERS.findIndex((y) => y === e.target.value);
@@ -88,13 +88,13 @@ const registerShow = () => {
     div.appendChild(p2);
     div.appendChild(p3);
     div.appendChild(p4);
-    registerUserList.appendChild(div);
+    registerUserListEl.appendChild(div);
   }
 
   if (registerShow !== 0) {
     const removebtn = document.createElement("button");
     removebtn.textContent = "削除する";
-    registerUserList.appendChild(removebtn);
+    registerUserListEl.appendChild(removebtn);
     removebtn.id = "removebtn";
     removebtn.addEventListener("click", function () {
       removeSelectedUsers();
@@ -120,6 +120,7 @@ registerbtn.addEventListener("click", function () {
     body: JSON.stringify(INFO),
   })
     .finally(() => {
+	//メール送信処理	
       sessionStorage.setItem("INFO", JSON.stringify(INFO));
       window.location.href = `DispEmployeeRegisterComp`;
     });
