@@ -27,6 +27,10 @@
         <button id="registerbtn">登録</button>
     </form>
     <div id="registerUserList"></div>
+    <script
+      type="text/javascript"
+      src="https://cdn.emailjs.com/dist/email.min.js"
+    ></script>
     <script type="module" src="js/const.js" ></script>
     <script type="module" src="js/employeeRegister.js" ></script>
 </body>

@@ -1,4 +1,4 @@
-import { POSITION_NAME, INFO, REMOVE_USERS } from "./const.js";
+import { POSITION_NAME, INFO, REMOVE_USERS, API_CONFIG } from "./const.js";
 
 const formEl = document.getElementById("registerForm");
 const registerbtn = document.getElementById("registerbtn");
@@ -7,27 +7,27 @@ const positionEl = document.getElementById("position");
 
 const identifyPosition = () => {
   while (positionEl.firstChild) {
-      positionEl.removeChild(positionEl.firstChild);
+    positionEl.removeChild(positionEl.firstChild);
   }
   const positionKeys = Object.keys(POSITION_NAME);
-  positionKeys.forEach(key => {
-      const positionDiv = document.createElement("div");
-      const position = document.createElement("input");
-      const labelPosition = document.createElement("label");
-      position.type = "radio";
-      position.id = POSITION_NAME[key]
-      position.name = "position"
-      position.value = key;
-      labelPosition.setAttribute("for", position.id);
-      labelPosition.innerText = POSITION_NAME[key];
-      if(Number(key) === 1){
-          position.checked = true;
-      }
-      positionDiv.appendChild(position);
-      positionDiv.appendChild(labelPosition);
-      positionEl.appendChild(positionDiv);
-  })
-}
+  positionKeys.forEach((key) => {
+    const positionDiv = document.createElement("div");
+    const position = document.createElement("input");
+    const labelPosition = document.createElement("label");
+    position.type = "radio";
+    position.id = POSITION_NAME[key];
+    position.name = "position";
+    position.value = key;
+    labelPosition.setAttribute("for", position.id);
+    labelPosition.innerText = POSITION_NAME[key];
+    if (Number(key) === 1) {
+      position.checked = true;
+    }
+    positionDiv.appendChild(position);
+    positionDiv.appendChild(labelPosition);
+    positionEl.appendChild(positionDiv);
+  });
+};
 identifyPosition();
 
 const id = 1;
@@ -49,6 +49,7 @@ formEl.addEventListener("submit", async function (event) {
   formEl.reset();
   registerShow();
   console.log(id);
+  identifyPosition();
   id++;
 });
 
@@ -113,15 +114,57 @@ const removeSelectedUsers = () => {
   REMOVE_USERS.length = 0;
 };
 
+function generatePassword(length) {
+  const charset =
+    "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+~`|}{[]:;?><,./-=";
+  let password = "";
+  for (let i = 0, n = charset.length; i < length; ++i) {
+    password += charset.charAt(Math.floor(Math.random() * n));
+  }
+  return password;
+}
+
+window.addEventListener("DOMContentLoaded", () => {
+  emailjs.init(API_CONFIG.USER_ID);
+});
+
+const sendEmail = ({ name, email }) => {
+  const password = generatePassword();
+  emailjs
+    .send(API_CONFIG.SERVICE_ID, API_CONFIG.TEMPLATE_ID, {
+      to_name: name,
+      to_email: email,
+      from_name: "店長",
+      from_email: "admin@gmail.com",
+      init_password: password,
+    })
+    .then(
+      function (response) {
+        console.log("SUCCESS!", response.status, response.text);
+      },
+      function (error) {
+        console.log("FAILED...", error);
+      }
+    );
+};
+
 registerbtn.addEventListener("click", function () {
   console.log("aaa");
+  for (let i = 0; i < INFO.length; i++) {
+    const passwordLength = 12; // 生成するパスワードの長さ
+    const newPassword = generatePassword(passwordLength);
+    console.log("生成されたパスワード: " + newPassword);
+    INFO[i].password = newPassword;
+  }
+  console.log(INFO);
   fetch("/DateTime/EmployeeRegisterServlet", {
     method: "POST",
     body: JSON.stringify(INFO),
-  })
-    .finally(() => {
-	//メール送信処理	
-      sessionStorage.setItem("INFO", JSON.stringify(INFO));
-      window.location.href = `DispEmployeeRegisterComp`;
+  }).finally(() => {
+    INFO.forEach(({ name, email }) => {
+      sendEmail({ name, email });
     });
+    sessionStorage.setItem("INFO", JSON.stringify(INFO));
+    window.location.href = `DispEmployeeRegisterComp`;
+  });
 });
