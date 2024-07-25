@@ -30,41 +30,69 @@ const identifyPosition = () => {
 };
 identifyPosition();
 
-const id = 1;
+const generateId = () => {
+  let currentId = 0;
+  return function() {
+    return ++currentId;
+  };
+}
+const getNextId = generateId();
+
 formEl.addEventListener("submit", async function (event) {
   event.preventDefault();
-  const inputname = formEl.name.value;
-  const inputemail = formEl.email.value;
-  const inputradio = formEl.position.value;
-  const inputdate = formEl.hireDate.value;
-  console.log(inputname, inputemail, inputradio, inputdate);
+  const inputName = formEl.name.value;
+  const inputEmail = formEl.email.value;
+  const inputPosition = formEl.position.value;
+  const inputHireDate = formEl.hireDate.value;
+  console.log(inputName, inputEmail, inputPosition, inputHireDate);
   INFO.push({
-    id: id,
-    name: inputname,
-    email: inputemail,
-    position: inputradio,
-    hireDate: inputdate,
+    id: getNextId(),
+    name: inputName,
+    email: inputEmail,
+    position: inputPosition,
+    hireDate: inputHireDate,
   });
   console.log(INFO);
   formEl.reset();
   registerShow();
-  console.log(id);
   identifyPosition();
-  id++;
 });
+
+// const removeSelectedUsers = () => {
+//   for (const value of REMOVE_USERS) {
+//     const index = INFO.findIndex((id) => id === Number(value));
+//     if (index !== -1) {
+//       INFO.splice(index, 1);
+//       REMOVE_USERS.length = 0;
+//     }
+//   }
+//   console.log(REMOVE_USERS);
+// };
+
+const removeSelectedUsers = () => {
+  REMOVE_USERS.forEach(x => {
+    const index = INFO.findIndex(item => item.id === x);
+    if (index !== -1) {
+      INFO.splice(index, 1);
+    }
+  })
+  REMOVE_USERS.length = 0;
+  console.log(REMOVE_USERS);
+};
+
 
 const registerShow = () => {
   while (registerUserListEl.firstChild) {
     registerUserListEl.removeChild(registerUserListEl.firstChild);
   }
-
-  for (let i = 0; i < INFO.length; i++) {
-    const div = document.createElement("div");
+  INFO.forEach (({id, name, email, hireDate, position}) => {
+    const registerDiv = document.createElement("div");
     const check = document.createElement("input");
     check.type = "checkbox";
-    check.name = "remove";
-    check.value = INFO[i].id;
+    check.name = "removeCheckBox";
+    check.value = id;
     check.addEventListener("change", (e) => {
+      console.log(e);
       if (REMOVE_USERS.some((x) => x === e.target.value)) {
         const index = REMOVE_USERS.findIndex((y) => y === e.target.value);
         REMOVE_USERS.splice(index, 1);
@@ -73,46 +101,38 @@ const registerShow = () => {
         REMOVE_USERS.push(e.target.value);
         console.log("REMOVE_USERSに追加");
       }
-      console.log(REMOVE_USERS);
+      console.log("REMOVE_USERS:", REMOVE_USERS);
     });
-
-    div.appendChild(check);
-    const p1 = document.createElement("p");
-    const p2 = document.createElement("p");
-    const p3 = document.createElement("p");
-    const p4 = document.createElement("p");
-    p1.innerText = INFO[i].name;
-    p2.innerText = INFO[i].email;
-    p3.innerText = POSITION_NAME[Number(INFO[i].position)];
-    p4.innerText = INFO[i].hireDate;
-    div.appendChild(p1);
-    div.appendChild(p2);
-    div.appendChild(p3);
-    div.appendChild(p4);
-    registerUserListEl.appendChild(div);
-  }
+ 
+    const registerName = document.createElement("p");
+    const registerEmail = document.createElement("p");
+    const registerPosition = document.createElement("p");
+    const registerHireDate = document.createElement("p");
+    registerName.innerText = name;
+    registerEmail.innerText = email;
+    registerPosition.innerText = POSITION_NAME[position];
+    registerHireDate.innerText = hireDate;
+    registerDiv.appendChild(check);
+    registerDiv.appendChild(registerName);
+    registerDiv.appendChild(registerEmail);
+    registerDiv.appendChild(registerPosition);
+    registerDiv.appendChild(registerHireDate);
+    registerUserListEl.appendChild(registerDiv);
+  })
 
   if (registerShow !== 0) {
-    const removebtn = document.createElement("button");
-    removebtn.textContent = "削除する";
-    registerUserListEl.appendChild(removebtn);
-    removebtn.id = "removebtn";
-    removebtn.addEventListener("click", function () {
+    const removeBtn = document.createElement("button");
+    removeBtn.textContent = "削除する";
+    removeBtn.id = "removeBtn";
+    removeBtn.addEventListener("click", function () {
       removeSelectedUsers();
       registerShow();
       alert("削除しました");
     });
+    registerUserListEl.appendChild(removeBtn);
   }
 };
-const removeSelectedUsers = () => {
-  for (const userId of REMOVE_USERS) {
-    const index = INFO.findIndex((user) => user.id === parseInt(userId, 10));
-    if (index !== -1) {
-      INFO.splice(index, 1);
-    }
-  }
-  REMOVE_USERS.length = 0;
-};
+
 
 function generatePassword(length) {
   const charset =
