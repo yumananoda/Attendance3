@@ -32,10 +32,10 @@ identifyPosition();
 
 const generateId = () => {
   let currentId = 0;
-  return function() {
+  return function () {
     return ++currentId;
   };
-}
+};
 const getNextId = generateId();
 
 formEl.addEventListener("submit", async function (event) {
@@ -70,22 +70,24 @@ formEl.addEventListener("submit", async function (event) {
 // };
 
 const removeSelectedUsers = () => {
-  REMOVE_USERS.forEach(x => {
-    const index = INFO.findIndex(item => item.id === x);
+  REMOVE_USERS.forEach((x) => {
+    console.log("x:", x);
+    console.log("x:", typeof x);
+    const index = INFO.findIndex(({ id }) => id === Number(x));
+    console.log(index);
     if (index !== -1) {
       INFO.splice(index, 1);
     }
-  })
+  });
   REMOVE_USERS.length = 0;
   console.log(REMOVE_USERS);
 };
-
 
 const registerShow = () => {
   while (registerUserListEl.firstChild) {
     registerUserListEl.removeChild(registerUserListEl.firstChild);
   }
-  INFO.forEach (({id, name, email, hireDate, position}) => {
+  INFO.forEach(({ id, name, email, hireDate, position }) => {
     const registerDiv = document.createElement("div");
     const check = document.createElement("input");
     check.type = "checkbox";
@@ -103,7 +105,7 @@ const registerShow = () => {
       }
       console.log("REMOVE_USERS:", REMOVE_USERS);
     });
- 
+
     const registerName = document.createElement("p");
     const registerEmail = document.createElement("p");
     const registerPosition = document.createElement("p");
@@ -118,21 +120,22 @@ const registerShow = () => {
     registerDiv.appendChild(registerPosition);
     registerDiv.appendChild(registerHireDate);
     registerUserListEl.appendChild(registerDiv);
-  })
 
-  if (registerShow !== 0) {
-    const removeBtn = document.createElement("button");
-    removeBtn.textContent = "削除する";
-    removeBtn.id = "removeBtn";
-    removeBtn.addEventListener("click", function () {
-      removeSelectedUsers();
-      registerShow();
-      alert("削除しました");
-    });
-    registerUserListEl.appendChild(removeBtn);
-  }
+    if (registerUserListEl !== null) {
+      const removeDiv = document.createElement("div");
+      const removeBtn = document.createElement("button");
+      removeBtn.textContent = "削除する";
+      removeBtn.id = "removeBtn";
+      removeBtn.addEventListener("click", function () {
+        removeSelectedUsers();
+        registerShow();
+        alert("削除しました");
+      });
+      removeDiv.appendChild(removeDiv);
+      registerUserListEl.appendChild(removeDiv);
+    }
+  });
 };
-
 
 function generatePassword(length) {
   const charset =
