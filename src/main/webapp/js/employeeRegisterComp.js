@@ -1,19 +1,79 @@
+import { POSITION_NAME } from "./const.js";
+const employeeArea = document.getElementById("employeeArea");
+const registerForm = document.getElementById("registerForm");
+
 window.addEventListener("DOMContentLoaded", () => {
   console.log("called");
   const INFO = JSON.parse(sessionStorage.getItem("INFO"));
   console.log("INFO: ", INFO);
-  INFO.forEach(({ email, hireDate, id, name, position }) => {
+  INFO.forEach(({ name, email, password, position, hireDate }) => {
     const employeeDiv = document.createElement("div");
-    const name = document.createElement("p");
-    name.name = "name";
-    position.value = key;
-    labelPosition.setAttribute("for", position.id);
-    labelPosition.innerText = POSITION_NAME[key];
-    if (Number(key) === 1) {
-      position.checked = true;
-    }
-    positionDiv.appendChild(position);
-    positionDiv.appendChild(labelPosition);
-    positionEl.appendChild(positionDiv);
+    const tableEl = document.createElement("table");
+    const trName = document.createElement("tr");
+    const thName = document.createElement("th");
+    const tdName = document.createElement("td");
+    thName.innerText = "氏名:";
+    tdName.innerText = name;
+
+    const trEmail= document.createElement("tr");
+    const thEmail = document.createElement("th");
+    const tdEmail = document.createElement("td");
+    thEmail.innerText = "メールアドレス:";
+    tdEmail.innerText = email;
+
+    const trPosition= document.createElement("tr");
+    const thPosition = document.createElement("th");
+    const tdPosition = document.createElement("td");
+    thPosition.innerText = "役職:";
+    tdPosition.innerText = POSITION_NAME[position];
+
+    const trHireDate= document.createElement("tr");
+    const thHireDate = document.createElement("th");
+    const tdHireDate = document.createElement("td");
+    thHireDate.innerText = "入社日:";
+    tdHireDate.innerText = hireDate;
+    
+    trName.appendChild(thName);
+    trName.appendChild(tdName);
+    trEmail.appendChild(thEmail);
+    trEmail.appendChild(tdEmail);
+    trPosition.appendChild(thPosition);
+    trPosition.appendChild(tdPosition);
+    trHireDate.appendChild(thHireDate);
+    trHireDate.appendChild(tdHireDate);
+
+    tableEl.appendChild(trName);
+    tableEl.appendChild(trEmail);
+    tableEl.appendChild(trPosition);
+    tableEl.appendChild(trHireDate);
+    employeeDiv.appendChild(tableEl);
+
+    const inputName = document.createElement("input");
+    const inputEmail = document.createElement("input");
+    const inputPassword = document.createElement("input");
+    const inputPosition = document.createElement("input");
+    const inputHireDate = document.createElement("input");
+    inputName.type = "hidden";
+    inputName.name = "name";
+    inputName.value = name;
+    inputEmail.type="hidden";
+    inputEmail.name = "email";
+    inputEmail.value = email;
+    inputPassword.type="hidden";
+    inputPassword.name = "password";
+    inputPassword.value = password;
+    inputPosition.type="hidden";
+    inputPosition.name = "position";
+    inputPosition.value = position;
+    inputHireDate.type="hidden";
+    inputHireDate.name = "hireDate";
+    inputHireDate.value = hireDate;
+
+    registerForm.appendChild(inputName);
+    registerForm.appendChild(inputEmail);
+    registerForm.appendChild(inputPassword);
+    registerForm.appendChild(inputPosition);
+    registerForm.appendChild(inputHireDate);
+    employeeArea.appendChild(employeeDiv);
   });
 });

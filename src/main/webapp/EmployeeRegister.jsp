@@ -22,15 +22,12 @@
             <label for="hireDate">入社日:</label>
             <input type="date" id="hireDate" name="hireDate" required>
         </div>
-        
         <button type="submit" id="addemployee">追加</button>
         <button id="registerbtn">登録</button>
+        <div id="error" class="error"></div>
     </form>
     <div id="registerUserList"></div>
-    <script
-      type="text/javascript"
-      src="https://cdn.emailjs.com/dist/email.min.js"
-    ></script>
+    <script type="text/javascript" src="https://cdn.emailjs.com/dist/email.min.js"></script>
     <script type="module" src="js/const.js" ></script>
     <script type="module" src="js/employeeRegister.js" ></script>
 </body>

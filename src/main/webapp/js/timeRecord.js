@@ -1,4 +1,5 @@
-import { weeks } from "./const.js";
+console.log("aaa");
+import { WEEKS } from "./const.js";
 
 const employeeCD = document.getElementById("employeeCD").value;
 const name = document.getElementById("name").value;
@@ -80,9 +81,9 @@ function getDateAndDay() {
     const day = new Date(currentYear, currentMonth - 1, i).getDay();
     console.log(i, day);
 
-    console.log(weeks[day]);
+    console.log(WEEKS[day]);
     date.innerText = `${i}日`;
-    week.innerText = weeks[day];
+    week.innerText = WEEKS[day];
 
     let date_start = new Date(currentYear, currentMonth - 1, i, 0, 0, 0);
     let date_end = new Date(currentYear, currentMonth - 1, i, 23, 59, 59);

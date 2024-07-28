@@ -1,7 +1,8 @@
 import { POSITION_NAME, INFO, REMOVE_USERS, API_CONFIG } from "./const.js";
 
 const formEl = document.getElementById("registerForm");
-const registerbtn = document.getElementById("registerbtn");
+const addBtn = document.getElementById("addemployee");
+const registerBtn = document.getElementById("registerbtn");
 const registerUserListEl = document.getElementById("registerUserList");
 const positionEl = document.getElementById("position");
 
@@ -38,41 +39,62 @@ const generateId = () => {
 };
 const getNextId = generateId();
 
-formEl.addEventListener("submit", async function (event) {
+const createRemoveBtn = () => {
+    const removeDiv = document.createElement("div");
+    const removeBtn = document.createElement("button");
+    removeBtn.textContent = "削除する";
+    removeBtn.id = "removeBtn";
+    removeBtn.addEventListener("click", function () {
+      removeSelectedUsers();
+      registerShow();
+      alert("削除しました");
+      if (REMOVE_USERS.length === 0) {
+        this.remove();
+      }
+    });
+    removeDiv.appendChild(removeBtn);
+    registerUserListEl.appendChild(removeDiv);
+}
+
+addBtn.addEventListener("click", async function (event) {
   event.preventDefault();
   const inputName = formEl.name.value;
   const inputEmail = formEl.email.value;
   const inputPosition = formEl.position.value;
   const inputHireDate = formEl.hireDate.value;
   console.log(inputName, inputEmail, inputPosition, inputHireDate);
-  INFO.push({
-    id: getNextId(),
-    name: inputName,
-    email: inputEmail,
-    position: inputPosition,
-    hireDate: inputHireDate,
-  });
+
+  const errorEl = document.getElementById('error');
+  let errorOccurred = false;
+
+  const index = INFO.findIndex(({email}) => email === inputEmail);
+  console.log(index);
+  if (index !== -1){
+    console.log("emailがかぶってます")
+    errorEl.textContent = 'エラー: 同一のメールアドレスが設定されています。';
+    errorOccurred = true;
+  }
+  if (errorOccurred === false){
+    INFO.push({
+      id: getNextId(),
+      name: inputName,
+      email: inputEmail,
+      position: inputPosition,
+      hireDate: inputHireDate,
+    });
+  }else{
+    event.preventDefault();
+  }
+  
   console.log(INFO);
   formEl.reset();
   registerShow();
   identifyPosition();
 });
 
-// const removeSelectedUsers = () => {
-//   for (const value of REMOVE_USERS) {
-//     const index = INFO.findIndex((id) => id === Number(value));
-//     if (index !== -1) {
-//       INFO.splice(index, 1);
-//       REMOVE_USERS.length = 0;
-//     }
-//   }
-//   console.log(REMOVE_USERS);
-// };
-
 const removeSelectedUsers = () => {
   REMOVE_USERS.forEach((x) => {
     console.log("x:", x);
-    console.log("x:", typeof x);
     const index = INFO.findIndex(({ id }) => id === Number(x));
     console.log(index);
     if (index !== -1) {
@@ -102,6 +124,9 @@ const registerShow = () => {
       } else {
         REMOVE_USERS.push(e.target.value);
         console.log("REMOVE_USERSに追加");
+      } 
+      if (!document.getElementById('removeBtn')) {
+        createRemoveBtn();
       }
       console.log("REMOVE_USERS:", REMOVE_USERS);
     });
@@ -120,21 +145,8 @@ const registerShow = () => {
     registerDiv.appendChild(registerPosition);
     registerDiv.appendChild(registerHireDate);
     registerUserListEl.appendChild(registerDiv);
-
-    if (registerUserListEl !== null) {
-      const removeDiv = document.createElement("div");
-      const removeBtn = document.createElement("button");
-      removeBtn.textContent = "削除する";
-      removeBtn.id = "removeBtn";
-      removeBtn.addEventListener("click", function () {
-        removeSelectedUsers();
-        registerShow();
-        alert("削除しました");
-      });
-      removeDiv.appendChild(removeDiv);
-      registerUserListEl.appendChild(removeDiv);
-    }
   });
+  
 };
 
 function generatePassword(length) {
@@ -171,7 +183,7 @@ const sendEmail = ({ name, email }) => {
     );
 };
 
-registerbtn.addEventListener("click", function () {
+registerBtn.addEventListener("click", function () {
   console.log("aaa");
   for (let i = 0; i < INFO.length; i++) {
     const passwordLength = 12; // 生成するパスワードの長さ
