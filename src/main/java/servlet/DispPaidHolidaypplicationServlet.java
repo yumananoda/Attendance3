@@ -7,18 +7,19 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
- * Servlet implementation class DispEmployeeRegisterComp
+ * Servlet implementation class DispPaidHolidaypplicationServlet
  */
-@WebServlet("/DispEmployeeRegisterComp")
-public class DispEmployeeRegisterComp extends HttpServlet {
+@WebServlet("/DispPaidHolidaypplicationServlet")
+public class DispPaidHolidaypplicationServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public DispEmployeeRegisterComp() {
+    public DispPaidHolidaypplicationServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -27,6 +28,12 @@ public class DispEmployeeRegisterComp extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.getRequestDispatcher("/EmployeeRegisterComp.jsp").forward(request, response);
+		request.setCharacterEncoding("UTF-8");
+		
+		HttpSession session = request.getSession();
+		String employeeCD = (String)session.getAttribute("employeeCD");
+		System.out.println("employeeCD:" + employeeCD);
+		
+		request.getRequestDispatcher("/PaidHolidaypplication.jsp").forward(request, response);
 	}
 }

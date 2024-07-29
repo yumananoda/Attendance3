@@ -200,6 +200,6 @@ registerBtn.addEventListener("click", function () {
       sendEmail({ name, email });
     });
     sessionStorage.setItem("INFO", JSON.stringify(INFO));
-    window.location.href = `DispEmployeeRegisterComp`;
+    window.location.href = `DispEmployeeRegisterCompServlet`;
   });
 });
