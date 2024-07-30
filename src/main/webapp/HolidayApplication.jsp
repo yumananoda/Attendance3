@@ -20,45 +20,51 @@ System.out.println("name:" + name);
 	</ul>
 	<div class="tab-contents">
 		<div class="content tab-01 is-display">
-			<table>
-				<tr>
-					<th>従業員コード</th>
-					<td><input type="text" name="employeeCD" value="<%= employeeCD %>" readonly /></td>
-				</tr>
-				<tr>
-					<th>氏名</th>
-					<td><input type="text" name="name" value="<%= name %>" readonly /></td>
-				</tr>
-				<tr>
-					<th>日付</th>
-					<td><input type="date" id="applicationDate" name="date" required /></td>
-				</tr>
-				<tr>
-					<th>休暇種類</th>
-					<td>
-						<div>
-							<input type="radio" id="full" name="holidayKind" value="full" checked />
-							<label for="full">全休</label>
-						</div>
-						<div>
-							<input type="radio" id="half" name="holidayKind" value="half" />
-							<label for="half">半休</label>
-						</div>
-						<div>
-							<input type="radio" id="multiple" name="holidayKind" value="multiple" />
-							<label for="multiple">連休取得</label>
-						</div>
-					</td>
-				</tr>
-				<tr>
-					<th>事由</th>
-					<td><textarea name="reason" placeholder="申請理由を入力してください。" required /></textarea></td>
-				</tr>
-				<tr>
-					<th>備考</th>
-					<td><textarea name="note"></textarea></td>
-				</tr>
-			</table>
+			<form action="HolidayApplicationServlet" method="post">
+				<table>
+					<tr>
+						<th>従業員コード</th>
+						<td><input type="text" name="employeeCD" value="<%= employeeCD %>" readonly /></td>
+					</tr>
+					<tr>
+						<th>氏名</th>
+						<td><input type="text" name="name" value="<%= name %>" readonly /></td>
+					</tr>
+					<tr>
+						<th>日付</th>
+						<td><input type="date" id="applicationDate" name="date" required /></td>
+					</tr>
+					<%-- <tr>
+						<th>休暇種類</th>
+						<td id="SelectHolidayKind">
+							<div>
+								<input type="radio" id="full" class="holidayKind" name="holidayKind" value="full" checked />
+								<label for="full">全休</label>
+							</div>
+							<div>
+								<input type="radio" id="half" class="holidayKind" name="holidayKind" value="half" />
+								<label for="half">半休</label>
+							</div>
+							<div>
+								<input type="radio" id="multiple" class="holidayKind" name="holidayKind" value="multiple" />
+								<label for="multiple">連休取得</label>
+							</div>
+							<div id="multipleMenu">
+								<input type="date" id="startDate" name="startDate" required />〜<input type="date" id="endDate" name="endDate" required />
+							</div>
+						</td>
+					</tr> --%>
+					<tr>
+						<th>事由</th>
+						<td><textarea name="reason" placeholder="申請理由を入力してください。" required /></textarea></td>
+					</tr>
+					<tr>
+						<th>備考</th>
+						<td><textarea name="note"></textarea></td>
+					</tr>
+				</table>
+					<input type="submit" value="登録" />
+			</form>
 		</div>
 		<div class="content tab-02">
 			<table>
@@ -81,7 +87,7 @@ System.out.println("name:" + name);
 		</div>
 	</div>
 
-	<script type="module" src="js/tabMenu.js" ></script>
+	<%-- <script type="module" src="js/tabMenu.js" ></script> --%>
 	<script type="module" src="js/holidayApplication.js" ></script>
 </body>
 </html>

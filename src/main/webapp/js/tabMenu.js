@@ -1,20 +1,20 @@
-document.addEventListener('DOMContentLoaded', function () {
-  const targets = document.getElementsByClassName('tab');
-  const arrayTabs = Array.from(targets); 
-    
+document.addEventListener('DOMContentLoaded', () => {
+  const tabs = document.getElementsByClassName('tab');
+  const contents = document.getElementsByClassName('content');
+  const arrayTabs = Array.from(tabs); 
+  const arrayContents = Array.from(contents); 
   arrayTabs.forEach(tab => {
-	   tab.addEventListener('click', changeTab);
+    tab.addEventListener('click', changeTab);
   })
-  
-    // タブメニューボタンをクリックすると実行
-    function changeTab() {
-        // タブのclassを変更
-        document.getElementsByClassName('is-active')[0].classList.remove('is-active');
-        this.classList.add('is-active');
-        // コンテンツのclassの値を変更
-        document.getElementsByClassName('is-display')[0].classList.remove('is-display');
-        const arrayTabs = Array.prototype.slice.call(targets);
-        const index = arrayTabs.indexOf(this);
-        document.getElementsByClassName('content')[index].classList.add('is-display');
-    };
+
+  function changeTab(){
+    const beforeTab = document.getElementsByClassName('is-active')[0];
+    beforeTab.classList.remove('is-active');
+    const beforeContent = document.getElementsByClassName('is-display')[0];
+    beforeContent.classList.remove('is-display');
+
+    const index2 = arrayContents.indexOf(this);
+    this.classList.add('is-active');
+    document.getElementsByClassName('content')[index2].classList.add('is-display');
+  };
 }, false);

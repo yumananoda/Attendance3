@@ -1,6 +1,10 @@
+const dateInput = document.getElementById("applicationDate");
+const startDateInput = document.getElementById("startDate");
+const multipleMenu = document.getElementById("SelectHolidayKind");
+const SelectHolidayKind = document.getElementById("multipleMenu");
+const holidayKinds = document.getElementsByClassName("holidayKind");
+
 document.addEventListener("DOMContentLoaded", function () {
-  const dateInput = document.getElementById("applicationDate");
-  const startDateInput = document.getElementById("startDate");
   const today = new Date();
   const yyyy = today.getFullYear();
   const mm = String(today.getMonth() + 1).padStart(2, "0");
@@ -13,3 +17,14 @@ document.addEventListener("DOMContentLoaded", function () {
     startDateInput.value = dateInput.value;
   });
 });
+
+
+SelectHolidayKind.addEventListener("change",() => {
+  if(holidayKinds[2].checked){
+    multipleMenu.style.display="";
+  }else{
+    multipleMenu.style.display="none";
+  }
+})
+
+startDateInput
