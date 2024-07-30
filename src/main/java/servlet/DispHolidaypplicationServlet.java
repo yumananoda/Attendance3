@@ -9,17 +9,19 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import dao.EmployeeDao;
+
 /**
- * Servlet implementation class DispPaidHolidaypplicationServlet
+ * Servlet implementation class DispHolidaypplicationServlet
  */
-@WebServlet("/DispPaidHolidaypplicationServlet")
-public class DispPaidHolidaypplicationServlet extends HttpServlet {
+@WebServlet("/DispHolidaypplicationServlet")
+public class DispHolidaypplicationServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public DispPaidHolidaypplicationServlet() {
+    public DispHolidaypplicationServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -32,8 +34,14 @@ public class DispPaidHolidaypplicationServlet extends HttpServlet {
 		
 		HttpSession session = request.getSession();
 		String employeeCD = (String)session.getAttribute("employeeCD");
-		System.out.println("employeeCD:" + employeeCD);
+		int employeeCD2 = Integer.parseInt(employeeCD);
 		
-		request.getRequestDispatcher("/PaidHolidaypplication.jsp").forward(request, response);
+		EmployeeDao employeeDao = new EmployeeDao();
+		String name = employeeDao.getEmployeeName(employeeCD2);
+		System.out.println("name:" + name);
+		
+		request.setAttribute("name", name);
+		
+		request.getRequestDispatcher("/HolidayApplication.jsp").forward(request, response);
 	}
 }

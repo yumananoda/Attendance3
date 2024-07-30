@@ -86,7 +86,7 @@ public class EmployeeDao extends CommonDao {
 		return null;
 	}
 
-	public ArrayList<SelectEmployeeBean> findEmployeeCDOfShiftRegister(int args_storeCD) {
+	public ArrayList<SelectEmployeeBean> findSelectEmployeeCD(int args_storeCD) {
 		ArrayList<SelectEmployeeBean> employees = new ArrayList<SelectEmployeeBean>();
 		String query = "SELECT employeeCD, name FROM users WHERE storeCD = ?";
 		try (Connection con = DriverManager.getConnection(URL, USER, PASS);
@@ -172,5 +172,24 @@ public class EmployeeDao extends CommonDao {
             e.printStackTrace();
             // エラーハンドリングを適切に行う
         }
+	}
+	
+	public String getEmployeeName(int employeeCD) {
+		String query = "SELECT name FROM users WHERE employeeCD = ?"; 
+		try (Connection con = DriverManager.getConnection(URL, USER, PASS); 
+			PreparedStatement statement = con.prepareStatement(query)) { 
+			statement.setInt(1, employeeCD); 
+			ResultSet rs = statement.executeQuery(); 
+			while (rs.next()) { 
+				String name = rs.getString("name"); 
+				System.out.println(name); 
+				return name; 
+			} 
+			statement.close(); 
+			con.close(); 
+		} catch (SQLException e) { 
+			e.printStackTrace(); 
+		} 
+		return null; 
 	}
 }

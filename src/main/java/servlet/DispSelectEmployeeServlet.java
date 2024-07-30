@@ -34,7 +34,7 @@ public class DispSelectEmployeeServlet extends HttpServlet {
 		EmployeeDao employeeDao = new EmployeeDao();
 		int storeCD = employeeDao.findStoreCD(managerCD2);
 		
-		ArrayList<SelectEmployeeBean> selectEmployee = employeeDao.findEmployeeCDOfShiftRegister(storeCD);
+		ArrayList<SelectEmployeeBean> selectEmployee = employeeDao.findSelectEmployeeCD(storeCD);
 		session.setAttribute("selectEmployee", selectEmployee);
 		request.getRequestDispatcher("/SelectEmployee.jsp").forward(request, response);
 	}
