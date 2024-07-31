@@ -19,6 +19,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import dao.EmployeeDao;
 import models.EmployeeBean;
+import models.ResponseMessage;
 
 /**
  * Servlet implementation class EmployeeRegisterServlet
@@ -26,25 +27,27 @@ import models.EmployeeBean;
 @WebServlet("/EmployeeRegisterServlet")
 public class EmployeeRegisterServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public EmployeeRegisterServlet() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
+
+	/**
+	 * @see HttpServlet#HttpServlet()
+	 */
+	public EmployeeRegisterServlet() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
 		System.out.println("called");
 		ArrayList<EmployeeBean> EmployeeRegisterList = new ArrayList<>();
 		EmployeeDao employeeDao = new EmployeeDao();
 		HttpSession session = request.getSession();
 		System.out.println(session);
-		String managerCD = (String)session.getAttribute("employeeCD");
+		String managerCD = (String) session.getAttribute("employeeCD");
 		System.out.println(managerCD);
 		int managerCD2 = Integer.parseInt(managerCD);
 		System.out.println(managerCD);
@@ -62,6 +65,7 @@ public class EmployeeRegisterServlet extends HttpServlet {
 		System.out.println(line);
 
 		String requestBody = sb.toString();
+		System.out.println(requestBody);
 
 		ObjectMapper objectMapper = new ObjectMapper();
 		System.out.println("requestBody:");
@@ -69,28 +73,55 @@ public class EmployeeRegisterServlet extends HttpServlet {
 		List<Map<String, Object>> dataList = objectMapper.readValue(requestBody, List.class);
 		System.out.println("dataList:");
 		System.out.println(dataList);
-		for(Map<String, Object> data: dataList) {
+		for (Map<String, Object> data : dataList) {
 			String name = (String) data.get("name");
 			String email = (String) data.get("email");
-			String position = (String)data.get("position");
+			String position = (String) data.get("position");
 			int position2 = Integer.parseInt(position);
 			System.out.println(position);
-			String hire_date = (String) data.get("hire_date");
-			LocalDate localDate = LocalDate.parse(hire_date);
+			String hireDate = (String) data.get("hireDate");
+			System.out.println(hireDate);
+			LocalDate localDate = LocalDate.parse(hireDate);
+			System.out.println(localDate);
 			Date sqlDate = Date.valueOf(localDate);
+			System.out.println(sqlDate);
 
-			String password ="aaaaa";
-			Integer employeeCD=null;
+			String password = (String) data.get("password");
+			System.out.println(password);
+			Integer employeeCD = null;
 			int storeCD = employeeDao.findStoreCD(managerCD2);
 
-			EmployeeBean EmployeeRegisterRequest = new EmployeeBean(employeeCD, storeCD, position2, name, password, email, sqlDate);
+			EmployeeBean EmployeeRegisterRequest = new EmployeeBean(employeeCD, storeCD, position2, name, password,
+					email, sqlDate);
 			EmployeeRegisterList.add(EmployeeRegisterRequest);
 		}
-		for(EmployeeBean EmployeeRegister : EmployeeRegisterList) {
-			employeeDao.Register(EmployeeRegister);
+
+		ArrayList<String> existsEmails = new ArrayList<>();
+		for (EmployeeBean EmployeeRegister : EmployeeRegisterList) {
+			String email = EmployeeRegister.getEmail();
+			if (employeeDao.isEmailExists(email)) {
+				existsEmails.add(email);
+			}
 		}
-		
-		request.setAttribute("EmployeeRegisterList", EmployeeRegisterList);
-		request.getRequestDispatcher("/EmployeeRegisterComp.jsp").forward(request, response);
+
+		if (existsEmails.size() == 0) {
+			for (EmployeeBean EmployeeRegister : EmployeeRegisterList) {
+				employeeDao.Register(EmployeeRegister);
+				request.setAttribute("EmployeeRegisterList", EmployeeRegisterList);
+				request.getRequestDispatcher("/EmployeeRegisterComfirm.jsp").forward(request, response);
+
+			}
+		} else {
+			System.out.println(existsEmails);
+			String message = "";
+			message = String.join(",", existsEmails);
+			message += "は登録済みのメールアドレスです。";
+			System.out.println(message);
+			response.setCharacterEncoding("UTF-8");
+			ResponseMessage responseMessage = new ResponseMessage(message, true);
+			String jsonResponse = objectMapper.writeValueAsString(responseMessage);
+			response.getWriter().write(jsonResponse);
+			return;
+		}
 	}
 }

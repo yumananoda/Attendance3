@@ -11,14 +11,14 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * Servlet implementation class Servlet
  */
-@WebServlet("/DispEmployeeRegisterCompServlet")
-public class DispEmployeeRegisterCompServlet extends HttpServlet {
+@WebServlet("/DispEmployeeRegisterComfirmServlet")
+public class DispEmployeeRegisterComfirmServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public DispEmployeeRegisterCompServlet() {
+    public DispEmployeeRegisterComfirmServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -27,6 +27,6 @@ public class DispEmployeeRegisterCompServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.getRequestDispatcher("/EmployeeRegisterComp.jsp").forward(request, response);
+		request.getRequestDispatcher("/EmployeeRegisterComfirm.jsp").forward(request, response);
 	}
 }

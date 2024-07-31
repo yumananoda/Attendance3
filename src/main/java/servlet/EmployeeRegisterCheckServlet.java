@@ -1,0 +1,58 @@
+package servlet;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import dao.EmployeeDao;
+
+/**
+ * Servlet implementation class EmployeeRegisterServlet
+ */
+@WebServlet("/EmployeeRegisterCheckServlet")
+public class EmployeeRegisterCheckServlet extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+
+	/**
+	 * @see HttpServlet#HttpServlet()
+	 */
+	public EmployeeRegisterCheckServlet() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		request.setCharacterEncoding("UTF-8");
+
+		EmployeeDao employeeDao = new EmployeeDao();
+
+		StringBuilder sb = new StringBuilder();
+		String line;
+		BufferedReader reader = request.getReader();
+		line = reader.readLine();
+		System.out.println(line);
+		while (line != null) {
+			sb.append(line);
+			line = reader.readLine();
+		}
+
+		String email = sb.toString();
+		employeeDao.get();
+		System.out.println("email: " + email);
+		response.setCharacterEncoding("UTF-8");
+
+		boolean isExists = employeeDao.isEmailExists(email);
+		response.getWriter().write(String.valueOf(isExists));
+		return;
+
+	}
+}

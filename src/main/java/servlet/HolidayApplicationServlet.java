@@ -56,5 +56,4 @@ public class HolidayApplicationServlet extends HttpServlet {
 			e.printStackTrace();
 		}
 	}
-
 }

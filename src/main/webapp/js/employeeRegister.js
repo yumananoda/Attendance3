@@ -40,21 +40,23 @@ const generateId = () => {
 const getNextId = generateId();
 
 const createRemoveBtn = () => {
-    const removeDiv = document.createElement("div");
-    const removeBtn = document.createElement("button");
-    removeBtn.textContent = "削除する";
-    removeBtn.id = "removeBtn";
-    removeBtn.addEventListener("click", function () {
-      removeSelectedUsers();
-      registerShow();
+  const removeDiv = document.createElement("div");
+  const removeBtn = document.createElement("button");
+  removeBtn.textContent = "削除する";
+  removeBtn.id = "removeBtn";
+  removeBtn.addEventListener("click", function () {
+    removeSelectedUsers();
+    registerShow();
+    setTimeout(() => {
       alert("削除しました");
-      if (REMOVE_USERS.length === 0) {
-        this.remove();
-      }
-    });
-    removeDiv.appendChild(removeBtn);
-    registerUserListEl.appendChild(removeDiv);
-}
+    }, 300);
+    if (REMOVE_USERS.length === 0) {
+      this.remove();
+    }
+  });
+  removeDiv.appendChild(removeBtn);
+  registerUserListEl.appendChild(removeDiv);
+};
 
 addBtn.addEventListener("click", async function (event) {
   event.preventDefault();
@@ -62,32 +64,40 @@ addBtn.addEventListener("click", async function (event) {
   const inputEmail = formEl.email.value;
   const inputPosition = formEl.position.value;
   const inputHireDate = formEl.hireDate.value;
-  console.log(inputName, inputEmail, inputPosition, inputHireDate);
+  console.log(inputEmail);
 
-  const errorEl = document.getElementById('error');
-  let errorOccurred = false;
+  const errorEl = document.getElementById("error");
 
-  const index = INFO.findIndex(({email}) => email === inputEmail);
+  const index = INFO.findIndex(({ email }) => email === inputEmail);
   console.log(index);
-  if (index !== -1){
-    console.log("emailがかぶってます")
-    errorEl.textContent = 'エラー: 同一のメールアドレスが設定されています。';
-    errorOccurred = true;
-  }
-  if (errorOccurred === false){
-    INFO.push({
-      id: getNextId(),
-      name: inputName,
-      email: inputEmail,
-      position: inputPosition,
-      hireDate: inputHireDate,
-    });
-  }else{
+  if (index !== -1) {
+    console.log("emailがかぶってます");
+    errorEl.textContent = "エラー: 同一のメールアドレスが設定されています。";
     event.preventDefault();
+    return;
   }
-  
+
+  let text;
+  fetch("/DateTime/EmployeeRegisterCheckServlet", {
+    method: "POST",
+    body: inputEmail,
+  })
+    .then((res) => res.text())
+    .then((text) => {
+      if (text === false) {
+        INFO.push({
+          id: getNextId(),
+          name: inputName,
+          email: inputEmail,
+          position: inputPosition,
+          hireDate: inputHireDate,
+        });
+        console.log(INFO);
+        formEl.reset();
+      }
+    });
+
   console.log(INFO);
-  formEl.reset();
   registerShow();
   identifyPosition();
 });
@@ -124,8 +134,8 @@ const registerShow = () => {
       } else {
         REMOVE_USERS.push(e.target.value);
         console.log("REMOVE_USERSに追加");
-      } 
-      if (!document.getElementById('removeBtn')) {
+      }
+      if (!document.getElementById("removeBtn")) {
         createRemoveBtn();
       }
       console.log("REMOVE_USERS:", REMOVE_USERS);
@@ -146,7 +156,6 @@ const registerShow = () => {
     registerDiv.appendChild(registerHireDate);
     registerUserListEl.appendChild(registerDiv);
   });
-  
 };
 
 function generatePassword(length) {
@@ -186,7 +195,7 @@ const sendEmail = ({ name, email }) => {
 registerBtn.addEventListener("click", function () {
   console.log("aaa");
   for (let i = 0; i < INFO.length; i++) {
-    const passwordLength = 12; // 生成するパスワードの長さ
+    const passwordLength = 12;
     const newPassword = generatePassword(passwordLength);
     console.log("生成されたパスワード: " + newPassword);
     INFO[i].password = newPassword;
@@ -195,11 +204,29 @@ registerBtn.addEventListener("click", function () {
   fetch("/DateTime/EmployeeRegisterServlet", {
     method: "POST",
     body: JSON.stringify(INFO),
-  }).finally(() => {
-    INFO.forEach(({ name, email }) => {
-      sendEmail({ name, email });
+  })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      console.log(response);
+      return response.json();
+    })
+    .then((res) => {
+      console.log(res.message);
+      if (!res.isError) {
+        INFO.forEach(({ name, email }) => {
+          sendEmail({ name, email });
+        });
+        sessionStorage.setItem("INFO", JSON.stringify(INFO));
+        window.location.href = `DispEmployeeRegisterComfirmServlet`;
+        return;
+      }
+      const errorEl = document.getElementById("error");
+      errorEl.innerText = res.message;
+      INFO.splice(0);
+    })
+    .catch((err) => {
+      console.log("err: ", err);
     });
-    sessionStorage.setItem("INFO", JSON.stringify(INFO));
-    window.location.href = `DispEmployeeRegisterCompServlet`;
-  });
 });

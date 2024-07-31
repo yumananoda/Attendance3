@@ -9,9 +9,9 @@
 <body>
     <p>以下の内容で登録します。よろしいですか？</p>
     <div id="employeeArea"></div>
-    <form action="" id="registerForm">
+    <form action="EmployeeRegisterServlet" id="registerForm">
         <button type="submit">登録</button>
     </form>
-    <script type="module" src="js/employeeRegisterComp.js" ></script>
+    <script type="module" src="js/EmployeeRegisterComfirm.js" ></script>
 </body>
 </html>

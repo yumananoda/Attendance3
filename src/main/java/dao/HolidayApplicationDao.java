@@ -8,7 +8,7 @@ import java.sql.SQLException;
 
 public class HolidayApplicationDao extends CommonDao{
 	public void registerHoliday(int employeeCD, Date date, String reason, String note) {
-		String query = "INSERT INTO holiday(employeeCD, application_date, reason, note) VALUES(?,?,?,?,?)";
+		String query = "INSERT INTO holiday(employeeCD, application_date, reason, note) VALUES(?,?,?,?)";
 		try (Connection con = DriverManager.getConnection(URL, USER, PASS);
 				PreparedStatement statement = con.prepareStatement(query)) {
 
@@ -22,7 +22,6 @@ public class HolidayApplicationDao extends CommonDao{
 			con.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
-			// エラーハンドリングを適切に行う
 		}
 	}
 }
