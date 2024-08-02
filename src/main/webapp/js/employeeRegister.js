@@ -1,10 +1,11 @@
 import { POSITION_NAME, INFO, REMOVE_USERS, API_CONFIG } from "./const.js";
 
 const formEl = document.getElementById("registerForm");
-const addBtn = document.getElementById("addemployee");
-const registerBtn = document.getElementById("registerbtn");
+const addBtn = document.getElementById("addEmployee");
+const registerBtn = document.getElementById("registerBtn");
 const registerUserListEl = document.getElementById("registerUserList");
 const positionEl = document.getElementById("position");
+const errorEl = document.getElementById("error");
 
 const identifyPosition = () => {
   while (positionEl.firstChild) {
@@ -29,7 +30,7 @@ const identifyPosition = () => {
     positionEl.appendChild(positionDiv);
   });
 };
-identifyPosition();
+
 
 const generateId = () => {
   let currentId = 0;
@@ -38,82 +39,6 @@ const generateId = () => {
   };
 };
 const getNextId = generateId();
-
-const createRemoveBtn = () => {
-  const removeDiv = document.createElement("div");
-  const removeBtn = document.createElement("button");
-  removeBtn.textContent = "削除する";
-  removeBtn.id = "removeBtn";
-  removeBtn.addEventListener("click", function () {
-    removeSelectedUsers();
-    registerShow();
-    setTimeout(() => {
-      alert("削除しました");
-    }, 300);
-    if (REMOVE_USERS.length === 0) {
-      this.remove();
-    }
-  });
-  removeDiv.appendChild(removeBtn);
-  registerUserListEl.appendChild(removeDiv);
-};
-
-addBtn.addEventListener("click", async function (event) {
-  event.preventDefault();
-  const inputName = formEl.name.value;
-  const inputEmail = formEl.email.value;
-  const inputPosition = formEl.position.value;
-  const inputHireDate = formEl.hireDate.value;
-  console.log(inputEmail);
-
-  const errorEl = document.getElementById("error");
-
-  const index = INFO.findIndex(({ email }) => email === inputEmail);
-  console.log(index);
-  if (index !== -1) {
-    console.log("emailがかぶってます");
-    errorEl.textContent = "エラー: 同一のメールアドレスが設定されています。";
-    event.preventDefault();
-    return;
-  }
-
-  let text;
-  fetch("/DateTime/EmployeeRegisterCheckServlet", {
-    method: "POST",
-    body: inputEmail,
-  })
-    .then((res) => res.text())
-    .then((text) => {
-      if (text === false) {
-        INFO.push({
-          id: getNextId(),
-          name: inputName,
-          email: inputEmail,
-          position: inputPosition,
-          hireDate: inputHireDate,
-        });
-        console.log(INFO);
-        formEl.reset();
-      }
-    });
-
-  console.log(INFO);
-  registerShow();
-  identifyPosition();
-});
-
-const removeSelectedUsers = () => {
-  REMOVE_USERS.forEach((x) => {
-    console.log("x:", x);
-    const index = INFO.findIndex(({ id }) => id === Number(x));
-    console.log(index);
-    if (index !== -1) {
-      INFO.splice(index, 1);
-    }
-  });
-  REMOVE_USERS.length = 0;
-  console.log(REMOVE_USERS);
-};
 
 const registerShow = () => {
   while (registerUserListEl.firstChild) {
@@ -140,7 +65,7 @@ const registerShow = () => {
       }
       console.log("REMOVE_USERS:", REMOVE_USERS);
     });
-
+    errorEl.textContent = "";
     const registerName = document.createElement("p");
     const registerEmail = document.createElement("p");
     const registerPosition = document.createElement("p");
@@ -158,7 +83,102 @@ const registerShow = () => {
   });
 };
 
-function generatePassword(length) {
+const createRemoveBtn = () => {
+  const removeDiv = document.createElement("div");
+  const removeBtn = document.createElement("button");
+  removeBtn.textContent = "削除する";
+  removeBtn.id = "removeBtn";
+  removeBtn.addEventListener("click", function () {
+    removeSelectedUsers();
+    registerShow();
+    setTimeout(() => {
+      alert("削除しました");
+    }, 300);
+    if (REMOVE_USERS.length === 0) {
+      this.remove();
+    }
+  });
+  removeDiv.appendChild(removeBtn);
+  registerUserListEl.appendChild(removeDiv);
+};
+
+const removeSelectedUsers = () => {
+  REMOVE_USERS.forEach((x) => {
+    console.log(REMOVE_USERS);
+    console.log("x:", x);
+    const index = INFO.findIndex(({ id }) => id === Number(x));
+    console.log(index);
+    if (index !== -1) {
+      INFO.splice(index, 1);
+    }
+  });
+  REMOVE_USERS.length = 0;
+  console.log(REMOVE_USERS);
+};
+
+
+identifyPosition();
+addBtn.addEventListener("click", async function (event) {
+  event.preventDefault();
+  const inputName = formEl.name.value;
+  const inputEmail = formEl.email.value;
+  const inputPosition = formEl.position.value;
+  const inputHireDate = formEl.hireDate.value;
+
+  if(inputName === "" || inputEmail === "" || inputPosition === "" || inputHireDate === ""){
+    errorEl.textContent = "エラー:入力されていない項目があります。";
+    formEl.reset();
+    identifyPosition();
+    return;
+  }
+  const index = INFO.findIndex(({ email }) => email === inputEmail);
+  console.log(index);
+  if (index !== -1) {
+    errorEl.textContent = "エラー: 同一のメールアドレスが入力されています。";
+    formEl.reset();
+    identifyPosition();
+    return;
+  }
+
+  fetch("/DateTime/EmployeeRegisterCheckServlet", {
+    method: "POST",
+    body: inputEmail,
+  })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+        return response;
+    })
+    .then((res) => res.text())
+    .then((text) => {
+      console.log("text:",text);
+      console.log(typeof text);
+      if (text === "false") {
+        INFO.push({
+          id: getNextId(),
+          name: inputName,
+          email: inputEmail,
+          position: inputPosition,
+          hireDate: inputHireDate,
+        });
+      }else{
+        errorEl.textContent = "エラー: データベースに既に存在するメールアドレスは登録できません";
+        formEl.reset();
+        identifyPosition();
+        return;
+      }
+      console.log(INFO);
+      registerShow();
+      formEl.reset();
+      identifyPosition();
+    });
+    
+  
+});
+
+
+const generatePassword = (length) => {
   const charset =
     "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+~`|}{[]:;?><,./-=";
   let password = "";
@@ -193,7 +213,6 @@ const sendEmail = ({ name, email }) => {
 };
 
 registerBtn.addEventListener("click", function () {
-  console.log("aaa");
   for (let i = 0; i < INFO.length; i++) {
     const passwordLength = 12;
     const newPassword = generatePassword(passwordLength);
@@ -209,10 +228,11 @@ registerBtn.addEventListener("click", function () {
       if (!response.ok) {
         throw new Error("Network response was not ok");
       }
-      console.log(response);
-      return response.json();
+      console.log("success");
+      return response.text();
     })
     .then((res) => {
+      console.log(res);
       console.log(res.message);
       if (!res.isError) {
         INFO.forEach(({ name, email }) => {
@@ -222,9 +242,7 @@ registerBtn.addEventListener("click", function () {
         window.location.href = `DispEmployeeRegisterComfirmServlet`;
         return;
       }
-      const errorEl = document.getElementById("error");
-      errorEl.innerText = res.message;
-      INFO.splice(0);
+      errorEl.textContent = res.message;
     })
     .catch((err) => {
       console.log("err: ", err);

@@ -23,32 +23,27 @@ public class EmployeeRegisterCheckServlet extends HttpServlet {
 	 */
 	public EmployeeRegisterCheckServlet() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
+		response.setCharacterEncoding("UTF-8");
 
 		EmployeeDao employeeDao = new EmployeeDao();
-
 		StringBuilder sb = new StringBuilder();
 		String line;
 		BufferedReader reader = request.getReader();
 		line = reader.readLine();
 		System.out.println(line);
-		while (line != null) {
-			sb.append(line);
-			line = reader.readLine();
-		}
-
+		sb.append(line);
+		line = reader.readLine();
+		
 		String email = sb.toString();
-		employeeDao.get();
 		System.out.println("email: " + email);
-		response.setCharacterEncoding("UTF-8");
+		
 
 		boolean isExists = employeeDao.isEmailExists(email);
 		response.getWriter().write(String.valueOf(isExists));

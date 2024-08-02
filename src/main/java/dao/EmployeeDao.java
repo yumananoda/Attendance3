@@ -44,22 +44,6 @@ public class EmployeeDao extends CommonDao {
 		}
 		return null;
 	}
-
-	public void get() {
-		String query = "SELECT * FROM users";
-        
-        try (Connection con = DriverManager.getConnection(URL, USER, PASS);
-				PreparedStatement statement = con.prepareStatement(query)) {
-            ResultSet resultSet = statement.executeQuery();
-            
-            if (resultSet.next()) {
-                String count = resultSet.getString("email");
-                System.out.println(count);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-	}
 	
 	public boolean isEmailExists(String email) {
         String query = "SELECT COUNT(*) as c FROM users WHERE email = ?";
@@ -71,7 +55,7 @@ public class EmployeeDao extends CommonDao {
             
             if (resultSet.next()) {
                 int count = resultSet.getInt("c");
-                System.out.println(count);
+                System.out.println("count:" + count);
                 return count > 0;
             }
         } catch (SQLException e) {
