@@ -12,6 +12,6 @@
     <form id="registerForm">
         <button type="submit">登録</button>
     </form>
-    <script type="module" src="js/EmployeeRegisterComfirm.js" ></script>
+    <script type="module" src="js/EmployeeRegisterConfirm.js" ></script>
 </body>
 </html>

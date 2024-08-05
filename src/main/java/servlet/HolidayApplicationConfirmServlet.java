@@ -34,24 +34,29 @@ public class HolidayApplicationConfirmServlet extends HttpServlet {
     	String employeeCD = request.getParameter("employeeCD");
 		int employeeCD2 = Integer.parseInt(employeeCD);
 		String name =request.getParameter("name");
-		String date =request.getParameter("date");
-		System.out.println(date);
-		LocalDate localDate = LocalDate.parse(date);
-		System.out.println(localDate);
-		Date sqlDate = Date.valueOf(localDate);
-		System.out.println(sqlDate);
+		String startDate =request.getParameter("startDate");
+		System.out.println(startDate);
+		LocalDate localStartDate = LocalDate.parse(startDate);
+		Date sqlStartDate = Date.valueOf(localStartDate);
+		System.out.println(sqlStartDate);
+		String endDate =request.getParameter("endDate");
+		LocalDate localEndDate = LocalDate.parse(endDate);
+		Date sqlEndDate = Date.valueOf(localEndDate);
+		System.out.println(sqlEndDate);
 		String reason =request.getParameter("reason");
 		String note =request.getParameter("note");
 		
 		System.out.println(employeeCD2);
 		System.out.println(name);
-		System.out.println(sqlDate);
+		System.out.println(sqlStartDate);
+		System.out.println(sqlEndDate);
 		System.out.println(reason);
 		System.out.println(note);
 		
 		request.setAttribute("employeeCD", employeeCD2);
 		request.setAttribute("name", name);
-		request.setAttribute("date", sqlDate);
+		request.setAttribute("startDate", sqlStartDate);
+		request.setAttribute("endDate", sqlEndDate);
 		request.setAttribute("reason", reason);
 		request.setAttribute("note", note);
 		request.getRequestDispatcher("/HolidayApplicationConfirm.jsp").forward(request, response);

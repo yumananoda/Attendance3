@@ -33,11 +33,10 @@ export const STORE_NAME = {
   1: "渋谷店",
   2: "心斎橋店",
 };
-
 export const API_CONFIG = {};
 
-export APPLICATION_STATUS = {
+export const APPLICATION_STATUS = {
   1: "未承認",
   2: "承認済",
   3: "拒否済",
-} 
+};

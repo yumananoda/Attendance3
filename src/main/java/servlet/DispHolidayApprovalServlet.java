@@ -1,6 +1,7 @@
 package servlet;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -10,18 +11,20 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import dao.EmployeeDao;
+import dao.HolidayDao;
+import models.ApplicationBean;
 
 /**
- * Servlet implementation class DispHolidaypplicationServlet
+ * Servlet implementation class DispHolidayApprovalServlet
  */
-@WebServlet("/DispHolidaypplicationServlet")
-public class DispHolidaypplicationServlet extends HttpServlet {
+@WebServlet("/DispHolidayApprovalServlet")
+public class DispHolidayApprovalServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public DispHolidaypplicationServlet() {
+    public DispHolidayApprovalServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -30,18 +33,20 @@ public class DispHolidaypplicationServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.setCharacterEncoding("UTF-8");
-		
 		HttpSession session = request.getSession();
 		String employeeCD = (String)session.getAttribute("employeeCD");
 		int employeeCD2 = Integer.parseInt(employeeCD);
-		
 		EmployeeDao employeeDao = new EmployeeDao();
-		String name = employeeDao.getEmployeeName(employeeCD2);
-		System.out.println("name:" + name);
+		int storeCD = employeeDao.findStoreCD(employeeCD2);
+		System.out.println("storeCD:" + storeCD);
 		
-		request.setAttribute("name", name);
+		HolidayDao holidayDao = new HolidayDao();
+		ArrayList<ApplicationBean> applicationList = holidayDao.getHoridayApplicationList(storeCD);
+		System.out.println(applicationList);
 		
-		request.getRequestDispatcher("/HolidayApplication.jsp").forward(request, response);
+		request.setAttribute("applicationList", applicationList);
+		
+		request.getRequestDispatcher("/HolidayApproval.jsp").forward(request, response);
 	}
+
 }

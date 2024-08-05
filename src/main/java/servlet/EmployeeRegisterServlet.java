@@ -107,7 +107,7 @@ public class EmployeeRegisterServlet extends HttpServlet {
 			for (EmployeeBean EmployeeRegister : EmployeeRegisterList) {
 				employeeDao.Register(EmployeeRegister);
 				request.setAttribute("EmployeeRegisterList", EmployeeRegisterList);
-				request.getRequestDispatcher("/EmployeeRegisterComfirm.jsp").forward(request, response);
+				request.getRequestDispatcher("/EmployeeRegisterConfirm.jsp").forward(request, response);
 
 			}
 		} else {

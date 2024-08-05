@@ -5,7 +5,8 @@
 	int employeeCD = (int)request.getAttribute("employeeCD");
 	System.out.println("employeeCD:" + employeeCD);
 	String name = (String)request.getAttribute("name");
-	Date date = (Date)request.getAttribute("date");
+	Date startDate = (Date)request.getAttribute("startDate");
+	Date endDate = (Date)request.getAttribute("endDate");
 	String reason = (String)request.getAttribute("reason");
 	String note = (String)request.getAttribute("note");
 	System.out.println("note:" + note);
@@ -24,8 +25,9 @@
 			<input type="text" id="name" name="name" value=<%= name %> readonly />
 		</div>
 		<div>
-			<label form="date">申請日:</label>
-			<input type="text" id="date" name="date" value=<%= date %> readonly />
+			<label form="startDate">申請日:</label>
+			<input type="text" id="startDate" name="startDate" value=<%= startDate %> readonly />～
+			<input type="text" id="endDate" name="endDate" value=<%= endDate %> readonly />
 		</div>
 		<div>
 			<label form="reason">申請理由:</label>

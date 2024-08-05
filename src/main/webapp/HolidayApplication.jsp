@@ -15,8 +15,8 @@ System.out.println("name:" + name);
 </head>
 <body>
 	<ul class="tab-button">
-		<li class="tab tab-01 is-active">有給休暇</li>
-		<li class="tab tab-02">無給休暇</li>
+		<li class="tab tab-01 is-active" value="0">有給休暇</li>
+		<li class="tab tab-02" value="1">無給休暇</li>
 	</ul>
 	<div class="tab-contents">
 		<form action="HolidayApplicationConfirmServlet" method="post" id="HolidayForm">
@@ -32,7 +32,8 @@ System.out.println("name:" + name);
 					</tr>
 					<tr>
 						<th>日付</th>
-						<td><input type="date" id="applicationDate" name="date" required /></td>
+						<td><input type="date" id="applicationDate1" name="startDate" required />～
+						<input type="date" id="applicationDate2" name="endDate" required /></td>
 					</tr>
 					<%-- <tr>
 						<th>休暇種類</th>
@@ -63,7 +64,6 @@ System.out.println("name:" + name);
 						<td><textarea name="note"></textarea></td>
 					</tr>
 				</table>
-					<input type="submit" value="登録" />
 			</div>
 			<div class="content tab-02">
 				<table>
@@ -84,10 +84,11 @@ System.out.println("name:" + name);
 					</tr>
 				</table>
 			</div>
+			<input type="submit" value="確認画面へ" />
 		</form>
 	</div>
 
-	<%-- <script type="module" src="js/tabMenu.js" ></script> --%>
+	<script type="module" src="js/tabMenu.js" ></script>
 	<script type="module" src="js/holidayApplication.js" ></script>
 </body>
 </html>

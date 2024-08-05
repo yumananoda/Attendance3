@@ -10,7 +10,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import dao.HolidayApplicationDao;
+import dao.EmployeeDao;
+import dao.HolidayDao;
 
 /**
  * Servlet implementation class HolidaypplicationServlet
@@ -31,21 +32,28 @@ public class HolidayApplicationServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		System.out.println("called_HolidaypplicationServlet");
+		System.out.println("called_HolidayApplicationServlet");
 		request.setCharacterEncoding("UTF-8");
 		String employeeCD = request.getParameter("employeeCD");
 		int employeeCD2 = Integer.parseInt(employeeCD);
 		String name = request.getParameter("name");
-		String date = request.getParameter("date");
+		String startDate = request.getParameter("startDate");
+		String endDate = request.getParameter("endDate");
 		String reason = request.getParameter("reason");
 		String note = request.getParameter("note");
 
-		LocalDate localDate = LocalDate.parse(date);
-		Date sqlDate = Date.valueOf(localDate);
-		System.out.println(sqlDate);
+		LocalDate localStartDate = LocalDate.parse(startDate);
+		Date sqStartlDate = Date.valueOf(localStartDate);
+		System.out.println(sqStartlDate);
+		LocalDate localEndDate = LocalDate.parse(endDate);
+		Date sqEndDate = Date.valueOf(localEndDate);
+		System.out.println(sqEndDate);
 		System.out.println(reason);
-		HolidayApplicationDao holidayDao = new HolidayApplicationDao();
-		holidayDao.registerHoliday(employeeCD2, sqlDate, reason, note);
+		
+		EmployeeDao employeeDao = new EmployeeDao();
+		int storeCD = employeeDao.findStoreCD(employeeCD2);
+		HolidayDao holidayDao = new HolidayDao();
+		holidayDao.registerHoliday(employeeCD2, storeCD, sqStartlDate, sqEndDate, reason, note);
 		request.getRequestDispatcher("/HolidayApplicationComp.jsp").forward(request, response);
 		
 	}
