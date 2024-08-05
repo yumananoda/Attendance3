@@ -3,6 +3,7 @@ const startDateInput = document.getElementById("startDate");
 const multipleMenu = document.getElementById("SelectHolidayKind");
 const SelectHolidayKind = document.getElementById("multipleMenu");
 const holidayKinds = document.getElementsByClassName("holidayKind");
+const HolidayForm = document.getElementsByClassName("HolidayForm");
 
 document.addEventListener("DOMContentLoaded", function () {
   const today = new Date();
@@ -27,4 +28,7 @@ SelectHolidayKind.addEventListener("change",() => {
   }
 })
 
-startDateInput
+// HolidayForm.addEventListener("click", () => {
+//   window.location.href = `HolidayApplicationConfirm.jsp`;
+//   sessionStorage.setItem("INFO", JSON.stringify(INFO));
+// })

@@ -1,10 +1,10 @@
 import { POSITION_NAME } from "./const.js";
 const employeeArea = document.getElementById("employeeArea");
 const registerForm = document.getElementById("registerForm");
+const INFO = JSON.parse(sessionStorage.getItem("INFO"));
 
 window.addEventListener("DOMContentLoaded", () => {
   console.log("called");
-  const INFO = JSON.parse(sessionStorage.getItem("INFO"));
   console.log("INFO: ", INFO);
   INFO.forEach(({ name, email, password, position, hireDate }) => {
     const employeeDiv = document.createElement("div");
@@ -77,3 +77,22 @@ window.addEventListener("DOMContentLoaded", () => {
     employeeArea.appendChild(employeeDiv);
   });
 });
+
+registerForm.addEventListener("submit", (e) => {
+  console.log("INFO: ", INFO);
+  e.preventDefault();
+	fetch("/DateTime/EmployeeRegisterServlet", {
+    method: "POST",
+    body: JSON.stringify(INFO),
+	})
+    .then((response) => {
+      console.log("response", response);
+      if(!response.ok){
+        throw new Error("Network response was not ok");
+      }
+      if (!response.isError) {
+        window.location.href = `EmployeeRegisterComp.jsp`;
+      }
+    })
+    .catch((err) => console.log("err: ", err));
+})

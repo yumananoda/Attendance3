@@ -1,8 +1,3 @@
-export const POSITION = {
-  FULL_TIME: 1,
-  PART: 2,
-};
-
 export const POSITION_NAME = {
   1: "正社員",
   2: "アルバイト",
@@ -40,3 +35,9 @@ export const STORE_NAME = {
 };
 
 export const API_CONFIG = {};
+
+export APPLICATION_STATUS = {
+  1: "未承認",
+  2: "承認済",
+  3: "拒否済",
+} 

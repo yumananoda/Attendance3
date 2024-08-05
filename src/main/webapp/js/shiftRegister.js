@@ -110,8 +110,7 @@ btn.addEventListener("click", function () {
   console.log(shift);
   if (
     shift.some(
-      ({ start_time, end_time }) => start_time === "" || end_time === ""
-    )
+      ({ start_time, end_time }) => start_time === "" || end_time === "")
   ) {
     console.log("入力されていない項目があります。");
   } else {

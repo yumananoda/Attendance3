@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>従業員登録</title>
+<title>従業員登録画面</title>
 </head>
 <body>
     <h2>従業員登録</h2>
@@ -23,7 +23,7 @@
             <input type="date" id="hireDate" name="hireDate" required>
         </div>
         <button id="addEmployee">追加</button>
-        <button type="submit" id="registerBtn">登録</button>
+        <input type="submit" id="registerBtn" value="登録" disabled />
         <div id="error" class="error"></div>
     </form>
     <div id="registerUserList"></div>

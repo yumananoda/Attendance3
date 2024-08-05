@@ -32,6 +32,7 @@ public class EmployeeRegisterCheckServlet extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 		response.setCharacterEncoding("UTF-8");
 
+		System.out.println("called registerCheck");
 		EmployeeDao employeeDao = new EmployeeDao();
 		StringBuilder sb = new StringBuilder();
 		String line;

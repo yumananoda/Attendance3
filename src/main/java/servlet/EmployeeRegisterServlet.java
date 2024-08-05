@@ -42,15 +42,14 @@ public class EmployeeRegisterServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
-		System.out.println("called");
+		System.out.println("called register");
 		ArrayList<EmployeeBean> EmployeeRegisterList = new ArrayList<>();
 		EmployeeDao employeeDao = new EmployeeDao();
 		HttpSession session = request.getSession();
 		System.out.println(session);
 		String managerCD = (String) session.getAttribute("employeeCD");
-		System.out.println(managerCD);
 		int managerCD2 = Integer.parseInt(managerCD);
-		System.out.println(managerCD);
+		System.out.println("managerCD" + managerCD);
 
 		StringBuilder sb = new StringBuilder();
 		String line;

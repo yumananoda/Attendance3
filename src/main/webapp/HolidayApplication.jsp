@@ -19,8 +19,8 @@ System.out.println("name:" + name);
 		<li class="tab tab-02">無給休暇</li>
 	</ul>
 	<div class="tab-contents">
-		<div class="content tab-01 is-display">
-			<form action="HolidayApplicationServlet" method="post">
+		<form action="HolidayApplicationConfirmServlet" method="post" id="HolidayForm">
+			<div class="content tab-01 is-display">
 				<table>
 					<tr>
 						<th>従業員コード</th>
@@ -64,27 +64,27 @@ System.out.println("name:" + name);
 					</tr>
 				</table>
 					<input type="submit" value="登録" />
-			</form>
-		</div>
-		<div class="content tab-02">
-			<table>
-				<tr>
-					<th>従業員コード</th>
-				</tr>
-				<tr>
-					<th>氏名</th>
-				</tr>
-				<tr>
-					<th>日付</th>
-				</tr>
-				<tr>
-					<th>期間</th>
-				</tr>
-				<tr>
-					<th>事由</th>
-				</tr>
-			</table>
-		</div>
+			</div>
+			<div class="content tab-02">
+				<table>
+					<tr>
+						<th>従業員コード</th>
+					</tr>
+					<tr>
+						<th>氏名</th>
+					</tr>
+					<tr>
+						<th>日付</th>
+					</tr>
+					<tr>
+						<th>期間</th>
+					</tr>
+					<tr>
+						<th>事由</th>
+					</tr>
+				</table>
+			</div>
+		</form>
 	</div>
 
 	<%-- <script type="module" src="js/tabMenu.js" ></script> --%>

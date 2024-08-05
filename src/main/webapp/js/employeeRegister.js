@@ -65,6 +65,8 @@ const registerShow = () => {
       }
       console.log("REMOVE_USERS:", REMOVE_USERS);
     });
+
+    registerBtn.disabled = false;
     errorEl.textContent = "";
     const registerName = document.createElement("p");
     const registerEmail = document.createElement("p");
@@ -114,6 +116,9 @@ const removeSelectedUsers = () => {
   });
   REMOVE_USERS.length = 0;
   console.log(REMOVE_USERS);
+  if(INFO.length === 0){
+    registerBtn.disabled = true;
+  }
 };
 
 
@@ -192,6 +197,28 @@ window.addEventListener("DOMContentLoaded", () => {
   emailjs.init(API_CONFIG.USER_ID);
 });
 
+registerBtn.addEventListener("click", function () {
+  for (let i = 0; i < INFO.length; i++) {
+    const passwordLength = 12;
+    const newPassword = generatePassword(passwordLength);
+    console.log("生成されたパスワード: " + newPassword);
+    INFO[i].password = newPassword;
+  }
+  console.log(INFO);
+  // fetch("/DateTime/DispEmployeeRegisterComfirmServlet", {
+  //   method: "POST",
+  //   body: JSON.stringify(INFO),
+  // })
+  // .then(
+  //   console.log("success")
+  // )
+  window.location.href = "/DateTime/EmployeeRegisterConfirm.jsp";	
+  sessionStorage.setItem("INFO", JSON.stringify(INFO));
+  // INFO.forEach(({ name, email }) => {
+  //   sendEmail({ name, email });
+  // });
+});
+
 const sendEmail = ({ name, email }) => {
   const password = generatePassword();
   emailjs
@@ -211,40 +238,3 @@ const sendEmail = ({ name, email }) => {
       }
     );
 };
-
-registerBtn.addEventListener("click", function () {
-  for (let i = 0; i < INFO.length; i++) {
-    const passwordLength = 12;
-    const newPassword = generatePassword(passwordLength);
-    console.log("生成されたパスワード: " + newPassword);
-    INFO[i].password = newPassword;
-  }
-  console.log(INFO);
-  fetch("/DateTime/EmployeeRegisterServlet", {
-    method: "POST",
-    body: JSON.stringify(INFO),
-  })
-    .then((response) => {
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
-      }
-      console.log("success");
-      return response.text();
-    })
-    .then((res) => {
-      console.log(res);
-      console.log(res.message);
-      if (!res.isError) {
-        INFO.forEach(({ name, email }) => {
-          sendEmail({ name, email });
-        });
-        sessionStorage.setItem("INFO", JSON.stringify(INFO));
-        window.location.href = `DispEmployeeRegisterComfirmServlet`;
-        return;
-      }
-      errorEl.textContent = res.message;
-    })
-    .catch((err) => {
-      console.log("err: ", err);
-    });
-});

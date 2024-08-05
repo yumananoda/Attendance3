@@ -1,8 +1,8 @@
 package servlet;
 
 import java.io.IOException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import java.sql.Date;
+import java.time.LocalDate;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -32,28 +32,21 @@ public class HolidayApplicationServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		System.out.println("called_HolidaypplicationServlet");
-		try {
-			String employeeCD = request.getParameter("employeeCD");
-			int employeeCD2 = Integer.parseInt(employeeCD);
-			
-			String name = request.getParameter("name");
-			String date = request.getParameter("date");
-			
-		    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");   
-			java.util.Date parsedDate;
+		request.setCharacterEncoding("UTF-8");
+		String employeeCD = request.getParameter("employeeCD");
+		int employeeCD2 = Integer.parseInt(employeeCD);
+		String name = request.getParameter("name");
+		String date = request.getParameter("date");
+		String reason = request.getParameter("reason");
+		String note = request.getParameter("note");
+
+		LocalDate localDate = LocalDate.parse(date);
+		Date sqlDate = Date.valueOf(localDate);
+		System.out.println(sqlDate);
+		System.out.println(reason);
+		HolidayApplicationDao holidayDao = new HolidayApplicationDao();
+		holidayDao.registerHoliday(employeeCD2, sqlDate, reason, note);
+		request.getRequestDispatcher("/HolidayApplicationComp.jsp").forward(request, response);
 		
-			parsedDate = dateFormat.parse(date);
-			java.sql.Date sqlDate = new java.sql.Date(parsedDate.getTime());
-			System.out.println(sqlDate);
-			
-			String reason = request.getParameter("reason");
-			String note = request.getParameter("note");
-			
-			HolidayApplicationDao holidyApplicationServlet = new HolidayApplicationDao();
-			holidyApplicationServlet.registerHoliday(employeeCD2, sqlDate, reason, note);
-		} catch (ParseException e) {
-			// TODO 自動生成された catch ブロック
-			e.printStackTrace();
-		}
 	}
 }
