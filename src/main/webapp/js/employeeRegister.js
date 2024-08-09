@@ -179,6 +179,7 @@ addBtn.addEventListener("click", async function (event) {
       identifyPosition();
     });
     
+    
   
 });
 

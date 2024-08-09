@@ -100,27 +100,22 @@ public class EmployeeRegisterServlet extends HttpServlet {
 			String email = EmployeeRegister.getEmail();
 			if (employeeDao.isEmailExists(email)) {
 				existsEmails.add(email);
-			}
-		}
-
-		if (existsEmails.size() == 0) {
-			for (EmployeeBean EmployeeRegister : EmployeeRegisterList) {
+			} else {
 				employeeDao.Register(EmployeeRegister);
 				request.setAttribute("EmployeeRegisterList", EmployeeRegisterList);
 				request.getRequestDispatcher("/EmployeeRegisterConfirm.jsp").forward(request, response);
-
 			}
-		} else {
-			System.out.println(existsEmails);
-			String message = "";
-			message = String.join(",", existsEmails);
-			message += "は登録済みのメールアドレスです。";
-			System.out.println(message);
-			response.setCharacterEncoding("UTF-8");
-			ResponseMessage responseMessage = new ResponseMessage(message, true);
-			String jsonResponse = objectMapper.writeValueAsString(responseMessage);
-			response.getWriter().write(jsonResponse);
-			return;
 		}
+		System.out.println(existsEmails);
+		String message = "";
+		message = String.join(",", existsEmails);
+		message += "は登録済みのメールアドレスです。";
+		System.out.println(message);
+		response.setCharacterEncoding("UTF-8");
+		ResponseMessage responseMessage = new ResponseMessage(message, true);
+		String jsonResponse = objectMapper.writeValueAsString(responseMessage);
+		response.getWriter().write(jsonResponse);
+		return;
+
 	}
 }

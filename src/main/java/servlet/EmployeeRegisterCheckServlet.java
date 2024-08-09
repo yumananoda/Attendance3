@@ -35,12 +35,10 @@ public class EmployeeRegisterCheckServlet extends HttpServlet {
 		System.out.println("called registerCheck");
 		EmployeeDao employeeDao = new EmployeeDao();
 		StringBuilder sb = new StringBuilder();
-		String line;
 		BufferedReader reader = request.getReader();
-		line = reader.readLine();
+		String line = reader.readLine();
 		System.out.println(line);
 		sb.append(line);
-		line = reader.readLine();
 		
 		String email = sb.toString();
 		System.out.println("email: " + email);
@@ -48,7 +46,5 @@ public class EmployeeRegisterCheckServlet extends HttpServlet {
 
 		boolean isExists = employeeDao.isEmailExists(email);
 		response.getWriter().write(String.valueOf(isExists));
-		return;
-
 	}
 }

@@ -78,10 +78,10 @@ window.addEventListener("DOMContentLoaded", () => {
   });
 });
 
-registerForm.addEventListener("submit", (e) => {
+registerForm.addEventListener("submit", async(e) => {
   console.log("INFO: ", INFO);
   e.preventDefault();
-	fetch("/DateTime/EmployeeRegisterServlet", {
+	await fetch("/DateTime/EmployeeRegisterServlet", {
     method: "POST",
     body: JSON.stringify(INFO),
 	})
