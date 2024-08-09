@@ -4,6 +4,7 @@
 <%
 String employeeCD = (String)session.getAttribute("employeeCD"); 
 System.out.println("employeeCD:" + employeeCD);
+
 LocalDateTime clockIn = (LocalDateTime)session.getAttribute("clockIn"); 
 System.out.println("clockIn:" + clockIn);
 

@@ -51,6 +51,7 @@ public class LoginServlet extends HttpServlet {
 			session.setAttribute("employeeCD", String.valueOf(user.getEmployeeCD()));
 			System.out.println(employeeCD);
 			System.out.println(password);
+			
 			Timestamp clockIn = employeeDao.getClockIn(user.getEmployeeCD());
 			if(clockIn != null) {
 				LocalDateTime localDateTime = clockIn.toLocalDateTime();

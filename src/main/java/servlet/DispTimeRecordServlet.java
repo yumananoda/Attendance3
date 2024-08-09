@@ -8,12 +8,14 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import dao.EmployeeDao;
+import dao.HolidayDao;
 import dao.ShiftDao;
 import dao.TimeRecordDao;
+import models.HolidayBean;
 import models.ShiftBean;
 import models.TimeRecordsBean;
 
@@ -37,30 +39,37 @@ public class DispTimeRecordServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		System.out.println("called TimneRecordServlet");
-		HttpSession session = request.getSession();
 		String employeeCD = request.getParameter("employeeCD");
 		int employeeCD2 = Integer.parseInt(employeeCD);
-		String name = request.getParameter("name");
+		EmployeeDao employeeDao = new EmployeeDao();
+		String name = employeeDao.getEmployeeName(employeeCD2);
 		
 		TimeRecordDao timeRecordDao = new TimeRecordDao();
 		ArrayList<TimeRecordsBean> timeRecords = timeRecordDao.getStatus(employeeCD2);
-		System.out.println(timeRecords);
+		System.out.println("timeRecord:" + timeRecords);
 		
 		ShiftDao shiftDao = new ShiftDao();
 		ArrayList<ShiftBean> shift = shiftDao.findShiftByEmployeeCD(employeeCD2);
-		System.out.println(shift);
+		System.out.println("shift:" + shift);
+		
+		HolidayDao holidayDao = new HolidayDao();
+		ArrayList<HolidayBean> holiday = holidayDao.findHoliDayByEmployeeCD(employeeCD2);
+		System.out.println("holiday:" + holiday);
 		
 		ObjectMapper mapper = new ObjectMapper();
 		System.out.println(mapper);
 		String json = mapper.writeValueAsString(timeRecords);
 		String json2 = mapper.writeValueAsString(shift);
+		String json3 = mapper.writeValueAsString(holiday);
 		System.out.println(json);
 		System.out.println(json2);
+		System.out.println(json3);
 		
 		request.setAttribute("employeeCD", employeeCD2);
 		request.setAttribute("name", name);
-		session.setAttribute("timeRecords", json);
-		session.setAttribute("shift", json2);
+		request.setAttribute("timeRecords", json);
+		request.setAttribute("shift", json2);
+		request.setAttribute("holiday", json3);
 		request.getRequestDispatcher("/TimeRecord.jsp").forward(request, response);
 	}
 

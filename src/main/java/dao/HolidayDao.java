@@ -10,6 +10,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 
 import models.ApplicationBean;
+import models.HolidayBean;
 
 public class HolidayDao extends CommonDao{
 	public void registerHoliday(int employeeCD, int storeCD, Date startDate, Date endDate, String reason, String note) {
@@ -168,4 +169,30 @@ public class HolidayDao extends CommonDao{
             // エラーハンドリングを適切に行う
         }
 	}
+	
+	public ArrayList<HolidayBean> findHoliDayByEmployeeCD(int args_employeeCD) {
+		ArrayList<HolidayBean> holidays = new ArrayList<HolidayBean>();
+		System.out.println(args_employeeCD);
+		String sql = "SELECT application_start_date, application_end_date FROM holiday WHERE employeeCD=? AND holiday_status=1 AND approval_status=2;";
+        try (Connection con = DriverManager.getConnection(URL, USER, PASS);
+            PreparedStatement statement = con.prepareStatement(sql)) {
+			statement.setInt(1, args_employeeCD);
+			
+			ResultSet rs = statement.executeQuery();
+            while (rs.next()) {
+            	java.sql.Date applicationStartDate = rs.getDate("application_start_date");
+            	java.sql.Date applicationEndDate = rs.getDate("application_end_date");
+            	
+            	HolidayBean holiday  = new HolidayBean(applicationStartDate, applicationEndDate);
+            	holidays.add(holiday);
+			}
+            statement.close();
+			con.close();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            // エラーハンドリングを適切に行う
+        }
+		return holidays;
+    }
 }
