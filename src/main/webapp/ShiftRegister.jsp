@@ -10,7 +10,7 @@
 <head>
 <meta charset="UTF-8">
 <link rel="stylesheet" href="css/shiftRegister.css">
-<title>シフト登録 </title>
+<title>シフト登録</title>
 </head>
 <body>
 	<input id="employeeCD" type="hidden" value=<%= employeeCD %> />
@@ -18,11 +18,11 @@
 	<div id="selectWeek"></div>
 	<div id="inputTimeGroup"></div>
 	
-	 <p>
-      <% if(request.getAttribute("message") != null){ %>
-      <%= request.getAttribute("message") %>
-      <% } %>
-      </p>
+	<p>
+	<% if(request.getAttribute("message") != null){ %>
+	<%= request.getAttribute("message") %>
+	<% } %>
+	</p>
 	
 	<script type="module" src="js/const.js" ></script>
 	<script type="module" src="js/shiftRegister.js" ></script>

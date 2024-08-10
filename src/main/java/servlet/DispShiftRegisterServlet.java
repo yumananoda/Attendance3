@@ -36,13 +36,11 @@ public class DispShiftRegisterServlet extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 		String employeeCD = (String)request.getParameter("employeeCD");
 		int employeeCD2= Integer.parseInt(employeeCD);
-		System.out.println("employeeCD");
-		System.out.println(employeeCD);
+		System.out.println("employeeCD" + employeeCD2);
 		
 		ShiftDao shiftDao = new ShiftDao();
 		ArrayList<ShiftBean> shift = shiftDao.findShiftByEmployeeCD(employeeCD2);
 
-		//shiftをjson形式に変換
 		ObjectMapper mapper = new ObjectMapper();
 		String json = mapper.writeValueAsString(shift);
 		System.out.println(shift);
@@ -51,15 +49,4 @@ public class DispShiftRegisterServlet extends HttpServlet {
 		request.setAttribute("shift", json);
 		request.getRequestDispatcher("/ShiftRegister.jsp").forward(request, response);
 	}
-
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
-		
-		
-	}
-
 }

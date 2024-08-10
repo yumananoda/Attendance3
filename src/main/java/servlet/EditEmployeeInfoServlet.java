@@ -47,7 +47,7 @@ public class EditEmployeeInfoServlet extends HttpServlet {
 		
 		EmployeeDao employeeDao = new EmployeeDao();
 		employeeDao.updateEmployeeInfo(employeeCD2, name, storeName2, position2);
-		request.getRequestDispatcher("/Clock.jsp").forward(request, response);
+		request.getRequestDispatcher("/EditEmployeeInfoComp.jsp").forward(request, response);
 	 }
 
 }

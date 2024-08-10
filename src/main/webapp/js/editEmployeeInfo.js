@@ -2,7 +2,6 @@ import { POSITION_NAME, STORE_NAME } from "./const.js";
 
 let employeeInfoEl = document.getElementById("employeeInfo");
 employeeInfoEl = JSON.parse(employeeInfoEl.value);
-const editForm = document.getElementById("editForm");
 const employeeCDEL = document.getElementById("employeeCD");
 const nameEL = document.getElementById("name");
 const emailEl = document.getElementById("email");
@@ -17,7 +16,6 @@ const name = document.createElement("input");
 const email = document.createElement("input");
 const storeName = document.createElement("select");
 const hireDate = document.createElement("input");
-const position = document.createElement("input");
 
 employeeCD.type = "text";
 employeeCD.name = "employeeCD";

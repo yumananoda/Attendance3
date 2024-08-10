@@ -1,8 +1,8 @@
 package enums;
 
 public enum PositionEnum {
-	partTime("アルバイト", 1),
-	fullTime("正社員", 2);
+	fullTime("正社員", 1),
+	partTime("アルバイト", 2);
 	
 	private String label;
 	private int id;

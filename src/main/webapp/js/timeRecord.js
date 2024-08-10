@@ -201,7 +201,7 @@ const getDateAndDay = () => {
     if (findWorkingDate) {
       editHref.innerText = "実績変更";
       const { recordCD, clockInTime, clockOutTime } = findWorkingDate;
-      editHref.href = `/DateTime/DispEditTimeRecordServlet?employeeCD=${employeeCD}&clockInTime=${clockInTime}&clockOutTime=${clockOutTime}&recordCD=${recordCD}&name=${name}`;
+      editHref.href = `/DateTime/DispEditTimeRecordServlet?employeeCD=${employeeCD}&name=${name}&recordCD=${recordCD}&clockInTime=${clockInTime}&clockOutTime=${clockOutTime}`;
       edit.appendChild(editHref);
       col.appendChild(edit);
     }

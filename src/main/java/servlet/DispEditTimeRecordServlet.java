@@ -34,7 +34,6 @@ public class DispEditTimeRecordServlet extends HttpServlet {
 		String name = (String)request.getParameter("name");
 		String recordCD = (String)request.getParameter("recordCD");
 		int recordCD2 = Integer.parseInt(recordCD);
-		System.out.println("recordCD:" + recordCD2);
 		String clockInTime = (String)request.getParameter("clockInTime");
 		System.out.println("clockInTime:" + clockInTime);
 		String clockOutTime = (String)request.getParameter("clockOutTime");
