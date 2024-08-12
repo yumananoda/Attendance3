@@ -47,7 +47,7 @@ System.out.println("breakOut:" + breakOut);
 <form action="ClockInServlet" method="POST">
 	<input type="hidden" id="employeeCD" name="employeeCD" value="<%=employeeCD %>">
 <% if(clockIn != null){ %> 
-    <button disabled class="styled" type="submit" value="clock-in" >出勤</button>
+    <button class="styled" type="submit" value="clock-in" disabled>出勤</button>
     <% }else{ %>
     <button class="styled" type="submit" value="clock-in" >出勤</button>
     <% } %>
@@ -55,8 +55,8 @@ System.out.println("breakOut:" + breakOut);
 
 <form action="ClockOutServlet" method="POST">
 	<input type="hidden" id="employeeCD" name="employeeCD" value="<%=employeeCD %>">
-	<% if(clockIn == null){%>
-    <button disabled class="styled" type="submit" value="clock-out" >退勤</button>
+	<%  if(clockIn == null || breakIn != null){ %>
+    <button class="styled" type="submit" value="clock-out" disabled>退勤</button>
     <% }else{ %>
     <button class="styled" type="submit" value="clock-out" >退勤</button>
     <% } %>
@@ -64,8 +64,8 @@ System.out.println("breakOut:" + breakOut);
 
 <form action="BreakInServlet" method="POST">
 	<input type="hidden" id="employeeCD" name="employeeCD" value="<%=employeeCD %>">
-	<% if(clockIn == null || breakIn != null){%> 
-    <button disabled class="styled" type="submit" value="break-in" >休憩</button>
+	<% if(clockIn == null || breakIn != null){ %> 
+    <button class="styled" type="submit" value="break-in" disabled>休憩</button>
     <% }else{ %>
     <button class="styled" type="submit" value="break-in">休憩</button>
     <% } %>
@@ -73,8 +73,8 @@ System.out.println("breakOut:" + breakOut);
 
 <form action="BreakOutServlet" method="POST">
 	<input type="hidden" id="employeeCD" name="employeeCD" value="<%=employeeCD %>">
-	<% if(clockIn == null || breakIn == null){%>
-    <button disabled class="styled" type="submit" value="break-out" >復帰</button>
+	<% if(clockIn == null || breakIn == null){ %>
+    <button class="styled" type="submit" value="break-out" disabled>復帰</button>
     <% }else{ %>
     <button class="styled" type="submit" value="break-out" >復帰</button>
     <% } %>

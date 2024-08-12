@@ -32,6 +32,7 @@ function dispSelectDay() {
 
     daybtn.addEventListener("click", function (event) {
       const selectValue = event.target.value;
+      console.log(selectValue)
 
       const index = shift.findIndex(
         ({ shift_day }) => shift_day === Number(selectValue)

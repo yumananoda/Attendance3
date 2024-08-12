@@ -8,6 +8,9 @@ const totalDataArea = document.getElementById("totalDataArea");
 let timeRecordData = document.getElementById("timeRecordHolder").value;
 timeRecordData = JSON.parse(timeRecordData);
 console.log("timeRecordData:", timeRecordData);
+let breakData = document.getElementById("breaksHolder").value;
+breakData = JSON.parse(breakData);
+console.log("breakData:", breakData);
 let shiftData = document.getElementById("shiftHolder").value;
 shiftData = JSON.parse(shiftData);
 console.log("shiftData:", shiftData);
@@ -124,6 +127,11 @@ const getDateAndDay = () => {
       if (workingTime >= 0) {
         clock.innerText = `${clocklHours}時間 ${String(clockMinutes).padStart(2, "0")}分`;
         console.log(`稼働時間は ${clocklHours}時間 ${clockMinutes}分 です`);
+        if(clocklHours >= 8){
+          console.log("休憩が60分あるか")
+        }else if(clocklHours >= 6){
+          console.log("休憩が45分あるか")
+        }
       }
     }
 

@@ -89,12 +89,12 @@ public class ShiftRegisterServlet extends HttpServlet {
 			System.out.println(employeeCD);
 			
 			int shift_day = (int) data.get("shift_day");
-			int shift_day2 = shift_day - 1;
+			System.out.println(shift_day);
 			System.out.println(shift_day);
 			
 			
 			
-			ShiftBean ShiftRequest = new ShiftBean(employeeCD, shift_day2, start_time2, end_time2);
+			ShiftBean ShiftRequest = new ShiftBean(employeeCD, shift_day, start_time2, end_time2);
 			ShiftList.add(ShiftRequest);
 		}
 		System.out.println(ShiftList);
