@@ -10,6 +10,7 @@
 <head>
 <meta charset="UTF-8">
 <link rel="stylesheet" href="css/shiftRegister.css">
+<link rel="stylesheet" href="css/modal.css">
 <title>シフト登録</title>
 </head>
 <body>
@@ -17,13 +18,24 @@
 	<input id="shift" type="hidden" value=<%= shift %> />
 	<div id="selectWeek"></div>
 	<div id="inputTimeGroup"></div>
-	
+	<button id="registerBtn">登録</button>
 	<p>
 	<% if(request.getAttribute("message") != null){ %>
 	<%= request.getAttribute("message") %>
 	<% } %>
 	</p>
-	
+	<div id="layer" class="layer">
+		<div class="modal">
+			<button id="closeBtn" class="close-button">✖︎</button>
+			<div class="modal__content">
+				シフトの登録が完了しました。
+				<div>
+					<a href="DispSelectEmployeeServlet">従業員選択画面へ</a><br>
+					<a href="Clock.jsp">トップへ</a>
+				</div>
+			</div>
+		</div>
+	</div>
 	<script type="module" src="js/const.js" ></script>
 	<script type="module" src="js/shiftRegister.js" ></script>
 </body>

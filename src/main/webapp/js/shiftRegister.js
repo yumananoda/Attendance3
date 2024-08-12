@@ -2,6 +2,9 @@ import { DAYS, DAY_TEXTS } from "./const.js";
 
 const selectWeekEl = document.getElementById("selectWeek");
 const inputTimeGroupEl = document.getElementById("inputTimeGroup");
+const registerBtn = document.getElementById("registerBtn");
+const layer = document.getElementById("layer");
+const closeBtn = document.getElementById("closeBtn");
 const employeeCDEl = document.getElementById("employeeCD");
 const employeeCD = employeeCDEl.value;
 const shiftEl = document.getElementById("shift");
@@ -103,9 +106,7 @@ function showDayElements() {
   }
 }
 
-const btn = document.createElement("button");
-btn.innerText = "送信";
-btn.addEventListener("click", function () {
+registerBtn.addEventListener('click', () => {
   console.log("送信しました");
   console.log(shift);
   if (
@@ -119,8 +120,13 @@ btn.addEventListener("click", function () {
       method: "POST",
       body: JSON.stringify(shift),
     }).finally(() => {
-      alert("シフトの登録が完了しました。");
+      // alert("シフトの登録が完了しました。");
+      layer.classList.add("is-open");
     });
   }
 });
-document.body.appendChild(btn);
+
+closeBtn.addEventListener('click', () => {
+  layer.classList.remove('is-open'); 
+})
+document.body.appendChild(registerBtn);

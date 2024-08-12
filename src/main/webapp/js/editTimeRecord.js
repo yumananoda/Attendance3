@@ -1,3 +1,4 @@
+const editTimeRecordForm = document.getElementById("editTimeRecordForm");
 const clockInTime = document.getElementById("clockInTime").value;
 const clockOutTime = document.getElementById("clockOutTime").value;
 const selectDate = document.getElementById("selectDate");
@@ -10,6 +11,8 @@ const dateArea = document.getElementById("dateArea");
 const beforeTimeArea = document.getElementById("beforeTimeArea");
 const afterTimeArea = document.getElementById("afterTimeArea");
 const errorEl = document.getElementById("error");
+const layer = document.getElementById("layer");
+const closeBtn = document.getElementById("closeBtn");
 
 console.log("clockInTime: ", clockInTime);
 console.log("clockOutTime: ", clockOutTime);
@@ -34,6 +37,18 @@ afterClockOutTime.addEventListener(("change"), () => {
     errorEl.textContent = "";
   }
 })
+
+editTimeRecordForm.addEventListener('submit', (e) => {
+  e.preventDefault();
+  console.log("実行");
+  fetch("/DateTime/EditTimeRecordServlet", {
+    method: "POST",
+    body: JSON.stringify(shift),
+  }).finally(() => {
+    // alert("シフトの登録が完了しました。");
+    layer.classList.add("is-open");
+  });
+});
 
 dateArea.appendChild(selectDate);
 dateArea.appendChild(selectDateValue);

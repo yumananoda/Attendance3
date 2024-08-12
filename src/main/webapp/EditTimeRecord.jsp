@@ -17,10 +17,12 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<link rel="stylesheet" href="css/modal.css">
 <title>打刻情報変更画面</title>
 </head>
 <body>
-<form action="EditTimeRecordServlet" method="POST" id="editTimeRecordForm">
+<%-- <form action="EditTimeRecordServlet" method="POST" id="editTimeRecordForm"> --%>
+<form id="editTimeRecordForm">
 	<h1>実績変更-<%= name %>(従業員番号:<%= employeeCD %>)</h1>
 	<input type="hidden"  id="recordCD" name="recordCD" value=<%= recordCD %> />
 	<input type="hidden"  id="clockInTime" value=<%= clockInTime %> />
@@ -42,6 +44,18 @@
 	<div id="error" class="error"></div>
 	<input type="submit" value="変更" />
 </form>
+<div id="layer" class="layer">
+		<div class="modal">
+			<button id="closeBtn" class="close-button">✖︎</button>
+			<div class="modal__content">
+				打刻時刻の変更が完了しました。
+				<div>
+					<a href="DispSelectEmployeeServlet">従業員選択画面へ</a><br>
+					<a href="Clock.jsp">トップへ</a>
+				</div>
+			</div>
+		</div>
+	</div>
 <script type="module" src="js/editTimeRecord.js"></script>
 <script type="module" src="js/const.js" ></script>
 </body>

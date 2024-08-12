@@ -171,10 +171,37 @@ const getDateAndDay = () => {
       const holidatEndDate = new Date(findHolidayDate.applicationEndDate);
       console.log("holidatStartDate: ", holidatStartDate);
       
+      const holidatStartDay = holidatStartDate.getDay();
+      const holidatEndDay = holidatEndDate.getDay();
+      console.log(holidatStartDay,holidatEndDay);
+      const findShiftDay = shiftData.find(({ shift_day }) => shift_day === holidatStartDay);
+      const findShiftDay2 = shiftData.find(({ shift_day }) => shift_day === holidatEndDay);
+      if (findShiftDay !== undefined) {
+        console.log("findShiftDay:", findShiftDay);
+        
+        const { start_time, end_time } = findShift;
+        clockIn.innerText = start_time;
+        clockOut.innerText = end_time;
+  
+        // let shiftStrat = new Date(`1970-01-01T${start_time}Z`).getTime();
+        // let shiftEnd = new Date(`1970-01-01T${end_time}Z`).getTime();
+  
+        // estimatedWorkingTime = shiftEnd - shiftStrat;
+        // console.log(estimatedWorkingTime);
+  
+        // let hours = estimatedWorkingTime / (1000 * 60 * 60);
+        // let clocklHours = Math.floor(hours);
+        // let clockMinutes = Math.floor((hours - clocklHours) * 60);
+        // if (estimatedWorkingTime >= 0) {
+        //   shiftClock.innerText = `${clocklHours}時間 ${String(clockMinutes).padStart(2, "0")}分`;
+        //   console.log(`稼働予定時間は ${clocklHours}時間 ${clockMinutes}分 です`);
+        // }
+      }
+
       // clockIn.innerText = `${holidatStartDate.getHours()}:${String(holidatStartDate.getMinutes()).padStart(2, "0")}:${String(holidatStartDate.getSeconds()).padStart(2, "0")}`;
       // clockOut.innerText = `${String(holidatEndDate.getHours()).padStart(2, "0")}:${String(holidatEndDate.getMinutes()).padStart(2, "0")}:${String(holidatEndDate.getSeconds()).padStart(2, "0")}`;
 
-      clockIn.innerText = "有給";
+      // clockIn.innerText = "有給";
       // workingTime = outTime - inTime;
       // totalWorkingMilliseconds += workingTime;
       // console.log("workingTime:", workingTime);
