@@ -121,9 +121,9 @@ const getDateAndDay = () => {
       workingTime = outTime - inTime;
       totalWorkingMilliseconds += workingTime;
       console.log("workingTime:", workingTime);
-      let hoursWorked = workingTime / (1000 * 60 * 60);
-      let clocklHours = Math.floor(hoursWorked);
-      let clockMinutes = Math.floor((hoursWorked - clocklHours) * 60);
+      let hours = workingTime / (1000 * 60 * 60);
+      let clocklHours = Math.floor(hours);
+      let clockMinutes = Math.floor((hours - clocklHours) * 60);
       if (workingTime >= 0) {
         clock.innerText = `${clocklHours}時間 ${String(clockMinutes).padStart(2, "0")}分`;
         console.log(`稼働時間は ${clocklHours}時間 ${clockMinutes}分 です`);
@@ -132,6 +132,30 @@ const getDateAndDay = () => {
         }else if(clocklHours >= 6){
           console.log("休憩が45分あるか")
         }
+      }
+    }
+
+    const findBreakData = breakData.find(({ breakStartTime }) => {
+      return (
+        dateStart <= breakStartTime && dateEnd >= breakStartTime
+      );
+    });
+    console.log("findBreakData:", findBreakData);
+    let breakingTime = null;
+
+    if (findBreakData !== undefined) {
+      const inTime = new Date(findBreakData.breakStartTime);
+      const outTime = new Date(findBreakData.breakEndTime);
+      console.log(inTime, outTime);
+      console.log(outTime - inTime);
+
+      breakingTime = outTime - inTime;
+      console.log("breakingTime:", breakingTime);
+      let minutes = breakingTime / (1000 * 60);
+      minutes = Math.floor(minutes);
+      if (breakingTime >= 0) {        
+        breakTime.innerText = `${String(minutes).padStart(2, "0")}分`;
+        console.log(`休憩時間は ${minutes}分 です`);
       }
     }
 
