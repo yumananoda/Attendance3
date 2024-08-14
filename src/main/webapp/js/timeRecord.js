@@ -41,7 +41,8 @@ const getDateAndDay = () => {
   const th9 = document.createElement("th");
   const th10 = document.createElement("th");
   const th11 = document.createElement("th");
-
+  const th12 = document.createElement("th");
+  
   th1.innerText = "日";
   th2.innerText = "曜日";
   th3.innerText = "出勤時間";
@@ -53,6 +54,7 @@ const getDateAndDay = () => {
   th9.innerText = "稼働予定時間";
   th10.innerText = "残業時間";
   th11.innerText = "処理";
+  th12.innerText = "備考";
   trEl.appendChild(th1);
   trEl.appendChild(th2);
   trEl.appendChild(th3);
@@ -64,6 +66,8 @@ const getDateAndDay = () => {
   trEl.appendChild(th9);
   trEl.appendChild(th10);
   trEl.appendChild(th11);
+  trEl.appendChild(th11);
+  trEl.appendChild(th12);
   timeRecordArea.appendChild(trEl);
   let totalWorkingDays = 0;
   let totalWorkingMilliseconds = 0;
@@ -82,6 +86,7 @@ const getDateAndDay = () => {
     const overTime = document.createElement("td");
     const edit = document.createElement("td");
     const editHref = document.createElement("a");
+    const note = document.createElement("td");
 
     const day = new Date(currentYear, currentMonth - 1, i).getDay();
     console.log(i, day);
@@ -95,45 +100,6 @@ const getDateAndDay = () => {
     dateStart = dateStart.getTime();
     dateEnd = dateEnd.getTime();
     console.log(dateStart, dateEnd);
-    
-    const findWorkingDate = timeRecordData.find(({ clockInTime }) => {
-      return (
-        dateStart <= clockInTime && dateEnd >= clockInTime
-      );
-    });
-    console.log("findWorkingDate:", findWorkingDate);
-    let workingTime = null;
-    let estimatedWorkingTime = null;
-
-    if (findWorkingDate !== undefined) {
-      totalWorkingDays++;
-      const inTime = new Date(findWorkingDate.clockInTime);
-      const outTime = new Date(findWorkingDate.clockOutTime);
-      console.log("outTime: ", outTime);
-      console.log(outTime.getHours(), outTime.getMinutes(), outTime.getSeconds());
-      // const outTimeDetail = outTime.getHours(), outTime.getMinutes(), outTime.getSeconds());
-
-      clockIn.innerText = `${inTime.getHours()}:${String(inTime.getMinutes()).padStart(2, "0")}:${String(inTime.getSeconds()).padStart(2, "0")}`;
-      if (findWorkingDate.clockOutTime !== null) {
-        clockOut.innerText = `${String(outTime.getHours()).padStart(2, "0")}:${String(outTime.getMinutes()).padStart(2, "0")}:${String(outTime.getSeconds()).padStart(2, "0")}`;
-      }
-
-      workingTime = outTime - inTime;
-      totalWorkingMilliseconds += workingTime;
-      console.log("workingTime:", workingTime);
-      let hours = workingTime / (1000 * 60 * 60);
-      let clocklHours = Math.floor(hours);
-      let clockMinutes = Math.floor((hours - clocklHours) * 60);
-      if (workingTime >= 0) {
-        clock.innerText = `${clocklHours}時間 ${String(clockMinutes).padStart(2, "0")}分`;
-        console.log(`稼働時間は ${clocklHours}時間 ${clockMinutes}分 です`);
-        if(clocklHours >= 8){
-          console.log("休憩が60分あるか")
-        }else if(clocklHours >= 6){
-          console.log("休憩が45分あるか")
-        }
-      }
-    }
 
     const findBreakData = breakData.find(({ breakStartTime }) => {
       return (
@@ -142,6 +108,7 @@ const getDateAndDay = () => {
     });
     console.log("findBreakData:", findBreakData);
     let breakingTime = null;
+    let breakMinutes=null;
 
     if (findBreakData !== undefined) {
       const inTime = new Date(findBreakData.breakStartTime);
@@ -151,13 +118,75 @@ const getDateAndDay = () => {
 
       breakingTime = outTime - inTime;
       console.log("breakingTime:", breakingTime);
-      let minutes = breakingTime / (1000 * 60);
-      minutes = Math.floor(minutes);
+      breakMinutes = breakingTime / (1000 * 60);
+      breakMinutes = Math.floor(breakMinutes);
       if (breakingTime >= 0) {        
-        breakTime.innerText = `${String(minutes).padStart(2, "0")}分`;
-        console.log(`休憩時間は ${minutes}分 です`);
+        breakTime.innerText = `${String(breakMinutes).padStart(2, "0")}分`;
+        console.log(`休憩時間は ${breakMinutes}分 です`);
       }
     }
+    console.log(breakMinutes);
+
+    const findWorkingDate = timeRecordData.find(({ clockInTime }) => {
+      return (
+        dateStart <= clockInTime && dateEnd >= clockInTime
+      );
+    });
+    console.log("findWorkingDate:", findWorkingDate);
+    let includedWorkingTime = null;
+    let workingTime = null;
+    let estimatedWorkingTime = null;
+
+    if (findWorkingDate !== undefined) {
+        totalWorkingDays++;
+        const inTime = new Date(findWorkingDate.clockInTime);
+        const outTime = new Date(findWorkingDate.clockOutTime);
+        console.log("outTime: ", outTime);
+        console.log(outTime.getHours(), outTime.getMinutes(), outTime.getSeconds());
+        // const outTimeDetail = outTime.getHours(), outTime.getMinutes(), outTime.getSeconds());
+
+        clockIn.innerText = `${inTime.getHours()}:${String(inTime.getMinutes()).padStart(2, "0")}:${String(inTime.getSeconds()).padStart(2, "0")}`;
+        if (findWorkingDate.clockOutTime !== null) {
+          clockOut.innerText = `${String(outTime.getHours()).padStart(2, "0")}:${String(outTime.getMinutes()).padStart(2, "0")}:${String(outTime.getSeconds()).padStart(2, "0")}`;
+      }
+
+      includedWorkingTime = outTime - inTime;
+      console.log("includedWorkingTime:", includedWorkingTime);
+      workingTime = includedWorkingTime - breakingTime;
+      let workingHours = workingTime / (1000 * 60 * 60);
+      let workingHours2 = Math.floor(workingHours);
+      let workingMinutes = Math.floor((workingHours - workingHours2) * 60);
+      totalWorkingMilliseconds += workingTime;
+      if (includedWorkingTime >= 0) {
+        clock.innerText = `${workingHours2}時間 ${String(workingMinutes).padStart(2, "0")}分`;
+        console.log(`稼働時間は ${workingHours2}時間 ${workingMinutes}分 です`);
+      }
+      
+      // includedWorkingTime = workingTime / (1000 * 60 * 60);
+      // includedWorkingTime = Math.floor(includedWorkingTime);
+      // let clockMinutes = Math.floor((included - includedHours2) * 60);
+      
+      if(workingHours >= 8 && breakMinutes < 60)  {
+        console.log(workingHours)
+        console.log(breakMinutes)
+        console.log("適切な休憩時間を取得できていません。")
+        note.innerText = "適切な休憩時間を取得できていません。";
+      }else if(workingHours > 8){
+        console.log(workingHours)
+        note.innerText = "労働基準法で定められている1日の労働時間を超えています。"
+      }else if(workingHours >= 6 && breakMinutes < 45)  {
+        console.log(workingHours)
+        console.log(breakMinutes)
+        console.log("適切な休憩時間を取得できていません。")
+        note.innerText = "適切な休憩時間を取得できていません。";
+      }else{
+        console.log(workingHours)
+        console.log(breakMinutes)
+        console.log("適切な休憩時間を取得しています")
+      }  
+    }
+
+    
 
     const findShift = shiftData.find(({ shift_day }) => shift_day === day);
     if (findShift !== undefined) {
@@ -188,7 +217,7 @@ const getDateAndDay = () => {
       let overHours = Math.floor(hours);
       let overMinutes = Math.floor((hours - overHours) * 60);
       overTime.innerText = `${overHours}時間 ${String(overMinutes).padStart(2, "0")}分`;
-      console.log(`残業時間は ${overHours}時間 ${overMinutes}分 です`);
+      console.log(`所定時間外労働 ${overHours}時間 ${overMinutes}分 です`);
       totalOverMilliseconds += over;
     }
 
@@ -199,21 +228,21 @@ const getDateAndDay = () => {
     });
     console.log("findHolidayDate:", findHolidayDate);
     if (findHolidayDate !== undefined) {
-      const holidatStartDate= new Date(findHolidayDate.applicationStartDate);
-      const holidatEndDate = new Date(findHolidayDate.applicationEndDate);
-      console.log("holidatStartDate: ", holidatStartDate);
+      const holidayStartDate= new Date(findHolidayDate.applicationStartDate);
+      const holidayEndDate = new Date(findHolidayDate.applicationEndDate);
+      console.log("holidayStartDate: ", holidayStartDate);
       
-      const holidatStartDay = holidatStartDate.getDay();
-      const holidatEndDay = holidatEndDate.getDay();
-      console.log(holidatStartDay,holidatEndDay);
-      const findShiftDay = shiftData.find(({ shift_day }) => shift_day === holidatStartDay);
-      const findShiftDay2 = shiftData.find(({ shift_day }) => shift_day === holidatEndDay);
+      const holidayStartDay = holidayStartDate.getDay();
+      const holidayEndDay = holidayEndDate.getDay();
+      console.log(holidayStartDay,holidayEndDay);
+      const findShiftDay = shiftData.find(({ shift_day }) => shift_day === holidayStartDay);
+      const findShiftDay2 = shiftData.find(({ shift_day }) => shift_day === holidayEndDay);
       if (findShiftDay !== undefined) {
         console.log("findShiftDay:", findShiftDay);
         
         const { start_time, end_time } = findShift;
-        clockIn.innerText = start_time;
-        clockOut.innerText = end_time;
+        clockIn.innerText = `有給(${start_time}`;
+        clockOut.innerText = `${end_time})`;
   
         // let shiftStrat = new Date(`1970-01-01T${start_time}Z`).getTime();
         // let shiftEnd = new Date(`1970-01-01T${end_time}Z`).getTime();
@@ -245,6 +274,12 @@ const getDateAndDay = () => {
       //   console.log(`稼働時間は ${clocklHours}時間 ${clockMinutes}分 です`);
       // }
     }
+    if (findWorkingDate) {
+      editHref.innerText = "実績変更";
+      const { recordCD, clockInTime, clockOutTime } = findWorkingDate;
+      editHref.href = `/DateTime/DispEditTimeRecordServlet?employeeCD=${employeeCD}&name=${name}&recordCD=${recordCD}&clockInTime=${clockInTime}&clockOutTime=${clockOutTime}`;
+      edit.appendChild(editHref);
+    }
     
     col.appendChild(date);
     col.appendChild(week);
@@ -256,14 +291,9 @@ const getDateAndDay = () => {
     col.appendChild(shiftClockOut);
     col.appendChild(shiftClock);
     col.appendChild(overTime);
+    col.appendChild(edit);
+    col.appendChild(note);
 
-    if (findWorkingDate) {
-      editHref.innerText = "実績変更";
-      const { recordCD, clockInTime, clockOutTime } = findWorkingDate;
-      editHref.href = `/DateTime/DispEditTimeRecordServlet?employeeCD=${employeeCD}&name=${name}&recordCD=${recordCD}&clockInTime=${clockInTime}&clockOutTime=${clockOutTime}`;
-      edit.appendChild(editHref);
-      col.appendChild(edit);
-    }
     timeRecordArea.appendChild(col);
   }
 
