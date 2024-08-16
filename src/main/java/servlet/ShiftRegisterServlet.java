@@ -24,7 +24,6 @@ import models.ShiftBean;
 @WebServlet("/ShiftRegisterServlet")
 public class ShiftRegisterServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -34,52 +33,34 @@ public class ShiftRegisterServlet extends HttpServlet {
     }
 
 	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		
-	}
-
-	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
 		request.setCharacterEncoding("UTF-8");
-		System.out.println("called");
-		ArrayList<ShiftBean> ShiftList = new ArrayList<>();
+		System.out.println("called shiftRegisterSer");
+		ArrayList<ShiftBean> ShiftList = new ArrayList<ShiftBean>();
 		ShiftDao shiftDao = new ShiftDao();
-//		HttpSession session = request.getSession();
-//		System.out.println(session);
-//		String managerCD = (String)session.getAttribute("employeeCD");
-//		int managerCD2 = Integer.parseInt(managerCD);
-//		System.out.println(managerCD2);
 
 		StringBuilder sb = new StringBuilder();
-		String line;
 		BufferedReader reader = request.getReader();
-		line = reader.readLine();
-		System.out.println(line);
+		String line = reader.readLine();
+		System.out.println("line:" + line);
 		while (line != null) {
 			sb.append(line);
 			line = reader.readLine();
 		}
-		System.out.println("line:");
-		System.out.println(line);
 
 		String requestBody = sb.toString();
 		ObjectMapper objectMapper = new ObjectMapper();
-		System.out.println("requestBody:");
-		System.out.println(requestBody);
+		System.out.println("requestBody:" + requestBody);
 		List<Map<String, Object>> dataList = objectMapper.readValue(requestBody, List.class);
 		
 		for(Map<String, Object> data: dataList) {
-			System.out.println("data:");
-			System.out.println(data);
+			System.out.println("data:" + data);
 			String start_time = (String) data.get("start_time");
 			Time start_time2 = Time.valueOf(start_time + ":00");
 			System.out.println(start_time2);
+			
 			
 			String end_time = (String) data.get("end_time");
 			Time end_time2 = Time.valueOf(end_time + ":00");
@@ -90,21 +71,19 @@ public class ShiftRegisterServlet extends HttpServlet {
 			
 			int shift_day = (int) data.get("shift_day");
 			System.out.println(shift_day);
-			System.out.println(shift_day);
-			
-			
-			
-			ShiftBean ShiftRequest = new ShiftBean(employeeCD, shift_day, start_time2, end_time2);
-			ShiftList.add(ShiftRequest);
+
+			ShiftBean shift = new ShiftBean(employeeCD, shift_day, start_time2, end_time2);
+			ShiftList.add(shift);
 		}
 		System.out.println(ShiftList);
 		for(ShiftBean ShiftRequest : ShiftList) {
 			ShiftBean shift = shiftDao.findShiftDay(ShiftRequest);
 			if(shift != null) {
-				shiftDao.shiftUpdate(ShiftRequest);
-			}else {
-				shiftDao.shiftRegister(ShiftRequest);
-			}	
+				shiftDao.shiftDelete(ShiftRequest);
+				System.out.println("削除成功");
+			}
+			shiftDao.shiftRegister(ShiftRequest);
+				
 		}
 		System.out.println(ShiftList);
 	}

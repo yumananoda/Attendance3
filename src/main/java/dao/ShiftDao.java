@@ -75,20 +75,16 @@ public class ShiftDao extends CommonDao {
 		return null;
 	}
 
-	public void shiftUpdate(ShiftBean shift) {
-		String sql = "UPDATE shift SET start_time=?, end_time=? WHERE employeeCD=? AND shift_day=?;";
+	public void shiftDelete(ShiftBean shift) {
+		String sql = "DELETE FROM shift WHERE employeeCD=? ";
 		try (Connection con = DriverManager.getConnection(URL, USER, PASS);
 				PreparedStatement statement = con.prepareStatement(sql)) {
-			
-			statement.setTime(1, shift.getStart_time());
-			statement.setTime(2, shift.getEnd_time());
-			statement.setInt(3, shift.getEmployeeCD());
-			statement.setInt(4, shift.getShift_day());
-			statement.executeQuery();
-
-			statement.close();
+        	
+        	statement.setInt(1, shift.getEmployeeCD());
+        	ResultSet rs = statement.executeQuery();
+        	
+        	statement.close();
 			con.close();
-
 		} catch (SQLException e) {
 			e.printStackTrace();
 			// エラーハンドリングを適切に行う

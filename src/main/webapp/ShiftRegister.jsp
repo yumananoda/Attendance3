@@ -17,16 +17,17 @@
 	<input id="employeeCD" type="hidden" value=<%= employeeCD %> />
 	<input id="shift" type="hidden" value=<%= shift %> />
 	<div id="selectWeek"></div>
-	<div id="inputTimeGroup"></div>
+	<div id="DispDailyEl"></div>
+	<div id="error"></div>
 	<button id="registerBtn">登録</button>
 	<p>
-	<% if(request.getAttribute("message") != null){ %>
-	<%= request.getAttribute("message") %>
-	<% } %>
+		<% if(request.getAttribute("message") != null){ %>
+		<%= request.getAttribute("message") %>
+		<% } %>
 	</p>
 	<div id="layer" class="layer">
 		<div class="modal">
-			<button id="closeBtn" class="close-button">✖︎</button>
+			<button id="closeBtn" class="close-button">×</button>
 			<div class="modal__content">
 				シフトの登録が完了しました。
 				<div>
