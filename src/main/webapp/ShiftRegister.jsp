@@ -25,19 +25,21 @@
 	<div id="selectWeek"></div>
 	<div id="DispDailyEl"></div>
 	<div id="error"></div>
-	<button id="registerBtn">登録</button>
 	<p>
 		<% if(request.getAttribute("message") != null){ %>
 		<%= request.getAttribute("message") %>
 		<% } %>
 	</p>
+	<div id="btnArea" class="btnArea">
+		<button id="resetBtn">リセット</button>
+		<button id="registerBtn">登録</button>
+	</div>
 	<div id="layer" class="layer">
 		<div class="modal">
 			<button id="closeBtn" class="close-button">×</button>
 			<div class="modal__content">
 				シフトの登録が完了しました。
 				<div>
-					<a href="DispSelectEmployeeServlet">従業員選択画面へ</a><br>
 					<a href="Clock.jsp">トップへ</a>
 				</div>
 			</div>
