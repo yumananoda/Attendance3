@@ -25,27 +25,27 @@
 				<th><label for="current">現在のパスワード</label></th>
 				<td>
 					<input type="password" id="currentPassword" class="inputPassword" name="current" />
-					<img src="img/eye-solid.svg" alt="Eye Icon" id="current-eyeIcon" class=eye_Icon />
+					<img src="img/eye-solid.svg" alt="Eye Icon" id="current-eyeIcon" class=eye-icon />
 				</td>
 			</tr>
 			<tr>
 				<th><label for="new">新しいパスワード</label></th>
 				<td>
 					<input type="password" id="new" class="inputPassword" name="new" placeholder="8文字以上入力してください" minlength="8" required />
-					<img src="img/eye-solid.svg" alt="Eye Icon" id="new-eyeIcon" class=eye_Icon />
+					<img src="img/eye-solid.svg" alt="Eye Icon" id="new-eyeIcon" class=eye-icon />
 					<p id="disallow"></p>
-					<p id="number_word">8文字以上:-</p>
+					<p id="number-word">8文字以上:-</p>
 					<nobr id="Alphabetic">英字:-</nobr>
 					<nobr id="number">数値:-</nobr>
-					<nobr id="special_characters">特殊文字:-</nobr>
+					<nobr id="special-characters">特殊文字:-</nobr>
 				</td>
 			</tr>
 			<tr>
 				<th><label for="newRe">新しいパスワード(確認用)</label></th>
 				<td>
 					<input type="password" id="newRe" class="inputPassword" placeholder="新しいパスワードを再度入力してください" required />
-					<img src="img/eye-solid.svg" alt="Eye Icon" id="re-eyeIcon" class=eye_Icon />
-					<p id="match_check"></p>
+					<img src="img/eye-solid.svg" alt="Eye Icon" id="re-eyeIcon" class=eye-icon />
+					<p id="match-check"></p>
 				</td>
 			</tr>
 		</table>

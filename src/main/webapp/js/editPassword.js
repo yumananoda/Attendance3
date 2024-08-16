@@ -7,11 +7,11 @@ const currentEyeIcon = document.getElementById("current-eyeIcon");
 const newEyeIcon = document.getElementById("new-eyeIcon");
 const reEyeIcon = document.getElementById("re-eyeIcon");
 const disallow = document.getElementById("disallow");
-const numberWord = document.getElementById("number_word");
+const numberWord = document.getElementById("number-word");
 const Alphabetic = document.getElementById("Alphabetic");
 const number = document.getElementById("number");
-const specialCharacters = document.getElementById("special_characters");
-const matchCheck = document.getElementById("match_check");
+const specialCharacters = document.getElementById("special-characters");
+const matchCheck = document.getElementById("match-check");
 const formBtn = document.getElementById("btn");
 
 currentEyeIcon.addEventListener('click',() => {
