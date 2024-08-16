@@ -13,7 +13,7 @@ public class ShiftDao extends CommonDao {
 
 	public ArrayList<ShiftBean> findShiftByEmployeeCD(int args_employeeCD) {
 		ArrayList<ShiftBean> shifts = new ArrayList<ShiftBean>();
-		String query = "SELECT employeeCD, shift_day, start_time, end_time  FROM shift WHERE employeeCD=?";
+		String query = "SELECT * FROM shift WHERE employeeCD=?";
 		try (Connection con = DriverManager.getConnection(URL, USER, PASS);
 				PreparedStatement statement = con.prepareStatement(query)) {
 
@@ -23,10 +23,11 @@ public class ShiftDao extends CommonDao {
 			while (rs.next()) {
 				int employeeCD = rs.getInt("employeeCD");
 				int shift_day = rs.getInt("shift_day");
+				int shift_duration = rs.getInt("shift_duration");
 				java.sql.Time start_time = rs.getTime("start_time");
 				java.sql.Time end_time = rs.getTime("end_time");
 
-				ShiftBean shift = new ShiftBean(employeeCD, shift_day, start_time, end_time);
+				ShiftBean shift = new ShiftBean(employeeCD, shift_duration, shift_day, start_time, end_time);
 				System.out.println(shift.getShift_day());
 				shifts.add(shift);
 			}
@@ -55,13 +56,15 @@ public class ShiftDao extends CommonDao {
 				System.out.println(rs);
 				int employeeCD = rs.getInt("employeeCD");
 				System.out.println(employeeCD);
+				int shift_duration = rs.getInt("shift_duration");
+				System.out.println(shift_duration);
 				int shift_day = rs.getInt("shift_day");
 				System.out.println(shift_day);
 				java.sql.Time start_time = rs.getTime("start_time");
 				System.out.println(start_time);
 				java.sql.Time end_time = rs.getTime("end_time");
 				System.out.println(end_time);
-				ShiftBean shiftBean = new ShiftBean(employeeCD, shift_day, start_time, end_time);
+				ShiftBean shiftBean = new ShiftBean(employeeCD, shift_duration, shift_day, start_time, end_time);
 				
 				statement.close();
 				con.close();
@@ -78,13 +81,13 @@ public class ShiftDao extends CommonDao {
 	public void shiftDelete(ShiftBean shift) {
 		String sql = "DELETE FROM shift WHERE employeeCD=? ";
 		try (Connection con = DriverManager.getConnection(URL, USER, PASS);
-				PreparedStatement statement = con.prepareStatement(sql)) {
-        	
-        	statement.setInt(1, shift.getEmployeeCD());
-        	ResultSet rs = statement.executeQuery();
-        	
-        	statement.close();
-			con.close();
+			PreparedStatement statement = con.prepareStatement(sql)) {
+
+			statement.setInt(1, shift.getEmployeeCD());
+			statement.executeQuery();
+			
+			statement.close();
+				con.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 			// エラーハンドリングを適切に行う

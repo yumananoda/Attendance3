@@ -85,7 +85,7 @@ System.out.println("breakOut:" + breakOut);
 <a href = "DispEditPasswordServlet">パスワード変更</a>
 <a href = "DispHolidayApprovalServlet">有給承認</a>
 <a href = "EmployeeRegister.jsp">従業員登録</a>
-<a href = "DispSelectEmployeeServlet">シフト登録</a>
+<a href = "DispSelectEmployeeServlet">従業員選択</a>
 
 
 </body>

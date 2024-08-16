@@ -18,12 +18,15 @@ let holidayData = document.getElementById("holidayHolder").value;
 holidayData = JSON.parse(holidayData);
 console.log("holidayData:", holidayData);
 
-const currentDate = new Date();
-let currentYear = currentDate.getFullYear();
-let currentMonth = currentDate.getMonth() + 1;
-let endDate = new Date(currentYear, currentMonth, 0);
-document.getElementById("year").innerHTML = currentYear;
-document.getElementById("month").innerHTML = currentMonth;
+let currentYear = null;
+let currentMonth = null;
+let endDate = null;
+
+const getCurrent = (currentYear, currentMonth) => {
+  document.getElementById("year").innerHTML = `${currentYear}年`;
+  document.getElementById("month").innerHTML = `${currentMonth}月`;
+  endDate = new Date(currentYear, currentMonth, 0);
+}
 
 const getDateAndDay = () => {
   while (timeRecordArea.firstChild) {
@@ -350,6 +353,11 @@ const getDateAndDay = () => {
 }
 
 window.addEventListener("DOMContentLoaded", () => {
+  const currentDate = new Date();
+  currentYear = currentDate.getFullYear();
+  currentMonth = currentDate.getMonth() + 1;
+  endDate = new Date(currentYear, currentMonth, 0);
+  getCurrent(currentYear, currentMonth);
   getDateAndDay();
 })
 
@@ -360,10 +368,7 @@ document.querySelector(".prev").addEventListener("click", () => {
   } else {
     currentMonth--;
   }
-  document.getElementById("year").innerHTML = currentYear;
-  document.getElementById("month").innerHTML = currentMonth;
-  endDate = new Date(currentYear, currentMonth, 0);
-  getDateAndDay();
+  getCurrent(currentYear, currentMonth);
 });
 
 
@@ -374,8 +379,5 @@ document.querySelector(".next").addEventListener("click", () => {
   } else {
     currentMonth++;
   }
-  document.getElementById("year").innerHTML = currentYear;
-  document.getElementById("month").innerHTML = currentMonth;
-  endDate = new Date(currentYear, currentMonth, 0);
-  getDateAndDay();
+  getCurrent(currentYear, currentMonth);
 });

@@ -16,6 +16,12 @@
 <body>
 	<input id="employeeCD" type="hidden" value=<%= employeeCD %> />
 	<input id="shift" type="hidden" value=<%= shift %> />
+	<div id="selectDuration">
+        <span class="btn-monthMove prev">＜</span>
+        <span id="year"></span>
+        <span id="month"></span>
+        <span class="btn-monthMove next">＞</span>
+	</div>
 	<div id="selectWeek"></div>
 	<div id="DispDailyEl"></div>
 	<div id="error"></div>
