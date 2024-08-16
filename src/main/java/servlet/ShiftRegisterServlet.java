@@ -54,36 +54,35 @@ public class ShiftRegisterServlet extends HttpServlet {
 		ObjectMapper objectMapper = new ObjectMapper();
 		System.out.println("requestBody:" + requestBody);
 		List<Map<String, Object>> dataList = objectMapper.readValue(requestBody, List.class);
+		int employeeCD = 0;
 		
 		for(Map<String, Object> data: dataList) {
+			employeeCD =  (int) data.get("employeeCD");
+			System.out.println(employeeCD);
+			
+			int shift_duration = (int) data.get("shift_duration");
+			System.out.println(shift_duration);
+			
+			int shift_day = (int) data.get("shift_day");
+			System.out.println(shift_day);
+			
 			System.out.println("data:" + data);
 			String start_time = (String) data.get("start_time");
 			Time start_time2 = Time.valueOf(start_time + ":00");
 			System.out.println(start_time2);
 			
-			
 			String end_time = (String) data.get("end_time");
 			Time end_time2 = Time.valueOf(end_time + ":00");
 			System.out.println(end_time2);
-			
-			int employeeCD =  (int) data.get("employeeCD");
-			System.out.println(employeeCD);
-			
-			int shift_day = (int) data.get("shift_day");
-			System.out.println(shift_day);
 
-			ShiftBean shift = new ShiftBean(employeeCD, shift_day, start_time2, end_time2);
+			ShiftBean shift = new ShiftBean(employeeCD, shift_duration, shift_day, start_time2, end_time2);
 			ShiftList.add(shift);
 		}
 		System.out.println(ShiftList);
+		shiftDao.shiftDelete(employeeCD);
+		System.out.println("削除成功");
 		for(ShiftBean ShiftRequest : ShiftList) {
-			ShiftBean shift = shiftDao.findShiftDay(ShiftRequest);
-			if(shift != null) {
-				shiftDao.shiftDelete(ShiftRequest);
-				System.out.println("削除成功");
-			}
 			shiftDao.shiftRegister(ShiftRequest);
-				
 		}
 		System.out.println(ShiftList);
 	}

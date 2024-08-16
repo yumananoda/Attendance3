@@ -78,12 +78,12 @@ public class ShiftDao extends CommonDao {
 		return null;
 	}
 
-	public void shiftDelete(ShiftBean shift) {
+	public void shiftDelete(int employeeCD) {
 		String sql = "DELETE FROM shift WHERE employeeCD=? ";
 		try (Connection con = DriverManager.getConnection(URL, USER, PASS);
 			PreparedStatement statement = con.prepareStatement(sql)) {
 
-			statement.setInt(1, shift.getEmployeeCD());
+			statement.setInt(1, employeeCD);
 			statement.executeQuery();
 			
 			statement.close();
@@ -95,14 +95,15 @@ public class ShiftDao extends CommonDao {
 	}
 
 	public void shiftRegister(ShiftBean shift) {
-		String sql = "INSERT INTO shift(employeeCD, shift_day, start_time, end_time) VALUES(?,?,?,?)";
+		String sql = "INSERT INTO shift(employeeCD, shift_duration, shift_day, start_time, end_time) VALUES(?,?,?,?,?)";
 		try (Connection con = DriverManager.getConnection(URL, USER, PASS);
 				PreparedStatement statement = con.prepareStatement(sql)) {
 
 			statement.setInt(1, shift.getEmployeeCD());
-			statement.setInt(2, shift.getShift_day());
-			statement.setTime(3, shift.getStart_time());
-			statement.setTime(4, shift.getEnd_time());
+			statement.setInt(2, shift.getShift_duration());
+			statement.setInt(3, shift.getShift_day());
+			statement.setTime(4, shift.getStart_time());
+			statement.setTime(5, shift.getEnd_time());
 			statement.executeUpdate();
 
 			statement.close();
