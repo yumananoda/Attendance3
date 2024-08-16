@@ -2,14 +2,14 @@ import { DAYS, DAY_TEXTS } from "./const.js";
 
 const selectWeekEl = document.getElementById("selectWeek");
 const DispDailyEl = document.getElementById("DispDailyEl");
-const registerBtn = document.getElementById("registerBtn");
 const layer = document.getElementById("layer");
-const closeBtn = document.getElementById("closeBtn");
 const errorEl = document.getElementById("error");
+const btnArea = document.getElementById("btnArea");
+const closeBtn = document.getElementById("closeBtn");
+const registerBtn = document.getElementById("registerBtn");
 const resetBtn = document.getElementById("resetBtn");
 const employeeCD = document.getElementById("employeeCD").value;
 const shiftEl = document.getElementById("shift");
-const btnArea = document.getElementById("btnArea");
 const shift = JSON.parse(shiftEl.value);
 console.log("employeeCD: ", employeeCD);
 console.log("shift: ", shift);
@@ -23,7 +23,6 @@ const getCurrent = (currentYear, DispStartMonth) => {
   document.getElementById("year").innerHTML = `${currentYear}年`;
   document.getElementById("month").innerHTML = `${DispStartMonth}月`;
   dispDuration = currentYear + String(DispStartMonth).padStart(2, "0");
-  console.log(dispDuration)
 }
 
 const dispSelectDay = () => {
@@ -147,7 +146,6 @@ window.addEventListener("DOMContentLoaded", () => {
   }else{
     DispStartMonth = 10;
   }
-  // endDate = new Date(currentYear, DispStartMonth, 0);
   getCurrent(currentYear, DispStartMonth);
   dispSelectDay();
   dispDailyTime();

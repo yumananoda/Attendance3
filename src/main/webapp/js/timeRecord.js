@@ -20,7 +20,14 @@ console.log("holidayData:", holidayData);
 
 let currentYear = null;
 let currentMonth = null;
+let DispStartMonth = null;
+let dispDuration = null;
 let endDate = null;
+let totalWorkingDays = 0;
+let totalWorkingMilliseconds = 0;
+let totalHolidayMilliseconds = 0;
+let totalWorkingMillisecondsOfWeeks = 0;
+let totalOverMilliseconds = 0;
 
 const getCurrent = (currentYear, currentMonth) => {
   document.getElementById("year").innerHTML = `${currentYear}年`;
@@ -32,6 +39,8 @@ const getDateAndDay = () => {
   while (timeRecordArea.firstChild) {
     timeRecordArea.removeChild(timeRecordArea.firstChild);
   }
+  dispDuration = currentYear + String(DispStartMonth).padStart(2, "0");
+  
   const trEl = document.createElement("tr");
   const th1 = document.createElement("th");
   const th2 = document.createElement("th");
@@ -72,10 +81,7 @@ const getDateAndDay = () => {
   trEl.appendChild(th11);
   trEl.appendChild(th12);
   timeRecordArea.appendChild(trEl);
-  let totalWorkingDays = 0;
-  let totalWorkingMilliseconds = 0;
-  let totalWorkingMillisecondsOfWeeks = 0;
-  let totalOverMilliseconds = 0;
+  
   for (let i = 1; i <= endDate.getDate(); i++) {
     const col = document.createElement("tr");
     const date = document.createElement("td");
@@ -205,7 +211,8 @@ const getDateAndDay = () => {
       totalWorkingMillisecondsOfWeeks = null;
     }
 
-    const findShift = shiftData.find(({ shift_day }) => shift_day === day);
+    const durationShift = shiftData.filter(({ shift_duration }) => shift_duration === Number(dispDuration));
+    const findShift = durationShift.find(({ shift_day }) => shift_day === day);
     if (findShift !== undefined) {
       console.log("findShift:", findShift);
       
@@ -252,28 +259,24 @@ const getDateAndDay = () => {
       const holidayStartDay = holidayStartDate.getDay();
       const holidayEndDay = holidayEndDate.getDay();
       console.log(holidayStartDay,holidayEndDay);
-      const findShiftDay = shiftData.find(({ shift_day }) => shift_day === holidayStartDay);
-      const findShiftDay2 = shiftData.find(({ shift_day }) => shift_day === holidayEndDay);
+      
+      const findShiftDay = durationShift.find(({ shift_day }) => shift_day === holidayStartDay);
+      const findShiftDay2 = durationShift.find(({ shift_day }) => shift_day === holidayEndDay);
+      console.log(findShiftDay)
       if (findShiftDay !== undefined) {
-        console.log("findShiftDay:", findShiftDay);
-        
-        const { start_time, end_time } = findShift;
+        const { start_time, end_time } = findShiftDay;
         clockIn.innerText = `有給(${start_time}`;
         clockOut.innerText = `${end_time})`;
+        let holidayStart = new Date(`1970-01-01T${start_time}Z`).getTime();
+        let holidayEnd = new Date(`1970-01-01T${end_time}Z`).getTime();
   
-        // let shiftStrat = new Date(`1970-01-01T${start_time}Z`).getTime();
-        // let shiftEnd = new Date(`1970-01-01T${end_time}Z`).getTime();
-  
-        // estimatedWorkingTime = shiftEnd - shiftStrat;
-        // console.log(estimatedWorkingTime);
-  
-        // let hours = estimatedWorkingTime / (1000 * 60 * 60);
-        // let clocklHours = Math.floor(hours);
-        // let clockMinutes = Math.floor((hours - clocklHours) * 60);
-        // if (estimatedWorkingTime >= 0) {
-        //   shiftClock.innerText = `${clocklHours}時間 ${String(clockMinutes).padStart(2, "0")}分`;
-        //   console.log(`稼働予定時間は ${clocklHours}時間 ${clockMinutes}分 です`);
-        // }
+        let HolidayTime = holidayEnd - holidayStart;
+        console.log(HolidayTime);
+        totalHolidayMilliseconds += HolidayTime;
+      }else{
+        clockIn.innerText = "(有給)"
+        note.innerText = "出勤日以外の有給が使用されています。"
+    
       }
 
       // clockIn.innerText = `${holidatStartDate.getHours()}:${String(holidatStartDate.getMinutes()).padStart(2, "0")}:${String(holidatStartDate.getSeconds()).padStart(2, "0")}`;
@@ -357,6 +360,11 @@ window.addEventListener("DOMContentLoaded", () => {
   currentYear = currentDate.getFullYear();
   currentMonth = currentDate.getMonth() + 1;
   endDate = new Date(currentYear, currentMonth, 0);
+  if(currentMonth >= 4 && currentMonth < 10){
+    DispStartMonth = 4;
+  }else{
+    DispStartMonth = 10;
+  }
   getCurrent(currentYear, currentMonth);
   getDateAndDay();
 })
@@ -368,7 +376,14 @@ document.querySelector(".prev").addEventListener("click", () => {
   } else {
     currentMonth--;
   }
+  if (currentMonth === 4) {
+    DispStartMonth = 10;
+    currentYear--;
+  } else if (currentMonth === 10){
+    DispStartMonth = 4 ;
+  }
   getCurrent(currentYear, currentMonth);
+  getDateAndDay();
 });
 
 
@@ -379,5 +394,12 @@ document.querySelector(".next").addEventListener("click", () => {
   } else {
     currentMonth++;
   }
+  if (currentMonth === 3) {
+    DispStartMonth = 4;
+    currentYear--;
+  } else if (currentMonth === 9){
+    DispStartMonth = 10 ;
+  }
   getCurrent(currentYear, currentMonth);
+  getDateAndDay();
 });
