@@ -20,7 +20,6 @@ import models.ShiftBean;
 @WebServlet("/DispShiftRegisterServlet")
 public class DispShiftRegisterServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -36,14 +35,13 @@ public class DispShiftRegisterServlet extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 		String employeeCD = (String)request.getParameter("employeeCD");
 		int employeeCD2= Integer.parseInt(employeeCD);
-		System.out.println("employeeCD" + employeeCD2);
 		
 		ShiftDao shiftDao = new ShiftDao();
 		ArrayList<ShiftBean> shift = shiftDao.findShiftByEmployeeCD(employeeCD2);
 
 		ObjectMapper mapper = new ObjectMapper();
 		String json = mapper.writeValueAsString(shift);
-		System.out.println(shift);
+		System.out.println(json);
 		
 		request.setAttribute("employeeCD", employeeCD2);
 		request.setAttribute("shift", json);

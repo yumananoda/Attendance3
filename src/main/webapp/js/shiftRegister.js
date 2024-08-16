@@ -11,13 +11,9 @@ const shiftEl = document.getElementById("shift");
 const shift = JSON.parse(shiftEl.value);
 console.log("shift: ", shift);
 
-window.addEventListener("DOMContentLoaded", () => {
-  console.log("DOMContentLoaded");
-  dispSelectDay();
-  showDayElements();
-});
 
-function dispSelectDay() {
+
+const dispSelectDay = () => {
   for (const day of Object.values(DAYS)) {
     console.log("day:", day);
     const div = document.createElement("div");
@@ -56,7 +52,7 @@ function dispSelectDay() {
   }
 }
 
-function showDayElements() {
+const showDayElements = () => {
   while (inputTimeGroupEl.firstChild) {
     inputTimeGroupEl.removeChild(inputTimeGroupEl.firstChild);
   }
@@ -106,6 +102,12 @@ function showDayElements() {
     inputTimeGroupEl.appendChild(dayTextEl);
   }
 }
+
+window.addEventListener("DOMContentLoaded", () => {
+  console.log("DOMContentLoaded");
+  dispSelectDay();
+  showDayElements();
+});
 
 registerBtn.addEventListener('click', () => {
   console.log("送信しました");

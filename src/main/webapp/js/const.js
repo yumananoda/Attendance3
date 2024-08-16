@@ -7,6 +7,11 @@ export const INFO = [];
 
 export const REMOVE_USERS = [];
 
+export const disallowed_characters_regex = /[^a-zA-Z\d@$!%*?&.]/;
+export const alphabetic_password_regex = /^(?=.*[a-z])[A-Za-z\d@$!%*?&.]*$/;
+export const number_password_regex = /^(?=.*\d)[A-Za-z\d@$!%*?&.]*$/;
+export const special_password_regex = /^(?=.*[@$!%*?&.])[A-Za-z\d@$!%*?&.]*$/;
+
 export const DAYS = {
   SUNDAY: 0,
   MONDAY: 1,

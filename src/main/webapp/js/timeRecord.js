@@ -71,6 +71,7 @@ const getDateAndDay = () => {
   timeRecordArea.appendChild(trEl);
   let totalWorkingDays = 0;
   let totalWorkingMilliseconds = 0;
+  let totalWorkingMillisecondsOfWeeks = 0;
   let totalOverMilliseconds = 0;
   for (let i = 1; i <= endDate.getDate(); i++) {
     const col = document.createElement("tr");
@@ -135,6 +136,7 @@ const getDateAndDay = () => {
     console.log("findWorkingDate:", findWorkingDate);
     let includedWorkingTime = null;
     let workingTime = null;
+    let workingHours;
     let estimatedWorkingTime = null;
 
     if (findWorkingDate !== undefined) {
@@ -153,40 +155,52 @@ const getDateAndDay = () => {
       includedWorkingTime = outTime - inTime;
       console.log("includedWorkingTime:", includedWorkingTime);
       workingTime = includedWorkingTime - breakingTime;
-      let workingHours = workingTime / (1000 * 60 * 60);
+      workingHours = workingTime / (1000 * 60 * 60);
       let workingHours2 = Math.floor(workingHours);
       let workingMinutes = Math.floor((workingHours - workingHours2) * 60);
       totalWorkingMilliseconds += workingTime;
+      totalWorkingMillisecondsOfWeeks += workingTime;
+      console.log(totalWorkingMillisecondsOfWeeks);
       if (includedWorkingTime >= 0) {
         clock.innerText = `${workingHours2}時間 ${String(workingMinutes).padStart(2, "0")}分`;
         console.log(`稼働時間は ${workingHours2}時間 ${workingMinutes}分 です`);
       }
-      
       // includedWorkingTime = workingTime / (1000 * 60 * 60);
       // includedWorkingTime = Math.floor(includedWorkingTime);
       // let clockMinutes = Math.floor((included - includedHours2) * 60);
       
-      if(workingHours >= 8 && breakMinutes < 60)  {
-        console.log(workingHours)
-        console.log(breakMinutes)
-        console.log("適切な休憩時間を取得できていません。")
-        note.innerText = "適切な休憩時間を取得できていません。";
-      }else if(workingHours > 8){
-        console.log(workingHours)
-        note.innerText = "労働基準法で定められている1日の労働時間を超えています。"
-      }else if(workingHours >= 6 && breakMinutes < 45)  {
-        console.log(workingHours)
-        console.log(breakMinutes)
-        console.log("適切な休憩時間を取得できていません。")
-        note.innerText = "適切な休憩時間を取得できていません。";
-      }else{
-        console.log(workingHours)
-        console.log(breakMinutes)
-        console.log("適切な休憩時間を取得しています")
-      }  
     }
-
     
+    
+    if(workingHours > 8){
+      console.log(workingHours)
+      note.innerText = "労働基準法で定められている1日の労働時間を超えています。"
+
+    }else if(totalWorkingMillisecondsOfWeeks > 144000000){
+      console.log(totalWorkingMillisecondsOfWeeks)
+      note.innerText = "労働基準法で定められている一週間の労働時間を超えています。"
+
+    }else if(workingHours >= 8 && breakMinutes < 60)  {
+      console.log(workingHours)
+      console.log(breakMinutes)
+      console.log("適切な休憩時間を取得できていません。")
+      note.innerText = "適切な休憩時間を取得できていません。";
+
+    }else if(workingHours >= 6 && breakMinutes < 45)  {
+      console.log(workingHours)
+      console.log(breakMinutes)
+      console.log("適切な休憩時間を取得できていません。")
+      note.innerText = "適切な休憩時間を取得できていません。";
+      
+    }else{
+      console.log(workingHours)
+      console.log(breakMinutes)
+      console.log("適切な休憩時間を取得しています")
+    }  
+
+    if(day == 0){
+      totalWorkingMillisecondsOfWeeks = null;
+    }
 
     const findShift = shiftData.find(({ shift_day }) => shift_day === day);
     if (findShift !== undefined) {

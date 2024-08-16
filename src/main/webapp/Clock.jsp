@@ -82,6 +82,7 @@ System.out.println("breakOut:" + breakOut);
 
 <a href = "DispTimeRecordServlet?employeeCD=<%= employeeCD %>">勤怠状況</a>
 <a href = "DispHolidayApplicationServlet">有給申請</a>
+<a href = "DispEditPasswordServlet">パスワード変更</a>
 <a href = "DispHolidayApprovalServlet">有給承認</a>
 <a href = "EmployeeRegister.jsp">従業員登録</a>
 <a href = "DispSelectEmployeeServlet">シフト登録</a>

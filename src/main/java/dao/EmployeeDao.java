@@ -213,4 +213,38 @@ public class EmployeeDao extends CommonDao {
 		} 
 		return null; 
 	}
+	public String getPassword(int employeeCD) {
+		String query = "SELECT password FROM users WHERE employeeCD = ?"; 
+		try (Connection con = DriverManager.getConnection(URL, USER, PASS); 
+			PreparedStatement statement = con.prepareStatement(query)) { 
+			statement.setInt(1, employeeCD); 
+			ResultSet rs = statement.executeQuery(); 
+			while (rs.next()) { 
+				String password = rs.getString("password");
+				return password; 
+			} 
+			statement.close(); 
+			con.close(); 
+		} catch (SQLException e) { 
+			e.printStackTrace(); 
+		} 
+		return null; 
+	}
+	public void updatePassword(String newPassword, int employeeCD) {
+		String sql = "UPDATE users SET password=? WHERE employeeCD=?;";
+        try (Connection con = DriverManager.getConnection(URL, USER, PASS);
+            PreparedStatement statement = con.prepareStatement(sql)) {
+
+            statement.setString(1, newPassword);
+            statement.setInt(2, employeeCD);
+            statement.executeQuery();
+            
+            statement.close();
+			con.close();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            // エラーハンドリングを適切に行う
+        }
+	}
 }
