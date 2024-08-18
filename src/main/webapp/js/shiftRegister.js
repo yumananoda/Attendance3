@@ -36,6 +36,7 @@ const dispSelectDay = () => {
     dayBtn.innerText = DAY_TEXTS[day];
     dayBtn.value = day;
     selectWeekEl.appendChild(dayBtn);
+
     
     durationIndex = shift.findIndex(({ shift_duration, shift_day }) => shift_duration === Number(dispDuration) && shift_day === day);
     console.log("durationIndex: ",  durationIndex);
@@ -81,17 +82,48 @@ const dispDailyTime = () => {
   });
   console.log("shift: ", shift);
   console.log(Number(dispDuration));
+
+  shift.forEach(item => {
+    let { start_time, end_time } = item;
+    item.start_time = start_time.slice(0, 5);
+    item.end_time = end_time.slice(0, 5);
+  });
+
   let durationShift = shift.filter(({shift_duration}) => shift_duration === Number(dispDuration));
   console.log(durationShift);
   console.log(shift);
+
+  const checkPrescribed = () =>{
+    let prescribedMinutes = 0;
+    durationShift.forEach(item => {
+      const {start_time, end_time} = item;
+      const start_time2 = start_time.replace(":", "");
+      const end_time2 = end_time.replace(":", "");
+      console.log(start_time2, end_time2)
+      let intervalMinutes = end_time2 - start_time2;
+      if(intervalMinutes >= 600){
+        intervalMinutes -= 100
+      }
+      prescribedMinutes += intervalMinutes;
+
+      console.log("1日:", intervalMinutes)
+      console.log("1週間合計:", prescribedMinutes)
+      if(prescribedMinutes > 4000){
+        console.log("法定労働時間超過")
+        errorEl.innerText = "1週間の法定労働時間を超えています。";
+        registerBtn.disabled = true;
+      }
+    })
+  }
+
   for (let i = 0; i < durationShift.length; i++) {
     const { shift_day, start_time, end_time } = durationShift[i];
-    durationShift[i].start_time = start_time.slice(0, 5);
-    durationShift[i].end_time = end_time.slice(0, 5);
     const DailyEl = document.createElement("div");
     DailyEl.id = shift_day;
     const dayTextEl = document.createElement("p");
     dayTextEl.innerText = DAY_TEXTS[shift_day];
+
+    
 
     const startTimeBox = document.createElement("input");
     startTimeBox.type = "time";
@@ -112,6 +144,7 @@ const dispDailyTime = () => {
       }
       console.log(durationShift);
       console.log(shift);
+      checkPrescribed();
     })
 
     endTimeBox.addEventListener("change", (e) => {
@@ -122,6 +155,7 @@ const dispDailyTime = () => {
       }
       console.log(durationShift);
       console.log(shift);
+      checkPrescribed();
     });
     DailyEl.appendChild(dayTextEl);
     DailyEl.appendChild(startTimeBox);
@@ -135,7 +169,9 @@ const dispDailyTime = () => {
   }else{
     btnArea.classList.remove('is-open'); 
   }
+  checkPrescribed();
 }
+
 
 window.addEventListener("DOMContentLoaded", () => {
   const currentDate = new Date();

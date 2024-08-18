@@ -30,14 +30,16 @@
         <span class="btn-monthMove next">＞</span>
     </div>
     
-    <div id="timeRecordArea"></div>
+    <div id="timeRecordArea">
         <input id="employeeCD" type="hidden" value=<%= employeeCD %> /> 
         <input id="name" type="hidden" value=<%= name %> /> 
         <input id="timeRecordHolder" type="hidden" value=<%= timeRecords %> /> 
         <input id="breaksHolder" type="hidden" value=<%= breaks %> /> 
         <input id="shiftHolder" type="hidden" value=<%= shift %> /> 
         <input id="holidayHolder" type="hidden" value=<%= holiday %> />
+    </div>
     <div id="totalDataArea"></div>
+    <div id="prescribedArea"></div>
     <script type="module" src="js/timeRecord.js"></script>
     <script type="module" src="js/const.js" ></script>
 </body>

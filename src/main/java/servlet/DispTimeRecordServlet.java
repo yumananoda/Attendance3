@@ -81,5 +81,4 @@ public class DispTimeRecordServlet extends HttpServlet {
 		request.setAttribute("holiday", json3);
 		request.getRequestDispatcher("/TimeRecord.jsp").forward(request, response);
 	}
-
 }

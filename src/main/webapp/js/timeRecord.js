@@ -4,6 +4,7 @@ const employeeCD = document.getElementById("employeeCD").value;
 const name = document.getElementById("name").value;
 const timeRecordArea = document.getElementById("timeRecordArea");
 const totalDataArea = document.getElementById("totalDataArea");
+const prescribedArea = document.getElementById("prescribedArea");
 
 let timeRecordData = document.getElementById("timeRecordHolder").value;
 timeRecordData = JSON.parse(timeRecordData);
@@ -20,14 +21,10 @@ console.log("holidayData:", holidayData);
 
 let currentYear = null;
 let currentMonth = null;
+let DispStartYear = null;
 let DispStartMonth = null;
 let dispDuration = null;
 let endDate = null;
-let totalWorkingDays = 0;
-let totalWorkingMilliseconds = 0;
-let totalHolidayMilliseconds = 0;
-let totalWorkingMillisecondsOfWeeks = 0;
-let totalOverMilliseconds = 0;
 
 const getCurrent = (currentYear, currentMonth) => {
   document.getElementById("year").innerHTML = `${currentYear}年`;
@@ -39,7 +36,21 @@ const getDateAndDay = () => {
   while (timeRecordArea.firstChild) {
     timeRecordArea.removeChild(timeRecordArea.firstChild);
   }
-  dispDuration = currentYear + String(DispStartMonth).padStart(2, "0");
+  while (totalDataArea.firstChild) {
+    totalDataArea.removeChild(totalDataArea.firstChild);
+  }
+  while (prescribedArea.firstChild) {
+    prescribedArea.removeChild(prescribedArea.firstChild);
+  }
+  let totalWorkingDays = 0;
+  let totalHolidayMilliseconds = 0;
+  let totalWorkingMillisecondsOfWeeks = 0;
+  let totalWorkingMilliseconds = 0;
+  let totalOverMilliseconds = 0;
+  let prescribedDays = 0;
+  let prescribedMilliseconds = 0;
+  dispDuration = DispStartYear + String(DispStartMonth).padStart(2, "0");
+  
   
   const trEl = document.createElement("tr");
   const th1 = document.createElement("th");
@@ -63,7 +74,7 @@ const getDateAndDay = () => {
   th6.innerText = "休憩時間";
   th7.innerText = "出勤予定時間";
   th8.innerText = "退勤予定時間";
-  th9.innerText = "稼働予定時間";
+  th9.innerText = "所定労働時間";
   th10.innerText = "残業時間";
   th11.innerText = "処理";
   th12.innerText = "備考";
@@ -121,8 +132,9 @@ const getDateAndDay = () => {
     let breakMinutes=null;
 
     if (findBreakData !== undefined) {
-      const inTime = new Date(findBreakData.breakStartTime);
-      const outTime = new Date(findBreakData.breakEndTime);
+      const {breakStartTime, breakEndTime} = findBreakData;
+      const inTime = new Date(breakStartTime);
+      const outTime = new Date(breakEndTime);
       console.log(inTime, outTime);
       console.log(outTime - inTime);
 
@@ -136,7 +148,7 @@ const getDateAndDay = () => {
       }
     }
     console.log(breakMinutes);
-
+    
     const findWorkingDate = timeRecordData.find(({ clockInTime }) => {
       return (
         dateStart <= clockInTime && dateEnd >= clockInTime
@@ -149,9 +161,10 @@ const getDateAndDay = () => {
     let estimatedWorkingTime = null;
 
     if (findWorkingDate !== undefined) {
+        const {clockInTime, clockOutTime} = findWorkingDate;
         totalWorkingDays++;
-        const inTime = new Date(findWorkingDate.clockInTime);
-        const outTime = new Date(findWorkingDate.clockOutTime);
+        const inTime = new Date(clockInTime);
+        const outTime = new Date(clockOutTime);
         console.log("outTime: ", outTime);
         console.log(outTime.getHours(), outTime.getMinutes(), outTime.getSeconds());
         // const outTimeDetail = outTime.getHours(), outTime.getMinutes(), outTime.getSeconds());
@@ -214,7 +227,7 @@ const getDateAndDay = () => {
     const durationShift = shiftData.filter(({ shift_duration }) => shift_duration === Number(dispDuration));
     const findShift = durationShift.find(({ shift_day }) => shift_day === day);
     if (findShift !== undefined) {
-      console.log("findShift:", findShift);
+      prescribedDays ++;
       
       const { start_time, end_time } = findShift;
       shiftClockIn.innerText = start_time;
@@ -226,6 +239,10 @@ const getDateAndDay = () => {
       estimatedWorkingTime = shiftEnd - shiftStrat;
       console.log(estimatedWorkingTime);
 
+      if(estimatedWorkingTime >= 21600000){
+        estimatedWorkingTime -= 3600000;
+      }
+      prescribedMilliseconds += estimatedWorkingTime;
       let hours = estimatedWorkingTime / (1000 * 60 * 60);
       let clocklHours = Math.floor(hours);
       let clockMinutes = Math.floor((hours - clocklHours) * 60);
@@ -244,6 +261,12 @@ const getDateAndDay = () => {
       console.log(`所定時間外労働 ${overHours}時間 ${overMinutes}分 です`);
       totalOverMilliseconds += over;
     }
+    if (workingTime === null &&  estimatedWorkingTime !== null) {
+      clockIn.innerText = "欠勤";
+
+    }
+
+
 
     const findHolidayDate = holidayData.find(({ applicationStartDate }) => {
       return (
@@ -251,9 +274,11 @@ const getDateAndDay = () => {
       );
     });
     console.log("findHolidayDate:", findHolidayDate);
+
     if (findHolidayDate !== undefined) {
-      const holidayStartDate= new Date(findHolidayDate.applicationStartDate);
-      const holidayEndDate = new Date(findHolidayDate.applicationEndDate);
+      const {applicationStartDate, applicationEndDate} = findHolidayDate;
+      const holidayStartDate= new Date(applicationStartDate);
+      const holidayEndDate = new Date(applicationEndDate);
       console.log("holidayStartDate: ", holidayStartDate);
       
       const holidayStartDay = holidayStartDate.getDay();
@@ -331,7 +356,7 @@ const getDateAndDay = () => {
   const total_th2 = document.createElement("th");
   const total_td2 = document.createElement("td");
   total_th2.innerText = "合計勤務時間";
-  let totalWorkingHours = totalOverMilliseconds / (1000 * 60 * 60);
+  let totalWorkingHours = totalWorkingMilliseconds / (1000 * 60 * 60);
   let totalWorkingHours2 = Math.floor(totalWorkingHours);
   let totalWorkingMinutes = Math.floor((totalWorkingHours - totalWorkingHours2) * 60);
   total_td2.innerText = `${totalWorkingHours2}時間 ${totalWorkingMinutes}分`;
@@ -352,20 +377,56 @@ const getDateAndDay = () => {
   total_tr3.appendChild(total_th3);
   total_tr3.appendChild(total_td3);
   totalDataArea.appendChild(total_tr3);
-  console.log();
+
+  const total_tr4 = document.createElement("tr");
+  const total_th4 = document.createElement("th");
+  const total_td4 = document.createElement("td");
+  total_th4.innerText = "合計有給時間";
+  console.log(totalHolidayMilliseconds);
+  let totalHolidayHours = totalHolidayMilliseconds / (1000 * 60 * 60);
+  let totalHolidayHours2 = Math.floor(totalHolidayHours);
+  let totalHolidayMinutes = Math.floor((totalHolidayHours - totalHolidayHours2) * 60);
+  total_td4.innerText = `${totalHolidayHours2}時間 ${totalHolidayMinutes}分`;
+  total_tr4.appendChild(total_th4);
+  total_tr4.appendChild(total_td4);
+  totalDataArea.appendChild(total_tr4);
+
+  prescribedArea
+  const prescribed_tr1 = document.createElement("tr");
+  const prescribed_th1 = document.createElement("th");
+  const prescribed_td1 = document.createElement("td");
+  prescribed_th1.innerText = "所定労働日数";
+  prescribed_td1.innerText = prescribedDays;
+  prescribed_tr1.appendChild(prescribed_th1);
+  prescribed_tr1.appendChild(prescribed_td1);
+  prescribedArea.appendChild(prescribed_tr1);
+  console.log("prescribedDays:",prescribedDays);
+
+  const prescribed_tr2 = document.createElement("tr");
+  const prescribed_th2 = document.createElement("th");
+  const prescribed_td2 = document.createElement("td");
+  prescribed_th2.innerText = "所定労働時間";
+  let prescribedHours = prescribedMilliseconds / (1000 * 60 * 60);
+  let prescribedHours2 = Math.floor(prescribedHours);
+  let prescribedMinutes = Math.floor((prescribedHours - prescribedHours2) * 60);
+  prescribed_td2.innerText = `${prescribedHours2}時間 ${prescribedMinutes}分`;
+  prescribed_tr2.appendChild(prescribed_th2);
+  prescribed_tr2.appendChild(prescribed_td2);
+  prescribedArea.appendChild(prescribed_tr2);
 }
 
 window.addEventListener("DOMContentLoaded", () => {
   const currentDate = new Date();
   currentYear = currentDate.getFullYear();
   currentMonth = currentDate.getMonth() + 1;
+  DispStartYear = currentYear;
   endDate = new Date(currentYear, currentMonth, 0);
   if(currentMonth >= 4 && currentMonth < 10){
     DispStartMonth = 4;
   }else{
     DispStartMonth = 10;
   }
-  getCurrent(currentYear, currentMonth);
+  getCurrent(DispStartYear, currentMonth);
   getDateAndDay();
 })
 
@@ -376,10 +437,10 @@ document.querySelector(".prev").addEventListener("click", () => {
   } else {
     currentMonth--;
   }
-  if (currentMonth === 4) {
+  if (currentMonth === 3) {
     DispStartMonth = 10;
-    currentYear--;
-  } else if (currentMonth === 10){
+    DispStartYear--;
+  } else if (currentMonth === 9){
     DispStartMonth = 4 ;
   }
   getCurrent(currentYear, currentMonth);
@@ -394,10 +455,10 @@ document.querySelector(".next").addEventListener("click", () => {
   } else {
     currentMonth++;
   }
-  if (currentMonth === 3) {
+  if (currentMonth === 4) {
     DispStartMonth = 4;
-    currentYear--;
-  } else if (currentMonth === 9){
+    DispStartYear++;
+  } else if (currentMonth === 10){
     DispStartMonth = 10 ;
   }
   getCurrent(currentYear, currentMonth);

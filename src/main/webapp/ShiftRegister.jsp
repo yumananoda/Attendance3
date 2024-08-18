@@ -24,12 +24,11 @@
 	</div>
 	<div id="selectWeek"></div>
 	<div id="DispDailyEl"></div>
-	<div id="error"></div>
-	<p>
+	<div id="error">
 		<% if(request.getAttribute("message") != null){ %>
 		<%= request.getAttribute("message") %>
 		<% } %>
-	</p>
+	</div>
 	<div id="btnArea" class="btnArea">
 		<button id="resetBtn">リセット</button>
 		<button id="registerBtn">登録</button>
