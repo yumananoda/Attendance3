@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import dao.EmployeeDao;
+import dao.HolidayDao;
 
 /**
  * Servlet implementation class DispHolidaypplicationServlet
@@ -38,6 +39,11 @@ public class DispHolidayApplicationServlet extends HttpServlet {
 		
 		EmployeeDao employeeDao = new EmployeeDao();
 		String name = employeeDao.getEmployeeName(employeeCD2);
+		System.out.println("name:" + name);
+		
+		HolidayDao holidayDao = new HolidayDao();
+		//有給残り日数を取得
+		int restDays = holidayDao.getRestDays(employeeCD2, crrentYear);
 		System.out.println("name:" + name);
 		
 		request.setAttribute("name", name);

@@ -41,7 +41,7 @@ public class ClockInServlet extends HttpServlet {
 		
 		HttpSession session = request.getSession();
 		session.setAttribute("clockIn",now);
-		request.getRequestDispatcher("/Clock.jsp").forward(request, response);
+		request.getRequestDispatcher("/ManagerHome.jsp").forward(request, response);
 	}
 
 }

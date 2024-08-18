@@ -42,7 +42,7 @@ public class BreakOutServlet extends HttpServlet {
 		HttpSession session = request.getSession();
 		session.setAttribute("breakOut",now);
 		session.removeAttribute("breakIn");
-		request.getRequestDispatcher("/Clock.jsp").forward(request, response);
+		request.getRequestDispatcher("/ManagerHome.jsp").forward(request, response);
 	}
 
 }

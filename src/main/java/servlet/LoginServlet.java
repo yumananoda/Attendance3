@@ -62,9 +62,9 @@ public class LoginServlet extends HttpServlet {
 			}
 			System.out.println(isAdmin);
 			if(isAdmin == 1) {
-				request.getRequestDispatcher("/Clock.jsp").forward(request, response);
+				request.getRequestDispatcher("/ManagerHome.jsp").forward(request, response);
 			}else {
-				
+				request.getRequestDispatcher("/EmployeeHome.jsp").forward(request, response);
 			}
 			
 		}else {

@@ -40,7 +40,7 @@
 				シフトの登録が完了しました。
 				<div>
 					<a href="DispSelectEmployeeServlet">従業員選択画面へ</a><br>
-					<a href="Clock.jsp">トップへ</a>
+					<a href="ManagerHome.jsp">トップへ</a>
 				</div>
 			</div>
 		</div>
