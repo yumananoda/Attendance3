@@ -30,8 +30,9 @@ public class EmployeeDao extends CommonDao {
 				int storeCD = rs.getInt("storeCD");
 				java.sql.Date hire_date = rs.getDate("hire_date");
 				int position = rs.getInt("position");
+				int isAdmin = rs.getInt("isAdmin");
 
-				EmployeeBean user = new EmployeeBean(employeeCD, storeCD, position, name, password, email, hire_date);
+				EmployeeBean user = new EmployeeBean(employeeCD, storeCD, position, isAdmin, name, password, email, hire_date);
 				System.out.println(user.getName());
 				return user;
 			}
@@ -163,7 +164,8 @@ public class EmployeeDao extends CommonDao {
 				int storeCD = rs.getInt("storeCD"); 
 				java.sql.Date hire_date = rs.getDate("hire_date"); 
 				int position = rs.getInt("position"); 
-				EmployeeBean employeeInfo = new EmployeeBean(employeeCD, storeCD, position, name, password, email, hire_date); 
+				int isAdmin = rs.getInt("isAdmin"); 
+				EmployeeBean employeeInfo = new EmployeeBean(employeeCD, storeCD, position, isAdmin, name, password, email, hire_date); 
 				System.out.println(employeeInfo.getName()); 
 				return employeeInfo; 
 			} 

@@ -1,18 +1,19 @@
 package models;
 
+import java.sql.Date;
+
 public class EmployeeBean {
 	private Integer employeeCD;
-	private int storeCD,position ;
+	private int storeCD,position,isAdmin;
 	private String name, password, email;
 	private java.sql.Date hire_date;
-
-
-
-	public EmployeeBean(Integer employeeCD, int storeCD, int position, String name, String password, String email, java.sql.Date hire_date) {
+	public EmployeeBean(Integer employeeCD, int storeCD, int position, int isAdmin, String name, String password,
+			String email, Date hire_date) {
 		super();
 		this.employeeCD = employeeCD;
 		this.storeCD = storeCD;
 		this.position = position;
+		this.isAdmin = isAdmin;
 		this.name = name;
 		this.password = password;
 		this.email = email;
@@ -35,6 +36,12 @@ public class EmployeeBean {
 	}
 	public void setPosition(int position) {
 		this.position = position;
+	}
+	public int getIsAdmin() {
+		return isAdmin;
+	}
+	public void setIsAdmin(int isAdmin) {
+		this.isAdmin = isAdmin;
 	}
 	public String getName() {
 		return name;
@@ -60,6 +67,6 @@ public class EmployeeBean {
 	public void setHire_date(java.sql.Date hire_date) {
 		this.hire_date = hire_date;
 	}
-	
+
 }
 	
