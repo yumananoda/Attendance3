@@ -49,6 +49,7 @@ const getDateAndDay = () => {
   let totalOverMilliseconds = 0;
   let prescribedDays = 0;
   let prescribedMilliseconds = 0;
+  let HolidayTimeFlag = "false";
   dispDuration = DispStartYear + String(DispStartMonth).padStart(2, "0");
   
   
@@ -187,9 +188,8 @@ const getDateAndDay = () => {
         clock.innerText = `${workingHours2}時間 ${String(workingMinutes).padStart(2, "0")}分`;
         console.log(`稼働時間は ${workingHours2}時間 ${workingMinutes}分 です`);
       }
-      // includedWorkingTime = workingTime / (1000 * 60 * 60);
-      // includedWorkingTime = Math.floor(includedWorkingTime);
-      // let clockMinutes = Math.floor((included - includedHours2) * 60);
+    }else{
+      breakTime.innerText = "";
       
     }
     
@@ -220,7 +220,7 @@ const getDateAndDay = () => {
       console.log("適切な休憩時間を取得しています")
     }  
 
-    if(day == 0){
+    if(day === 0){
       totalWorkingMillisecondsOfWeeks = null;
     }
 
@@ -274,51 +274,50 @@ const getDateAndDay = () => {
       );
     });
     console.log("findHolidayDate:", findHolidayDate);
-
+    
     if (findHolidayDate !== undefined) {
       const {applicationStartDate, applicationEndDate} = findHolidayDate;
       const holidayStartDate= new Date(applicationStartDate);
-      const holidayEndDate = new Date(applicationEndDate);
       console.log("holidayStartDate: ", holidayStartDate);
       
-      const holidayStartDay = holidayStartDate.getDay();
-      const holidayEndDay = holidayEndDate.getDay();
-      console.log(holidayStartDay,holidayEndDay);
-      
-      const findShiftDay = durationShift.find(({ shift_day }) => shift_day === holidayStartDay);
-      const findShiftDay2 = durationShift.find(({ shift_day }) => shift_day === holidayEndDay);
-      console.log(findShiftDay)
-      if (findShiftDay !== undefined) {
-        const { start_time, end_time } = findShiftDay;
-        clockIn.innerText = `有給(${start_time}`;
-        clockOut.innerText = `${end_time})`;
+      if (findShift !== undefined) {
+        HolidayTimeFlag = "true";
+        const { start_time, end_time } = findShift;
         let holidayStart = new Date(`1970-01-01T${start_time}Z`).getTime();
         let holidayEnd = new Date(`1970-01-01T${end_time}Z`).getTime();
-  
-        let HolidayTime = holidayEnd - holidayStart;
+        let HolidayTime = (holidayEnd - holidayStart);
         console.log(HolidayTime);
+        clockIn.innerText = `有給(${start_time}`;
+        clockOut.innerText = `${end_time})`;
         totalHolidayMilliseconds += HolidayTime;
       }else{
         clockIn.innerText = "(有給)"
         note.innerText = "出勤日以外の有給が使用されています。"
-    
       }
-
-      // clockIn.innerText = `${holidatStartDate.getHours()}:${String(holidatStartDate.getMinutes()).padStart(2, "0")}:${String(holidatStartDate.getSeconds()).padStart(2, "0")}`;
-      // clockOut.innerText = `${String(holidatEndDate.getHours()).padStart(2, "0")}:${String(holidatEndDate.getMinutes()).padStart(2, "0")}:${String(holidatEndDate.getSeconds()).padStart(2, "0")}`;
-
-      // clockIn.innerText = "有給";
-      // workingTime = outTime - inTime;
-      // totalWorkingMilliseconds += workingTime;
-      // console.log("workingTime:", workingTime);
-      // let hoursWorked = workingTime / (1000 * 60 * 60);
-      // let clocklHours = Math.floor(hoursWorked);
-      // let clockMinutes = Math.floor((hoursWorked - clocklHours) * 60);
-      // if (workingTime >= 0) {
-      //   clock.innerText = `${clocklHours}時間 ${String(clockMinutes).padStart(2, "0")}分`;
-      //   console.log(`稼働時間は ${clocklHours}時間 ${clockMinutes}分 です`);
-      // }
     }
+    if(HolidayTimeFlag === "true" && findShift !== undefined){
+      const { start_time, end_time } = findShift;
+      let holidayStart = new Date(`1970-01-01T${start_time}Z`).getTime();
+      let holidayEnd = new Date(`1970-01-01T${end_time}Z`).getTime();
+      let HolidayTime = (holidayEnd - holidayStart);
+      console.log(HolidayTime);
+
+      clockIn.innerText = `有給(${start_time}`;
+      clockOut.innerText = `${end_time})`;
+      totalHolidayMilliseconds += HolidayTime;
+    }
+
+    const findHolidayEnd = holidayData.find(({ applicationEndDate }) => {
+      return (
+        dateStart <= applicationEndDate && dateEnd >= applicationEndDate
+      );
+    });
+    console.log("findHolidayDate:", findHolidayDate);
+    if(findHolidayEnd !== undefined){
+      HolidayTimeFlag = "false";
+    }
+    console.log(HolidayTimeFlag)
+
     if (findWorkingDate) {
       editHref.innerText = "実績変更";
       const { recordCD, clockInTime, clockOutTime } = findWorkingDate;
@@ -391,7 +390,6 @@ const getDateAndDay = () => {
   total_tr4.appendChild(total_td4);
   totalDataArea.appendChild(total_tr4);
 
-  prescribedArea
   const prescribed_tr1 = document.createElement("tr");
   const prescribed_th1 = document.createElement("th");
   const prescribed_td1 = document.createElement("td");
