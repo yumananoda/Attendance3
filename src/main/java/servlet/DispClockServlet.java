@@ -1,8 +1,6 @@
-/** 出勤 */
 package servlet;
 
 import java.io.IOException;
-import java.time.LocalDateTime;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -11,37 +9,26 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import dao.RegistrationClockDao;
-
 /**
- * Servlet implementation class ClockInServlet
+ * Servlet implementation class DispClockServlet
  */
-@WebServlet("/ClockInServlet")
-public class ClockInServlet extends HttpServlet {
+@WebServlet("/DispClockServlet")
+public class DispClockServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+       
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ClockInServlet() {
+    public DispClockServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
 
 	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.setCharacterEncoding("UTF-8");
-		String employeeCD = request.getParameter("employeeCD");
-		int employeeCD2 = Integer.parseInt(employeeCD);
-		LocalDateTime now = LocalDateTime.now();
-		System.out.println(employeeCD);
-		RegistrationClockDao in = new RegistrationClockDao();
-		in.registrationClockIn(now, employeeCD2);
-		
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
-		session.setAttribute("clockIn",now);
-
 		int isAdmin = (int) session.getAttribute("isAdmin"); 
 		System.out.println(isAdmin);
 		
@@ -50,6 +37,13 @@ public class ClockInServlet extends HttpServlet {
 		}else {
 			request.getRequestDispatcher("/EmployeeHome.jsp").forward(request, response);
 		}
+		
+	}
+
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	}
 
 }

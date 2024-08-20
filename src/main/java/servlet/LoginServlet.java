@@ -48,19 +48,19 @@ public class LoginServlet extends HttpServlet {
 		//画面遷移
 		if(user != null) {
 			System.out.println("ログイン成功");
-			session.setAttribute("employeeCD", String.valueOf(user.getEmployeeCD()));
-			session.setAttribute("isAdmin", String.valueOf(user.getIsAdmin()));
 			int isAdmin = user.getIsAdmin();
 			System.out.println(employeeCD);
 			System.out.println(password);
+			System.out.println(isAdmin);
 			
+			session.setAttribute("employeeCD", String.valueOf(user.getEmployeeCD()));
+			session.setAttribute("isAdmin", isAdmin);
 			Timestamp clockIn = employeeDao.getClockIn(user.getEmployeeCD());
 			if(clockIn != null) {
 				LocalDateTime localDateTime = clockIn.toLocalDateTime();
 				System.out.println(localDateTime);
 				session.setAttribute("clockIn",localDateTime);
 			}
-			System.out.println(isAdmin);
 			if(isAdmin == 1) {
 				request.getRequestDispatcher("/ManagerHome.jsp").forward(request, response);
 			}else {

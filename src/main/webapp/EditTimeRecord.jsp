@@ -51,7 +51,7 @@
 				打刻時刻の変更が完了しました。
 				<div>
 					<a href="DispSelectEmployeeServlet">従業員選択画面へ</a><br>
-					<a href="ManagerHome.jsp">トップへ</a>
+					<a href="DispClockServlet">トップへ</a>
 				</div>
 			</div>
 		</div>

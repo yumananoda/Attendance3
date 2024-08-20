@@ -42,6 +42,14 @@ public class ClockOutServlet extends HttpServlet {
 		HttpSession session = request.getSession(true);
 		session.removeAttribute("clockIn");
 		session.removeAttribute("breakOut");
-		request.getRequestDispatcher("/ManagerHome.jsp").forward(request, response);
+
+		int isAdmin = (int) session.getAttribute("isAdmin"); 
+		System.out.println(isAdmin);
+		
+		if(isAdmin == 1) {
+			request.getRequestDispatcher("/ManagerHome.jsp").forward(request, response);
+		}else {
+			request.getRequestDispatcher("/EmployeeHome.jsp").forward(request, response);
+		}
 	}
 }

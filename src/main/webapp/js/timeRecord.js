@@ -316,7 +316,7 @@ const getDateAndDay = () => {
     if(findHolidayEnd !== undefined){
       HolidayTimeFlag = "false";
     }
-    console.log(HolidayTimeFlag)
+    console.log(HolidayTimeFlag);
 
     if (findWorkingDate) {
       editHref.innerText = "実績変更";

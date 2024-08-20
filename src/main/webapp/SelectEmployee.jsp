@@ -22,7 +22,8 @@
 				<tr>
 					<td><%= selectEmployee.getEmployeeCD() %></td>
 					<td><%= selectEmployee.getName() %></td>
-					<td><a href="DispShiftRegisterServlet?employeeCD=<%= selectEmployee.getEmployeeCD() %>">シフト変更</a></td>
+					<td><a href="DispShiftRegisterServlet?employeeCD=<%= selectEmployee.getEmployeeCD() %>">固定シフト登録</a></td>
+					<td><a href="DispShiftChangeServlet?employeeCD=<%= selectEmployee.getEmployeeCD() %>">日時指定シフト変更</a></td>
 					<td><a href="DispEditEmployeeInfoServlet?employeeCD=<%= selectEmployee.getEmployeeCD() %>">従業員情報変更</a></td>
 					<td><a href="DispTimeRecordServlet?employeeCD=<%= selectEmployee.getEmployeeCD() %>&name=<%= selectEmployee.getName() %>">勤怠状況</a></td>
 				</tr>
