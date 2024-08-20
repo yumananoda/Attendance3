@@ -5,6 +5,10 @@ String employeeCD = (String)session.getAttribute("employeeCD");
 System.out.println("employeeCD:" + employeeCD);
 String name = (String)request.getAttribute("name"); 
 System.out.println("name:" + name);
+int restDays = (int)request.getAttribute("restDays"); 
+System.out.println("restDays:" + restDays);
+String shift = (String)request.getAttribute("shift"); 
+System.out.println("shift:" + shift);
 %>
 <!DOCTYPE html>
 <html>
@@ -18,6 +22,10 @@ System.out.println("name:" + name);
 		<li class="tab tab-01 is-active" value="0">有給休暇</li>
 		<li class="tab tab-02" value="1">無給休暇</li>
 	</ul>
+	<div>
+		<input type="hidden" id="shiftData" value=<%= shift %> />
+		<p>現在の有給取得日数: <%= restDays %>日</p>
+	</div>
 	<div class="tab-contents">
 		<form action="HolidayApplicationConfirmServlet" method="post" id="HolidayForm">
 			<div class="content tab-01 is-display">
@@ -84,6 +92,7 @@ System.out.println("name:" + name);
 					</tr>
 				</table>
 			</div>
+			<div id="worningArea"></div>
 			<input type="submit" value="確認画面へ" />
 		</form>
 	</div>

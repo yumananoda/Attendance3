@@ -45,13 +45,13 @@ public class HolidayStatusApprovedServlet extends HttpServlet {
 		int status = 1;
 		holidayDao.updateapprovalStatus(holidayCD2, status);
 		
-		ArrayList<ApplicationBean> applicationListOfUnapproved = holidayDao.getHoridayApplicationListOfUnapproved(storeCD);
+		ArrayList<ApplicationBean> applicationListOfUnapproved = holidayDao.getholidayApplicationListOfUnapproved(storeCD);
 		System.out.println(applicationListOfUnapproved);
 		
-		ArrayList<ApplicationBean> applicationListOfApproved = holidayDao.getHoridayApplicationListOfApproved(storeCD);
+		ArrayList<ApplicationBean> applicationListOfApproved = holidayDao.getholidayApplicationListOfApproved(storeCD);
 		System.out.println(applicationListOfApproved);
 		
-		ArrayList<ApplicationBean> applicationListOfRejected = holidayDao.getHoridayApplicationListOfRejected(storeCD);
+		ArrayList<ApplicationBean> applicationListOfRejected = holidayDao.getholidayApplicationListOfRejected(storeCD);
 		System.out.println(applicationListOfRejected);
 		
 		request.setAttribute("applicationListOfUnapproved", applicationListOfUnapproved);

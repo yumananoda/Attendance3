@@ -42,13 +42,13 @@ public class DispHolidayApprovalServlet extends HttpServlet {
 		session.setAttribute("storeCD", storeCD);
 		
 		HolidayDao holidayDao = new HolidayDao();
-		ArrayList<ApplicationBean> applicationListOfUnapproved = holidayDao.getHoridayApplicationListOfUnapproved(storeCD);
+		ArrayList<ApplicationBean> applicationListOfUnapproved = holidayDao.getholidayApplicationListOfUnapproved(storeCD);
 		System.out.println(applicationListOfUnapproved);
 		
-		ArrayList<ApplicationBean> applicationListOfApproved = holidayDao.getHoridayApplicationListOfApproved(storeCD);
+		ArrayList<ApplicationBean> applicationListOfApproved = holidayDao.getholidayApplicationListOfApproved(storeCD);
 		System.out.println(applicationListOfApproved);
 		
-		ArrayList<ApplicationBean> applicationListOfRejected = holidayDao.getHoridayApplicationListOfRejected(storeCD);
+		ArrayList<ApplicationBean> applicationListOfRejected = holidayDao.getholidayApplicationListOfRejected(storeCD);
 		System.out.println(applicationListOfRejected);
 		
 		request.setAttribute("applicationListOfUnapproved", applicationListOfUnapproved);

@@ -22,7 +22,7 @@
 	if (!applicationListOfUnapproved.isEmpty()) {
         System.out.println("ArrayListは空ではないです");
     }else{
-    	System.out.println("ArrayListは空です");
+		System.out.println("ArrayListは空です");
     }
 %>
 <!DOCTYPE html>
@@ -52,7 +52,7 @@
 					<th>休暇種別</th>
 					<th>事由</th>
 					<th>申請日</th>
-					<th>詳細</th>
+					<th>備考</th>
 					<th>処理</th>
 				</tr>
 				<% for(ApplicationBean item : applicationListOfUnapproved){  %>
@@ -80,7 +80,7 @@
 						<td><%= holidayStatus2 %></td>
 						<td><%= item.getReason() %></td>
 						<td><%= formattedDate %></td>
-						<td><a href="#">詳細</a></td>
+						<td><%= item.getNote() %></td>
 						<td>
 							<form action="HolidayStatusApprovedServlet" method="post">
 								<input type="hidden" name= "holidayCD" value=<%= item.getHolidayCD() %> />
@@ -115,7 +115,7 @@
 					<th>休暇種別</th>
 					<th>事由</th>
 					<th>申請日</th>
-					<th>詳細</th>
+					<th>備考</th>
 					<th></th>
 				</tr>
 				<%  for(ApplicationBean item : applicationListOfApproved){ %>
@@ -143,7 +143,7 @@
 						<td><%= holidayStatus2 %></td>
 						<td><%= item.getReason() %></td>
 						<td><%= formattedDate %></td>
-						<td><a href="#">詳細</a></td>
+						<td><%= item.getNote() %></td>
 						<td></td>
 					</tr>
 				<% } %>
@@ -164,7 +164,7 @@
 					<th>休暇種別</th>
 					<th>事由</th>
 					<th>申請日</th>
-					<th>詳細</th>
+					<th>備考</th>
 					<th></th>
 				</tr>
 				<%  for(ApplicationBean item : applicationListOfRejected){ %>
@@ -192,7 +192,7 @@
 						<td><%= holidayStatus2 %></td>
 						<td><%= item.getReason() %></td>
 						<td><%= formattedDate %></td>
-						<td><a href="#">詳細</a></td>
+						<td><%= item.getNote() %></td>
 						<td></td>
 					</tr>
 				<% } %>
@@ -204,6 +204,5 @@
 </div>
 <% session.removeAttribute("sessionApplicationList"); %>
 <script type="module" src="js/tabMenu.js" ></script>
-<script type="module" src="js/HolidayApproval.js" ></script>
 </body>
 </html>

@@ -34,7 +34,7 @@ public class HolidayDao extends CommonDao{
 	}
 
 	
-	public ArrayList<ApplicationBean> getHoridayApplicationListOfUnapproved(int args_storeCD) {
+	public ArrayList<ApplicationBean> getholidayApplicationListOfUnapproved(int args_storeCD) {
 		ArrayList<ApplicationBean> applications = new ArrayList<ApplicationBean>();
 		String query = "SELECT h.*,(SELECT u.name FROM users u WHERE u.employeeCD = h.employeeCD) AS name, "
 				+ "(SELECT u.position FROM users u WHERE u.employeeCD = h.employeeCD) AS position, "
@@ -73,7 +73,7 @@ public class HolidayDao extends CommonDao{
 		return applications;
 	}
 	
-	public ArrayList<ApplicationBean> getHoridayApplicationListOfApproved(int args_storeCD) {
+	public ArrayList<ApplicationBean> getholidayApplicationListOfApproved(int args_storeCD) {
 		ArrayList<ApplicationBean> applications = new ArrayList<ApplicationBean>();
 		String query = "SELECT h.*,(SELECT u.name FROM users u WHERE u.employeeCD = h.employeeCD) AS name, "
 				+ "(SELECT u.position FROM users u WHERE u.employeeCD = h.employeeCD) AS position, "
@@ -112,7 +112,7 @@ public class HolidayDao extends CommonDao{
 		return applications;
 	}
 	
-	public ArrayList<ApplicationBean> getHoridayApplicationListOfRejected(int args_storeCD) {
+	public ArrayList<ApplicationBean> getholidayApplicationListOfRejected(int args_storeCD) {
 		ArrayList<ApplicationBean> applications = new ArrayList<ApplicationBean>();
 		String query = "SELECT h.*,(SELECT u.name FROM users u WHERE u.employeeCD = h.employeeCD) AS name, "
 				+ "(SELECT u.position FROM users u WHERE u.employeeCD = h.employeeCD) AS position, "
@@ -195,4 +195,30 @@ public class HolidayDao extends CommonDao{
         }
 		return holidays;
     }
+	public int getRestDays(int args_employeeCD, String currentYear) {
+		System.out.println(args_employeeCD);
+		String sql = "SELECT COUNT(*) as count FROM holiday WHERE employeeCD=? AND holiday_status=1 AND approval_status=1 AND application_start_date LIKE ?;";
+       System.out.println("ok");
+       int count=0;
+		try (Connection con = DriverManager.getConnection(URL, USER, PASS);
+            PreparedStatement statement = con.prepareStatement(sql)) {
+			statement.setInt(1, args_employeeCD);
+			statement.setString(2, currentYear + "%");
+			
+			ResultSet rs = statement.executeQuery();
+			System.out.println(rs);;
+            while (rs.next()) {
+            	count = rs.getInt("count");
+            	System.out.println(count);
+			}
+            statement.close();
+			con.close();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            // エラーハンドリングを適切に行う
+        }
+        return count;
+    }
+	
 }
