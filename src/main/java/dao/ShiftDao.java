@@ -1,10 +1,12 @@
 package dao;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Time;
 import java.util.ArrayList;
 
 import models.ShiftBean;
@@ -114,5 +116,25 @@ public class ShiftDao extends CommonDao {
 			// エラーハンドリングを適切に行う
 		}
 	}
+	
+	public void exceptionShiftRegister(int employeeCD, Date shiftDate, Time startTime, Time endTime, int category) {
+		String sql = "INSERT INTO exception_shift(employeeCD, shift_date, start_time, end_time, category) VALUES(?,?,?,?,?)";
+		try (Connection con = DriverManager.getConnection(URL, USER, PASS);
+				PreparedStatement statement = con.prepareStatement(sql)) {
 
+			statement.setInt(1, employeeCD);
+			statement.setDate(2, shiftDate);
+			statement.setTime(3, startTime);
+			statement.setTime(4, endTime);
+			statement.setInt(5, category);
+			statement.executeUpdate();
+
+			statement.close();
+			con.close();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			// エラーハンドリングを適切に行う
+		}
+	}
 }

@@ -6,6 +6,9 @@ const registerBtn = document.getElementById("registerBtn");
 const registerUserListEl = document.getElementById("registerUserList");
 const positionEl = document.getElementById("position");
 const errorEl = document.getElementById("error");
+const name = document.getElementById("name");
+const email = document.getElementById("email");
+const hireDate = document.getElementById("hireDate");
 
 const identifyPosition = () => {
   while (positionEl.firstChild) {
@@ -66,7 +69,6 @@ const registerShow = () => {
       console.log("REMOVE_USERS:", REMOVE_USERS);
     });
 
-    registerBtn.disabled = false;
     errorEl.textContent = "";
     const registerName = document.createElement("p");
     const registerEmail = document.createElement("p");
@@ -129,6 +131,7 @@ addBtn.addEventListener("click", async function (event) {
   const inputEmail = formEl.email.value;
   const inputPosition = formEl.position.value;
   const inputHireDate = formEl.hireDate.value;
+  registerBtn.disabled = false;
 
   if(inputName === "" || inputEmail === "" || inputPosition === "" || inputHireDate === ""){
     errorEl.textContent = "エラー:入力されていない項目があります。";
@@ -181,6 +184,16 @@ addBtn.addEventListener("click", async function (event) {
     
     
   
+});
+
+name.addEventListener('input', () => {
+  registerBtn.disabled = true;
+});
+email.addEventListener('input', () => {
+  registerBtn.disabled = true;
+});
+hireDate.addEventListener('input', () => {
+  registerBtn.disabled = true;
 });
 
 

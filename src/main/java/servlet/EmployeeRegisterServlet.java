@@ -42,6 +42,7 @@ public class EmployeeRegisterServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
+		response.setCharacterEncoding("UTF-8");
 		System.out.println("called register");
 		ArrayList<EmployeeBean> EmployeeRegisterList = new ArrayList<>();
 		EmployeeDao employeeDao = new EmployeeDao();
@@ -89,33 +90,33 @@ public class EmployeeRegisterServlet extends HttpServlet {
 			System.out.println(password);
 			Integer employeeCD = null;
 			int storeCD = employeeDao.findStoreCD(managerCD2);
+			
+			int isAdmin = 0;
 
-			EmployeeBean EmployeeRegisterRequest = new EmployeeBean(employeeCD, storeCD, position2, name, password,
+			EmployeeBean EmployeeRegisterRequest = new EmployeeBean(employeeCD, storeCD, position2, isAdmin, name, password,
 					email, sqlDate);
 			EmployeeRegisterList.add(EmployeeRegisterRequest);
 		}
 
-		ArrayList<String> existsEmails = new ArrayList<>();
+		ArrayList<String> existsEmails = new ArrayList<String>();
 		for (EmployeeBean EmployeeRegister : EmployeeRegisterList) {
 			String email = EmployeeRegister.getEmail();
 			if (employeeDao.isEmailExists(email)) {
 				existsEmails.add(email);
 			} else {
 				employeeDao.Register(EmployeeRegister);
-				request.setAttribute("EmployeeRegisterList", EmployeeRegisterList);
-				request.getRequestDispatcher("/EmployeeRegisterConfirm.jsp").forward(request, response);
 			}
+//			request.setAttribute("EmployeeRegisterList", EmployeeRegisterList);
 		}
 		System.out.println(existsEmails);
 		String message = "";
-		message = String.join(",", existsEmails);
-		message += "は登録済みのメールアドレスです。";
+		if(!existsEmails.isEmpty()) {
+			message = String.join(",", existsEmails);
+			message += "は登録済みのメールアドレスです。";			
+		}
 		System.out.println(message);
-		response.setCharacterEncoding("UTF-8");
 		ResponseMessage responseMessage = new ResponseMessage(message, true);
 		String jsonResponse = objectMapper.writeValueAsString(responseMessage);
 		response.getWriter().write(jsonResponse);
-		return;
-
 	}
 }
