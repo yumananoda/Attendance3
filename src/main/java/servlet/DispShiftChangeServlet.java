@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import dao.ShiftDao;
+import models.ExceptionShiftBean;
 import models.ShiftBean;
 
 /**
@@ -39,13 +40,17 @@ public class DispShiftChangeServlet extends HttpServlet {
 		
 		ShiftDao shiftDao = new ShiftDao();
 		ArrayList<ShiftBean> shift = shiftDao.findShiftByEmployeeCD(employeeCD2);
+		ArrayList<ExceptionShiftBean> exceptionShift = shiftDao.findexcEptionShiftByEmployeeCD(employeeCD2);
 
 		ObjectMapper mapper = new ObjectMapper();
 		String json = mapper.writeValueAsString(shift);
+		String json2 = mapper.writeValueAsString(exceptionShift);
 		System.out.println(json);
+		System.out.println(json2);
 		
 		request.setAttribute("employeeCD", employeeCD2);
 		request.setAttribute("shift", json);
+		request.setAttribute("exceptionShift", json2);
 		request.getRequestDispatcher("/ShiftChange.jsp").forward(request, response);
 	}
 }

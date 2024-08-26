@@ -2,7 +2,8 @@ package enums;
 
 public enum ExceptionShiftCategoryEnum {
 	addShift("addShift", 1),
-	removeShift("removeShift", 2);
+	removeShift("removeShift", 2),
+	changeTime("changeTime", 3);
 	
 	private String label;
 	private int id;

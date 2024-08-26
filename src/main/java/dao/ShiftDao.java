@@ -9,6 +9,7 @@ import java.sql.SQLException;
 import java.sql.Time;
 import java.util.ArrayList;
 
+import models.ExceptionShiftBean;
 import models.ShiftBean;
 
 public class ShiftDao extends CommonDao {
@@ -41,6 +42,36 @@ public class ShiftDao extends CommonDao {
 			// エラーハンドリングを適切に行う
 		}
 		return shifts;
+	}
+	
+	public ArrayList<ExceptionShiftBean> findexcEptionShiftByEmployeeCD(int args_employeeCD) {
+		ArrayList<ExceptionShiftBean> exceptionShifts = new ArrayList<ExceptionShiftBean>();
+		String query = "SELECT * FROM exception_shift WHERE employeeCD=?";
+		try (Connection con = DriverManager.getConnection(URL, USER, PASS);
+				PreparedStatement statement = con.prepareStatement(query)) {
+
+			statement.setInt(1, args_employeeCD);
+
+			ResultSet rs = statement.executeQuery();
+			while (rs.next()) {
+				int employeeCD = rs.getInt("employeeCD");
+				java.sql.Date shiftDate = rs.getDate("shift_date");
+				java.sql.Time startTime = rs.getTime("start_time");
+				java.sql.Time endTime = rs.getTime("end_time");
+				int category = rs.getInt("category");
+
+				ExceptionShiftBean exceptionShift = new ExceptionShiftBean(employeeCD, category, shiftDate, startTime, endTime);
+				System.out.println(exceptionShift.getShiftDate());
+				exceptionShifts.add(exceptionShift);
+			}
+			statement.close();
+			con.close();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			// エラーハンドリングを適切に行う
+		}
+		return exceptionShifts;
 	}
 
 	public ShiftBean findShiftDay(ShiftBean shift) {
@@ -136,5 +167,65 @@ public class ShiftDao extends CommonDao {
 			e.printStackTrace();
 			// エラーハンドリングを適切に行う
 		}
+	}
+	
+	public ArrayList<ExceptionShiftBean> findExceptionAddShiftByEmployeeCD(int args_employeeCD) {
+		ArrayList<ExceptionShiftBean> exceptionshifts = new ArrayList<ExceptionShiftBean>();
+		String query = "SELECT * FROM exception_shift WHERE employeeCD=? AND category=1";
+		try (Connection con = DriverManager.getConnection(URL, USER, PASS);
+				PreparedStatement statement = con.prepareStatement(query)) {
+
+			statement.setInt(1, args_employeeCD);
+
+			ResultSet rs = statement.executeQuery();
+			while (rs.next()) {
+				int employeeCD = rs.getInt("employeeCD");
+				java.sql.Date shiftDate = rs.getDate("shift_date");
+				java.sql.Time startTime = rs.getTime("start_time");
+				java.sql.Time endTime = rs.getTime("end_time");
+				int category = rs.getInt("getCategory");
+
+				ExceptionShiftBean shift = new ExceptionShiftBean(employeeCD, category, shiftDate, startTime, endTime);
+				System.out.println(shift.getShiftDate());
+				exceptionshifts.add(shift);
+			}
+			statement.close();
+			con.close();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			// エラーハンドリングを適切に行う
+		}
+		return exceptionshifts;
+	}
+	
+	public ArrayList<ExceptionShiftBean> findExceptionRemoveShiftByEmployeeCD(int args_employeeCD) {
+		ArrayList<ExceptionShiftBean> exceptionshifts = new ArrayList<ExceptionShiftBean>();
+		String query = "SELECT * FROM exception_shift WHERE employeeCD=? AND category=2";
+		try (Connection con = DriverManager.getConnection(URL, USER, PASS);
+				PreparedStatement statement = con.prepareStatement(query)) {
+
+			statement.setInt(1, args_employeeCD);
+
+			ResultSet rs = statement.executeQuery();
+			while (rs.next()) {
+				int employeeCD = rs.getInt("employeeCD");
+				java.sql.Date shiftDate = rs.getDate("shift_date");
+				java.sql.Time startTime = rs.getTime("start_time");
+				java.sql.Time endTime = rs.getTime("end_time");
+				int category = rs.getInt("getCategory");
+
+				ExceptionShiftBean shift = new ExceptionShiftBean(employeeCD, category, shiftDate, startTime, endTime);
+				System.out.println(shift.getShiftDate());
+				exceptionshifts.add(shift);
+			}
+			statement.close();
+			con.close();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			// エラーハンドリングを適切に行う
+		}
+		return exceptionshifts;
 	}
 }

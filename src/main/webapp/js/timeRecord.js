@@ -14,7 +14,12 @@ breakData = JSON.parse(breakData);
 console.log("breakData:", breakData);
 let shiftData = document.getElementById("shiftHolder").value;
 shiftData = JSON.parse(shiftData);
-console.log("shiftData:", shiftData);
+let addShiftData = document.getElementById("addShiftHolder").value;
+addShiftData = JSON.parse(addShiftData);
+console.log("addShiftData:", addShiftData);
+let removeShiftData = document.getElementById("removeShiftHolder").value;
+removeShiftData = JSON.parse(removeShiftData);
+console.log("removeShiftData:", removeShiftData);
 let holidayData = document.getElementById("holidayHolder").value;
 holidayData = JSON.parse(holidayData);
 console.log("holidayData:", holidayData);
@@ -110,6 +115,7 @@ const getDateAndDay = () => {
     const editHref = document.createElement("a");
     const note = document.createElement("td");
 
+    let specifiedDate = `${new Date(currentYear, currentMonth - 1, i).getFullYear()} ${new Date(currentYear, currentMonth - 1, i).getMonth()+1} ${new Date(currentYear, currentMonth - 1, i).getDate()}`;
     const day = new Date(currentYear, currentMonth - 1, i).getDay();
     console.log(i, day);
 
@@ -263,10 +269,66 @@ const getDateAndDay = () => {
     }
     if (workingTime === null &&  estimatedWorkingTime !== null) {
       clockIn.innerText = "欠勤";
-
     }
 
 
+    const findAddShift = addShiftData.find(({ shiftDate }) => `${new Date(shiftDate).getFullYear()} ${new Date(shiftDate).getMonth()+1} ${new Date(shiftDate).getDate()}` === specifiedDate);
+    if (findAddShift !== undefined) {
+      prescribedDays ++;
+      
+      const { startTime, endTime } = findAddShift;
+      shiftClockIn.innerText = startTime;
+      shiftClockOut.innerText = endTime;
+
+      let shiftStrat = new Date(`1970-01-01T${startTime}Z`).getTime();
+      let shiftEnd = new Date(`1970-01-01T${endTime}Z`).getTime();
+
+      estimatedWorkingTime = shiftEnd - shiftStrat;
+      console.log(estimatedWorkingTime);
+
+      if(estimatedWorkingTime >= 21600000){
+        estimatedWorkingTime -= 3600000;
+      }
+      prescribedMilliseconds += estimatedWorkingTime;
+      let hours = estimatedWorkingTime / (1000 * 60 * 60);
+      let clocklHours = Math.floor(hours);
+      let clockMinutes = Math.floor((hours - clocklHours) * 60);
+      if (estimatedWorkingTime >= 0) {
+        shiftClock.innerText = `${clocklHours}時間 ${String(clockMinutes).padStart(2, "0")}分`;
+        console.log(`稼働予定時間は ${clocklHours}時間 ${clockMinutes}分 です`);
+      }
+    }
+    console.log(workingTime, estimatedWorkingTime);
+    if (workingTime !== null && workingTime > estimatedWorkingTime) {
+      let over = workingTime - estimatedWorkingTime;
+      let hours = over / (1000 * 60 * 60);
+      let overHours = Math.floor(hours);
+      let overMinutes = Math.floor((hours - overHours) * 60);
+      overTime.innerText = `${overHours}時間 ${String(overMinutes).padStart(2, "0")}分`;
+      console.log(`所定時間外労働 ${overHours}時間 ${overMinutes}分 です`);
+      totalOverMilliseconds += over;
+    }
+    
+    
+    const findRemoveShift = removeShiftData.find(({ shiftDate }) => `${new Date(shiftDate).getFullYear()} ${new Date(shiftDate).getMonth()+1} ${new Date(shiftDate).getDate()}` === specifiedDate);
+    if (findShift !== undefined && findRemoveShift !== undefined) {
+      prescribedDays --;
+      
+      shiftClockIn.innerText = "";
+      shiftClockOut.innerText = "";
+      shiftClock.innerText = "";
+      
+      console.log(estimatedWorkingTime);
+      prescribedMilliseconds -= estimatedWorkingTime;
+      
+      if (workingTime === null) {
+        clockIn.innerText = "";
+      }
+    }
+    
+    if (workingTime === null && estimatedWorkingTime !== null) {
+      clockIn.innerText = "欠勤";
+    }
 
     const findHolidayDate = holidayData.find(({ applicationStartDate }) => {
       return (
