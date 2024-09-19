@@ -18,12 +18,12 @@
 <head>
 <meta charset="UTF-8">
 <link rel="stylesheet" href="css/modal.css">
-<title>打刻情報変更画面</title>
+<title></title>
 </head>
 <body>
 <%-- <form action="EditTimeRecordServlet" method="POST" id="editTimeRecordForm"> --%>
 <form id="editTimeRecordForm">
-	<h1>実績変更-<%= name %>(従業員番号:<%= employeeCD %>)</h1>
+	<h1>勤怠修正-<%= name %>(従業員番号:<%= employeeCD %>)</h1>
 	<input type="hidden"  id="recordCD" name="recordCD" value=<%= recordCD %> />
 	<input type="hidden"  id="clockInTime" value=<%= clockInTime %> />
 	<input type="hidden"  id="clockOutTime" value=<%= clockOutTime %> />

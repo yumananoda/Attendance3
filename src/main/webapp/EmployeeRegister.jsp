@@ -10,7 +10,7 @@
     <h2>従業員登録</h2>
     <form id="registerForm">
         <div class="input-group">
-            <label for="employeeName">名前:</label>
+            <label for="employeeName">氏名:</label>
             <input type="text" name="name" id="name" required>
         </div>
         <div class="input-group">

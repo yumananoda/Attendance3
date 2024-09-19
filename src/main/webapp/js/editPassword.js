@@ -41,7 +41,7 @@ newPassword.addEventListener('keyup',(e) => {
 
     const disallowed_checked = disallowed_characters_regex.test(e.target.value);
     if(disallowed_checked){
-        disallow.innerText = "使用可能文字が入力されました。";
+        disallow.innerText = "使用可能文字以外の文字が入力されました。";
     }else{
         disallow.innerText = "";
     }

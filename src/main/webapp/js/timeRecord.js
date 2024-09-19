@@ -200,13 +200,15 @@ const getDateAndDay = () => {
     }
     
     
-    if(workingHours > 8){
-      console.log(workingHours)
-      note.innerText = "労働基準法で定められている1日の労働時間を超えています。"
+    
 
-    }else if(totalWorkingMillisecondsOfWeeks > 144000000){
+    if(totalWorkingMillisecondsOfWeeks > 144000000){
       console.log(totalWorkingMillisecondsOfWeeks)
       note.innerText = "労働基準法で定められている一週間の労働時間を超えています。"
+
+    }else if(workingHours > 8){
+      console.log(workingHours)
+      note.innerText = "労働基準法で定められている1日の労働時間を超えています。"
 
     }else if(workingHours >= 8 && breakMinutes < 60)  {
       console.log(workingHours)
@@ -381,7 +383,7 @@ const getDateAndDay = () => {
     console.log(HolidayTimeFlag);
 
     if (findWorkingDate) {
-      editHref.innerText = "実績変更";
+      editHref.innerText = "勤怠修正";
       const { recordCD, clockInTime, clockOutTime } = findWorkingDate;
       editHref.href = `/DateTime/DispEditTimeRecordServlet?employeeCD=${employeeCD}&name=${name}&recordCD=${recordCD}&clockInTime=${clockInTime}&clockOutTime=${clockOutTime}`;
       edit.appendChild(editHref);
@@ -406,7 +408,7 @@ const getDateAndDay = () => {
   const total_tr1 = document.createElement("tr");
   const total_th1 = document.createElement("th");
   const total_td1 = document.createElement("td");
-  total_th1.innerText = "合計勤務日数";
+  total_th1.innerText = "累計勤務日数";
   total_td1.innerText = totalWorkingDays;
   total_tr1.appendChild(total_th1);
   total_tr1.appendChild(total_td1);
@@ -416,7 +418,7 @@ const getDateAndDay = () => {
   const total_tr2 = document.createElement("tr");
   const total_th2 = document.createElement("th");
   const total_td2 = document.createElement("td");
-  total_th2.innerText = "合計勤務時間";
+  total_th2.innerText = "累計労働時間";
   let totalWorkingHours = totalWorkingMilliseconds / (1000 * 60 * 60);
   let totalWorkingHours2 = Math.floor(totalWorkingHours);
   let totalWorkingMinutes = Math.floor((totalWorkingHours - totalWorkingHours2) * 60);
@@ -429,7 +431,7 @@ const getDateAndDay = () => {
   const total_tr3 = document.createElement("tr");
   const total_th3 = document.createElement("th");
   const total_td3 = document.createElement("td");
-  total_th3.innerText = "合計残業時間";
+  total_th3.innerText = "累計所定外労働時間";
   console.log(totalOverMilliseconds);
   let totalOverHours = totalOverMilliseconds / (1000 * 60 * 60);
   let totalOverHours2 = Math.floor(totalOverHours);
@@ -442,7 +444,7 @@ const getDateAndDay = () => {
   const total_tr4 = document.createElement("tr");
   const total_th4 = document.createElement("th");
   const total_td4 = document.createElement("td");
-  total_th4.innerText = "合計有給時間";
+  total_th4.innerText = "累計有給取得時間";
   console.log(totalHolidayMilliseconds);
   let totalHolidayHours = totalHolidayMilliseconds / (1000 * 60 * 60);
   let totalHolidayHours2 = Math.floor(totalHolidayHours);
