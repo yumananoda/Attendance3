@@ -274,12 +274,10 @@ const getDateAndDay = () => {
       totalOverMilliseconds += over;
     }
 
-    console.log(today >= specifiedDate)
-    if (workingTime === null &&  estimatedWorkingTime !== null) {
-      if(today >= specifiedDate){
-        clockIn.innerText = "欠勤";
-        absent ++;
-      }
+    console.log(new Date(today), new Date(specifiedDate), new Date(today) >= new Date(specifiedDate));
+    if (workingTime === null &&  estimatedWorkingTime !== null && new Date(today) >= new Date(specifiedDate)) {
+      clockIn.innerText = "欠勤";
+      absent ++;
     }
 
 
