@@ -49,7 +49,6 @@
 					<th>役職</th>
 					<th>所属店舗</th>
 					<th>取得希望日(期間)</th>
-					<th>休暇種別</th>
 					<th>事由</th>
 					<th>申請日</th>
 					<th>備考</th>
@@ -77,7 +76,6 @@
 						<td><%= position2 %></td>
 						<td><%= storeName2 %></td>
 						<td><%= item.getStartDate() %>(<%= item.getHolidayDays() %>日間)</td>
-						<td><%= holidayStatus2 %></td>
 						<td><%= item.getReason() %></td>
 						<td><%= formattedDate %></td>
 						<td><%= item.getNote() %></td>
@@ -112,7 +110,6 @@
 					<th>役職</th>
 					<th>所属店舗</th>
 					<th>取得希望日(期間)</th>
-					<th>休暇種別</th>
 					<th>事由</th>
 					<th>申請日</th>
 					<th>備考</th>
@@ -140,7 +137,6 @@
 						<td><%= position2 %></td>
 						<td><%= storeName2 %></td>
 						<td><%= item.getStartDate() %>(<%= item.getHolidayDays() %>日間)</td>
-						<td><%= holidayStatus2 %></td>
 						<td><%= item.getReason() %></td>
 						<td><%= formattedDate %></td>
 						<td><%= item.getNote() %></td>
@@ -161,7 +157,6 @@
 					<th>役職</th>
 					<th>所属店舗</th>
 					<th>取得希望日(期間)</th>
-					<th>休暇種別</th>
 					<th>事由</th>
 					<th>申請日</th>
 					<th>備考</th>
@@ -189,7 +184,6 @@
 						<td><%= position2 %></td>
 						<td><%= storeName2 %></td>
 						<td><%= item.getStartDate() %>(<%= item.getHolidayDays() %>日間)</td>
-						<td><%= holidayStatus2 %></td>
 						<td><%= item.getReason() %></td>
 						<td><%= formattedDate %></td>
 						<td><%= item.getNote() %></td>

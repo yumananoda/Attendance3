@@ -26,10 +26,13 @@ console.log("holidayData:", holidayData);
 
 let currentYear = null;
 let currentMonth = null;
+let currentDay = null;
+let today = null;
 let DispStartYear = null;
 let DispStartMonth = null;
 let dispDuration = null;
 let endDate = null;
+let absent = null;
 
 const getCurrent = (currentYear, currentMonth) => {
   document.getElementById("year").innerHTML = `${currentYear}年`;
@@ -118,6 +121,7 @@ const getDateAndDay = () => {
     let specifiedDate = `${new Date(currentYear, currentMonth - 1, i).getFullYear()} ${new Date(currentYear, currentMonth - 1, i).getMonth()+1} ${new Date(currentYear, currentMonth - 1, i).getDate()}`;
     const day = new Date(currentYear, currentMonth - 1, i).getDay();
     console.log(i, day);
+    console.log(specifiedDate);
 
     console.log(WEEKS[day]);
     date.innerText = `${i}日`;
@@ -269,8 +273,13 @@ const getDateAndDay = () => {
       console.log(`所定時間外労働 ${overHours}時間 ${overMinutes}分 です`);
       totalOverMilliseconds += over;
     }
+
+    console.log(today >= specifiedDate)
     if (workingTime === null &&  estimatedWorkingTime !== null) {
-      clockIn.innerText = "欠勤";
+      if(today >= specifiedDate){
+        clockIn.innerText = "欠勤";
+        absent ++;
+      }
     }
 
 
@@ -328,9 +337,10 @@ const getDateAndDay = () => {
       }
     }
     
-    if (workingTime === null && estimatedWorkingTime !== null) {
-      clockIn.innerText = "欠勤";
-    }
+    // if (workingTime === null && estimatedWorkingTime !== null) {
+    // if (workingTime === null &&  estimatedWorkingTime !== null) {
+    //   clockIn.innerText = "欠勤";
+    // }
 
     const findHolidayDate = holidayData.find(({ applicationStartDate }) => {
       return (
@@ -475,12 +485,26 @@ const getDateAndDay = () => {
   prescribed_tr2.appendChild(prescribed_th2);
   prescribed_tr2.appendChild(prescribed_td2);
   prescribedArea.appendChild(prescribed_tr2);
+
+  if(absent !== null){
+    const absent_tr = document.createElement("tr");
+    const absent_th = document.createElement("th");
+    const absent_td = document.createElement("td");
+    absent_th.innerText = "欠勤日数";
+    absent_td.innerText = absent;
+    absent_tr.appendChild(absent_th);
+    absent_tr.appendChild(absent_td);
+    prescribedArea.appendChild(absent_tr);
+    console.log("absent:", absent);
+  }
 }
 
 window.addEventListener("DOMContentLoaded", () => {
   const currentDate = new Date();
   currentYear = currentDate.getFullYear();
   currentMonth = currentDate.getMonth() + 1;
+  currentDay = currentDate.getDate();
+  today = `${currentYear} ${currentMonth} ${currentDay}`;
   DispStartYear = currentYear;
   endDate = new Date(currentYear, currentMonth, 0);
   if(currentMonth >= 4 && currentMonth < 10){
