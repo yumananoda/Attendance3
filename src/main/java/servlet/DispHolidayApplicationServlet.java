@@ -16,6 +16,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import dao.EmployeeDao;
 import dao.HolidayDao;
 import dao.ShiftDao;
+import models.ApplicationBean;
 import models.ShiftBean;
 
 /**
@@ -61,10 +62,15 @@ public class DispHolidayApplicationServlet extends HttpServlet {
 		System.out.println(currentYear2);
 		int restDays = holidayDao.getRestDays(employeeCD2, currentYear2);
 		System.out.println("restDays:" + restDays);
+		
+		ArrayList<ApplicationBean> applicationList = holidayDao.getHolidayApplicationListByEmployeeCD(employeeCD2);
+		System.out.println(applicationList);
+		
 		System.out.println("name:" + name);
 		request.setAttribute("name", name);
 		request.setAttribute("restDays", restDays);
 		request.setAttribute("shift", json);
+		request.setAttribute("applicationList", applicationList);
 		
 		request.getRequestDispatcher("/HolidayApplication.jsp").forward(request, response);
 	}

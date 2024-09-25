@@ -91,10 +91,10 @@
 						</td>
 					</tr>
 				<% } %>
-			<% }else{ %>
+			</table>
+		<% }else{ %>
 			<p>全ての有給申請の処理が完了しています。</p>
-			<% } %>
-		</table>
+		<% } %>
 		<div>
 		<%-- <p>チェックした項目全ての操作</p>
 		<button>承認</button>
@@ -143,10 +143,10 @@
 						<td></td>
 					</tr>
 				<% } %>
-			<% }else{ %>
-				<p>現在までに承認した有給申請はありません。</p>
-			<% } %>
-		</table>
+			</table>
+		<% }else{ %>
+			<p>現在までに承認した有給申請はありません。</p>
+		<% } %>
 	</div>
 	<div class="content tab-03">
 		<% if (!applicationListOfRejected.isEmpty()) { %>
@@ -191,9 +191,9 @@
 					</tr>
 				<% } %>
 			<% }else{ %>
+		</table>
 				<p>現在までに拒否した有給申請はありません。</p>
 			<% } %>
-		</table>
 	</div>
 </div>
 <% session.removeAttribute("sessionApplicationList"); %>

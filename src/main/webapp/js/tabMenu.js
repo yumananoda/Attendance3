@@ -1,11 +1,11 @@
 document.addEventListener("DOMContentLoaded",() => {
-    const tabs = document.getElementsByClassName("tab");
-    const contents = document.getElementsByClassName("content");
-    const arrayTabs = Array.from(tabs);
-    const arrayContents = Array.from(contents);
-    arrayTabs.forEach((tab) => {
-      tab.addEventListener("click", (e) => changeTab(e));
-    });
+  const tabs = document.getElementsByClassName("tab");
+  const contents = document.getElementsByClassName("content");
+  const arrayTabs = Array.from(tabs);
+  const arrayContents = Array.from(contents);
+  arrayTabs.forEach((tab) => {
+    tab.addEventListener("click", (e) => changeTab(e));
+  });
 
     function changeTab(e) {
       console.log("e: ", e.target.value);

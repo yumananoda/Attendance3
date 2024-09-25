@@ -221,4 +221,42 @@ public class HolidayDao extends CommonDao{
         return count;
     }
 	
+	public ArrayList<ApplicationBean> getHolidayApplicationListByEmployeeCD(int args_employeeCD) {
+		ArrayList<ApplicationBean> applications = new ArrayList<ApplicationBean>();
+		String query = "SELECT h.*,(SELECT u.name FROM users u WHERE u.employeeCD = h.employeeCD) AS name, "
+				+ "(SELECT u.position FROM users u WHERE u.employeeCD = h.employeeCD) AS position, "
+				+ "DATEDIFF(h.application_end_date, h.application_start_date) AS days_between "
+				+ "FROM holiday h WHERE h.employeeCD = ?";		
+		try (Connection con = DriverManager.getConnection(URL, USER, PASS);
+			PreparedStatement statement = con.prepareStatement(query)) {
+			statement.setInt(1, args_employeeCD);
+				ResultSet rs = statement.executeQuery();
+				while (rs.next()) {
+					int holidayCD = rs.getInt("holidayCD");
+					int employeeCD = rs.getInt("employeeCD");
+					int storeCD = rs.getInt("storeCD");
+					Timestamp date = rs.getTimestamp("application_date");
+					java.sql.Date startDate = rs.getDate("application_start_date");
+					java.sql.Date endDate = rs.getDate("application_end_date");
+					String reason = rs.getString("reason");
+					String note = rs.getString("note");
+					int holidayStatus = rs.getInt("holiday_status");
+					int approvalStatus = rs.getInt("approval_status");
+					String name = rs.getString("name");
+					int position = rs.getInt("position");
+					int holidayDays = rs.getInt("days_between");
+	
+					ApplicationBean application = new ApplicationBean(holidayCD, employeeCD, storeCD, position, holidayStatus, approvalStatus, holidayDays, date, startDate, endDate, reason, note, name);
+					System.out.println(application.getReason());
+					applications.add(application);
+				}
+			statement.close();
+			con.close();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			// エラーハンドリングを適切に行う
+		}
+		return applications;
+	}
 }

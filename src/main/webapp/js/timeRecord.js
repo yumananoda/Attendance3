@@ -32,7 +32,6 @@ let DispStartYear = null;
 let DispStartMonth = null;
 let dispDuration = null;
 let endDate = null;
-let absent = null;
 
 const getCurrent = (currentYear, currentMonth) => {
   document.getElementById("year").innerHTML = `${currentYear}年`;
@@ -57,6 +56,7 @@ const getDateAndDay = () => {
   let totalOverMilliseconds = 0;
   let prescribedDays = 0;
   let prescribedMilliseconds = 0;
+  let absent = 0;
   let HolidayTimeFlag = "false";
   dispDuration = DispStartYear + String(DispStartMonth).padStart(2, "0");
   
@@ -484,7 +484,7 @@ const getDateAndDay = () => {
   prescribed_tr2.appendChild(prescribed_td2);
   prescribedArea.appendChild(prescribed_tr2);
 
-  if(absent !== null){
+  if(absent !== 0){
     const absent_tr = document.createElement("tr");
     const absent_th = document.createElement("th");
     const absent_td = document.createElement("td");

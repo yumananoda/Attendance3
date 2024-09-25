@@ -1,5 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ page import="java.util.ArrayList" %>
+<%@ page import="models.ApplicationBean" %>
+<%@ page import="java.text.SimpleDateFormat" %>
+<%@ page import="java.sql.Timestamp" %>
+<%@ page import="java.sql.Date" %>
+<%@ page import="java.time.LocalDate" %>
+<%@ page import="java.time.format.DateTimeFormatter" %>
+<%@ page import="java.time.temporal.ChronoUnit" %>
+<%@ page import="enums.HolidayStatusEnum" %>
 <%
 String employeeCD = (String)session.getAttribute("employeeCD"); 
 System.out.println("employeeCD:" + employeeCD);
@@ -9,6 +18,8 @@ int restDays = (int)request.getAttribute("restDays");
 System.out.println("restDays:" + restDays);
 String shift = (String)request.getAttribute("shift"); 
 System.out.println("shift:" + shift);
+ArrayList<ApplicationBean> applicationList = (ArrayList<ApplicationBean>)request.getAttribute("applicationList");
+System.out.println("applicationList:" + applicationList);
 %>
 <!DOCTYPE html>
 <html>
@@ -21,7 +32,10 @@ System.out.println("shift:" + shift);
 	<ul class="tab-button">
 		<li class="tab tab-01 is-active" value="0">有給休暇</li>
 		<li class="tab tab-02" value="1">無給休暇</li>
+		<li class="tab tab-03" value="2">申請履歴</li>
 	</ul>
+
+
 	<div>
 		<input type="hidden" id="shiftData" value=<%= shift %> />
 		<p>現在の有給取得日数: <%= restDays %>日</p>
@@ -73,6 +87,7 @@ System.out.println("shift:" + shift);
 					</tr>
 				</table>
 			</div>
+
 			<div class="content tab-02">
 				<table>
 					<tr>
@@ -91,6 +106,39 @@ System.out.println("shift:" + shift);
 						<th>事由</th>
 					</tr>
 				</table>
+			</div>
+
+			<div class="content tab-03">
+				<% if (!applicationList.isEmpty()) { %>
+					<table>
+						<tr>
+							<th>申請日</th>
+							<th>取得希望日</th>
+							<th>事由</th>
+							<th>備考</th>
+							<th>申請状況</th>
+						</tr>
+						<%  for(ApplicationBean item : applicationList){ %>
+						<% 
+							Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+							SimpleDateFormat sdf = new SimpleDateFormat("yyyy年MM月dd日");
+							String formattedDate = sdf.format(item.getDate());
+							
+							HolidayStatusEnum holidayStatus = HolidayStatusEnum.getById(item.getHolidayStatus());
+							String holidayStatus2 = holidayStatus.getLabel();
+						%>
+							<tr>
+								<td><%= formattedDate %></td>
+								<td><%= item.getStartDate() %>(<%= item.getHolidayDays() %>日間)</td>
+								<td><%= item.getReason() %></td>
+								<td><%= item.getNote() %></td>
+								<td><%= holidayStatus2 %></td>
+							</tr>
+						<% } %>
+					</table>
+				<% }else{ %>
+					<p>現在までに提出した有給申請はありません。</p>
+				<% } %>
 			</div>
 			<div id="worningArea"></div>
 			<input type="submit" value="確認画面へ" />
