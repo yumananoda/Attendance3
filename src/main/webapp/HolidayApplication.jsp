@@ -8,7 +8,7 @@
 <%@ page import="java.time.LocalDate" %>
 <%@ page import="java.time.format.DateTimeFormatter" %>
 <%@ page import="java.time.temporal.ChronoUnit" %>
-<%@ page import="enums.HolidayStatusEnum" %>
+<%@ page import="enums.ApprovalStatusEnum" %>
 <%
 String employeeCD = (String)session.getAttribute("employeeCD"); 
 System.out.println("employeeCD:" + employeeCD);
@@ -123,16 +123,16 @@ System.out.println("applicationList:" + applicationList);
 							Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 							SimpleDateFormat sdf = new SimpleDateFormat("yyyy年MM月dd日");
 							String formattedDate = sdf.format(item.getDate());
-							
-							HolidayStatusEnum holidayStatus = HolidayStatusEnum.getById(item.getHolidayStatus());
-							String holidayStatus2 = holidayStatus.getLabel();
+							System.out.println(item.getApprovalStatus());
+							ApprovalStatusEnum approvalStatus = ApprovalStatusEnum.getById(item.getApprovalStatus());
+							String approvalStatus2 = approvalStatus.getLabel();
 						%>
 							<tr>
 								<td><%= formattedDate %></td>
 								<td><%= item.getStartDate() %>(<%= item.getHolidayDays() %>日間)</td>
 								<td><%= item.getReason() %></td>
 								<td><%= item.getNote() %></td>
-								<td><%= holidayStatus2 %></td>
+								<td><%= approvalStatus2 %></td>
 							</tr>
 						<% } %>
 					</table>
