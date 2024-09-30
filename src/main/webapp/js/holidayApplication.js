@@ -4,11 +4,12 @@ const worningArea = document.getElementById("worningArea");
 const shiftHolder = document.getElementById("shiftData").value;
 const shiftData = JSON.parse(shiftHolder);
 console.log(shiftData);
-// const startDateInput = document.getElementById("startDate");
-// const multipleMenu = document.getElementById("SelectHolidayKind");
 const SelectHolidayKind = document.getElementById("multipleMenu");
 const holidayKinds = document.getElementsByClassName("holidayKind");
 const HolidayForm = document.getElementsByClassName("HolidayForm");
+const approved = document.getElementById("approved");
+const divAll = document.getElementById("divAll");
+const divApproved = document.getElementById("divApproved");
 
 document.addEventListener("DOMContentLoaded", function () {
   const today = new Date();
@@ -42,18 +43,16 @@ dateInput1.addEventListener("change", function () {
   }else{
     worningArea.innerText = "";
   }
-
 });
 
-//SelectHolidayKind.addEventListener("change",() => {
-//  if(holidayKinds[2].checked){
-//    multipleMenu.style.display="";
-//  }else{
-//    multipleMenu.style.display="none";
-//  }
-//})
 
-// HolidayForm.addEventListener("click", () => {
-//   window.location.href = `HolidayApplicationConfirm.jsp`;
-//   sessionStorage.setItem("INFO", JSON.stringify(INFO));
-// })
+
+approved.addEventListener("change", () => {
+  if(approved.checked) {
+    divApproved.classList.add("selected");
+    divAll.classList.remove("selected");
+  } else {
+    divAll.classList.add("selected");
+    divApproved.classList.remove("selected");
+  }
+});

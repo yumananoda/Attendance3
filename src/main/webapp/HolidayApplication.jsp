@@ -20,6 +20,8 @@ String shift = (String)request.getAttribute("shift");
 System.out.println("shift:" + shift);
 ArrayList<ApplicationBean> applicationList = (ArrayList<ApplicationBean>)request.getAttribute("applicationList");
 System.out.println("applicationList:" + applicationList);
+ArrayList<ApplicationBean> applicationListOfApproved = (ArrayList<ApplicationBean>)request.getAttribute("applicationListOfApproved");
+System.out.println("applicationListOfApproved:" + applicationListOfApproved);
 %>
 <!DOCTYPE html>
 <html>
@@ -27,6 +29,7 @@ System.out.println("applicationList:" + applicationList);
 <meta charset="UTF-8">
 <title>有給申請画面</title>
 <link rel="stylesheet" href="css/tabMenu.css">
+<link rel="stylesheet" href="css/holidayApplication.css">
 </head>
 <body>
 	<ul class="tab-button">
@@ -109,36 +112,73 @@ System.out.println("applicationList:" + applicationList);
 			</div>
 
 			<div class="content tab-03">
-				<% if (!applicationList.isEmpty()) { %>
-					<table>
-						<tr>
-							<th>申請日</th>
-							<th>取得希望日</th>
-							<th>事由</th>
-							<th>備考</th>
-							<th>申請状況</th>
-						</tr>
-						<%  for(ApplicationBean item : applicationList){ %>
-						<% 
-							Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-							SimpleDateFormat sdf = new SimpleDateFormat("yyyy年MM月dd日");
-							String formattedDate = sdf.format(item.getDate());
-							System.out.println(item.getApprovalStatus());
-							ApprovalStatusEnum approvalStatus = ApprovalStatusEnum.getById(item.getApprovalStatus());
-							String approvalStatus2 = approvalStatus.getLabel();
-						%>
+				<label><input type="checkbox" id="approved" />承認済のみ表示</label>
+				<div id="divAll" class="checkbox selected">
+					<% if (!applicationList.isEmpty()) { %>
+						<table>
 							<tr>
-								<td><%= formattedDate %></td>
-								<td><%= item.getStartDate() %>(<%= item.getHolidayDays() %>日間)</td>
-								<td><%= item.getReason() %></td>
-								<td><%= item.getNote() %></td>
-								<td><%= approvalStatus2 %></td>
+								<th>申請日</th>
+								<th>取得希望日</th>
+								<th>事由</th>
+								<th>備考</th>
+								<th>申請状況</th>
 							</tr>
-						<% } %>
-					</table>
-				<% }else{ %>
-					<p>現在までに提出した有給申請はありません。</p>
-				<% } %>
+							<%  for(ApplicationBean item : applicationList){ %>
+							<% 
+								Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+								SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+								String formattedDate = sdf.format(item.getDate());
+								System.out.println(item.getApprovalStatus());
+								ApprovalStatusEnum approvalStatus = ApprovalStatusEnum.getById(item.getApprovalStatus());
+								String approvalStatus2 = approvalStatus.getLabel();
+							%>
+								<tr>
+									<td><%= formattedDate %></td>
+									<td><%= item.getStartDate() %>(<%= item.getHolidayDays() %>日間)</td>
+									<td><%= item.getReason() %></td>
+									<td><%= item.getNote() %></td>
+									<td><%= approvalStatus2 %></td>
+								</tr>
+							<% } %>
+						</table>
+					<% }else{ %>
+						<p>現在までに提出した有給申請はありません。</p>
+					<% } %>
+				</div>
+
+				<div id="divApproved" class="checkbox">
+					<% if (!applicationListOfApproved.isEmpty()) { %>
+						<table>
+							<tr>
+								<th>申請日</th>
+								<th>取得希望日</th>
+								<th>事由</th>
+								<th>備考</th>
+								<th>申請状況</th>
+							</tr>
+							<%  for(ApplicationBean item : applicationListOfApproved){ %>
+							<% 
+								Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+								SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+								String formattedDate = sdf.format(item.getDate());
+								System.out.println(item.getApprovalStatus());
+								ApprovalStatusEnum approvalStatus = ApprovalStatusEnum.getById(item.getApprovalStatus());
+								String approvalStatus2 = approvalStatus.getLabel();
+							%>
+								<tr>
+									<td><%= formattedDate %></td>
+									<td><%= item.getStartDate() %>(<%= item.getHolidayDays() %>日間)</td>
+									<td><%= item.getReason() %></td>
+									<td><%= item.getNote() %></td>
+									<td><%= approvalStatus2 %></td>
+								</tr>
+							<% } %>
+						</table>
+					<% }else{ %>
+						<p>現在までに提出した有給申請はありません。</p>
+					<% } %>
+				</div>
+
 			</div>
 			<div id="worningArea"></div>
 			<input type="submit" value="確認画面へ" />

@@ -65,12 +65,15 @@ public class DispHolidayApplicationServlet extends HttpServlet {
 		
 		ArrayList<ApplicationBean> applicationList = holidayDao.getHolidayApplicationListByEmployeeCD(employeeCD2);
 		System.out.println(applicationList);
+		ArrayList<ApplicationBean> applicationListOfApproved = holidayDao.getholidayApplicationListOfApprovedByEmployeeCD(employeeCD2);
+		System.out.println(applicationListOfApproved);
 		
 		System.out.println("name:" + name);
 		request.setAttribute("name", name);
 		request.setAttribute("restDays", restDays);
 		request.setAttribute("shift", json);
 		request.setAttribute("applicationList", applicationList);
+		request.setAttribute("applicationListOfApproved", applicationListOfApproved);
 		
 		request.getRequestDispatcher("/HolidayApplication.jsp").forward(request, response);
 	}
