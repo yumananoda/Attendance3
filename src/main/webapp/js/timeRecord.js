@@ -2,6 +2,7 @@ import { WEEKS } from "./const.js";
 
 const employeeCD = document.getElementById("employeeCD").value;
 const name = document.getElementById("name").value;
+const agreements = document.getElementById("agreements").value;
 const timeRecordArea = document.getElementById("timeRecordArea");
 const totalDataArea = document.getElementById("totalDataArea");
 const prescribedArea = document.getElementById("prescribedArea");
@@ -205,7 +206,7 @@ const getDateAndDay = () => {
     
     
     
-
+    //agreements(36協定の締結の有無)が１の時と０の時で動きを変える処理を付け加える
     if(totalWorkingMillisecondsOfWeeks > 144000000){
       console.log(totalWorkingMillisecondsOfWeeks)
       note.innerText = "労働基準法で定められている一週間の労働時間を超えています。"

@@ -5,6 +5,7 @@
 <%
 	int employeeCD = (int)request.getAttribute("employeeCD");
 	String name = (String)request.getAttribute("name");
+	String agreements = (String)request.getAttribute("agreements");
 	String timeRecords = (String)request.getAttribute("timeRecords");
 	String breaks = (String)request.getAttribute("breaks");
 	String shift = (String)request.getAttribute("shift");
@@ -37,6 +38,7 @@
     <div id="timeRecordArea">
         <input id="employeeCD" type="hidden" value=<%= employeeCD %> /> 
         <input id="name" type="hidden" value=<%= name %> /> 
+        <input id="agreements" type="hidden" value=<%= agreements %> />
         <input id="timeRecordHolder" type="hidden" value=<%= timeRecords %> /> 
         <input id="breaksHolder" type="hidden" value=<%= breaks %> /> 
         <input id="shiftHolder" type="hidden" value=<%= shift %> /> 

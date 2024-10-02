@@ -46,6 +46,8 @@ public class DispTimeRecordServlet extends HttpServlet {
 		int employeeCD2 = Integer.parseInt(employeeCD);
 		EmployeeDao employeeDao = new EmployeeDao();
 		String name = employeeDao.getEmployeeName(employeeCD2);
+		int agreements = employeeDao.getAgreements(employeeCD2);
+		System.out.println("agreements:" + agreements);
 		
 		TimeRecordDao timeRecordDao = new TimeRecordDao();
 		ArrayList<TimeRecordsBean> timeRecords = timeRecordDao.getStatus(employeeCD2);
@@ -86,6 +88,7 @@ public class DispTimeRecordServlet extends HttpServlet {
 		
 		request.setAttribute("employeeCD", employeeCD2);
 		request.setAttribute("name", name);
+		request.setAttribute("agreements", agreements);
 		request.setAttribute("timeRecords", json);
 		request.setAttribute("breaks", json1);
 		request.setAttribute("shift", json2);

@@ -218,6 +218,26 @@ public class EmployeeDao extends CommonDao {
 		} 
 		return null; 
 	}
+	
+	public int getAgreements(int employeeCD) {
+		String query = "SELECT 36Agreements FROM users WHERE employeeCD = ?"; 
+		int agreements = 1; 
+		try (Connection con = DriverManager.getConnection(URL, USER, PASS); 
+			PreparedStatement statement = con.prepareStatement(query)) { 
+			statement.setInt(1, employeeCD); 
+			ResultSet rs = statement.executeQuery(); 
+			while (rs.next()) { 
+				agreements = rs.getInt("36Agreements"); 
+				System.out.println(agreements); 
+			} 
+			statement.close(); 
+			con.close(); 
+		} catch (SQLException e) { 
+			e.printStackTrace(); 
+		} 
+		return agreements; 
+	}
+	
 	public String getPassword(int employeeCD) {
 		String query = "SELECT password FROM users WHERE employeeCD = ?"; 
 		try (Connection con = DriverManager.getConnection(URL, USER, PASS); 
