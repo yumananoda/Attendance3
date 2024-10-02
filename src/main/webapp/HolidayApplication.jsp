@@ -89,6 +89,8 @@ System.out.println("applicationListOfApproved:" + applicationListOfApproved);
 						<td><textarea name="note"></textarea></td>
 					</tr>
 				</table>
+				<div id="worningArea"></div>
+				<input type="submit" value="確認画面へ" />
 			</div>
 
 			<div class="content tab-02">
@@ -109,6 +111,8 @@ System.out.println("applicationListOfApproved:" + applicationListOfApproved);
 						<th>事由</th>
 					</tr>
 				</table>
+				<div id="worningArea"></div>
+				<input type="submit" value="確認画面へ" />
 			</div>
 
 			<div class="content tab-03">
@@ -180,8 +184,6 @@ System.out.println("applicationListOfApproved:" + applicationListOfApproved);
 				</div>
 
 			</div>
-			<div id="worningArea"></div>
-			<input type="submit" value="確認画面へ" />
 		</form>
 	</div>
 

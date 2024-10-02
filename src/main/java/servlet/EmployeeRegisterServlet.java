@@ -85,6 +85,10 @@ public class EmployeeRegisterServlet extends HttpServlet {
 			System.out.println(localDate);
 			Date sqlDate = Date.valueOf(localDate);
 			System.out.println(sqlDate);
+			
+			String agreements = (String) data.get("agreementsValue");
+			int agreements2 = Integer.parseInt(agreements);
+			System.out.println("agreements:" + agreements2);
 
 			String password = (String) data.get("password");
 			System.out.println(password);
@@ -93,7 +97,7 @@ public class EmployeeRegisterServlet extends HttpServlet {
 			
 			int isAdmin = 0;
 
-			EmployeeBean EmployeeRegisterRequest = new EmployeeBean(employeeCD, storeCD, position2, isAdmin, name, password,
+			EmployeeBean EmployeeRegisterRequest = new EmployeeBean(employeeCD, storeCD, position2, agreements2, isAdmin, name, password,
 					email, sqlDate);
 			EmployeeRegisterList.add(EmployeeRegisterRequest);
 		}

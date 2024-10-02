@@ -30,9 +30,10 @@ public class EmployeeDao extends CommonDao {
 				int storeCD = rs.getInt("storeCD");
 				java.sql.Date hire_date = rs.getDate("hire_date");
 				int position = rs.getInt("position");
+				int agreements = rs.getInt("36Agreements"); 
 				int isAdmin = rs.getInt("isAdmin");
 
-				EmployeeBean user = new EmployeeBean(employeeCD, storeCD, position, isAdmin, name, password, email, hire_date);
+				EmployeeBean user = new EmployeeBean(employeeCD, storeCD, position, agreements, isAdmin, name, password, email, hire_date);
 				System.out.println(user.getName());
 				return user;
 			}
@@ -68,7 +69,7 @@ public class EmployeeDao extends CommonDao {
 
 
 	public void Register(EmployeeBean EmployeeRegister) {
-		String query = "INSERT INTO users(name, email, password, storeCD, hire_date, position) VALUES(?,?,?,?,?,?)";
+		String query = "INSERT INTO users(name, email, password, storeCD, hire_date, position, 36Agreements) VALUES(?,?,?,?,?,?,?)";
 		try (Connection con = DriverManager.getConnection(URL, USER, PASS);
 				PreparedStatement statement = con.prepareStatement(query)) {
 
@@ -78,6 +79,7 @@ public class EmployeeDao extends CommonDao {
 			statement.setInt(4, EmployeeRegister.getStoreCD());
 			statement.setDate(5, EmployeeRegister.getHire_date());
 			statement.setInt(6, EmployeeRegister.getPosition());
+			statement.setInt(7, EmployeeRegister.getAgreements());
 
 			statement.executeUpdate();
 			statement.close();
@@ -164,8 +166,9 @@ public class EmployeeDao extends CommonDao {
 				int storeCD = rs.getInt("storeCD"); 
 				java.sql.Date hire_date = rs.getDate("hire_date"); 
 				int position = rs.getInt("position"); 
+				int agreements = rs.getInt("36Agreements"); 
 				int isAdmin = rs.getInt("isAdmin"); 
-				EmployeeBean employeeInfo = new EmployeeBean(employeeCD, storeCD, position, isAdmin, name, password, email, hire_date); 
+				EmployeeBean employeeInfo = new EmployeeBean(employeeCD, storeCD, position, agreements, isAdmin, name, password, email, hire_date); 
 				System.out.println(employeeInfo.getName()); 
 				return employeeInfo; 
 			} 

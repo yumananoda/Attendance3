@@ -10,23 +10,29 @@
     <h2>従業員登録</h2>
     <form id="registerForm">
         <div class="input-group">
-            <label for="employeeName">氏名:</label>
-            <input type="text" name="name" id="name" required>
+            <label for="name">氏名:</label>
+            <input type="text" name="name" id="name" required />
         </div>
         <div class="input-group">
             <label for="email">メールアドレス:</label>
-            <input type="email" name="email" id="email" required>
+            <input type="email" name="email" id="email" required />
         </div>
         <div id="position" class="radio-group"></div>
         <div>
             <label for="hireDate">入社日:</label>
-            <input type="date" id="hireDate" name="hireDate" required>
+            <input type="date" id="hireDate" name="hireDate" required />
+        </div>
+        <div>
+            <input type="checkbox" id="36Agreements" name="36Agreements" checked />
+            <input type="hidden" id="36AgreementsValue" name="36AgreementsValue" value="1" />
+            <label for="36Agreements">36協定の締結の承認済</label>
         </div>
         <button id="addEmployee">追加</button>
         <input type="submit" id="registerBtn" value="登録" disabled />
         <div id="error" class="error"></div>
     </form>
     <div id="registerUserList"></div>
+
     <script type="text/javascript" src="https://cdn.emailjs.com/dist/email.min.js"></script>
     <script type="module" src="js/const.js" ></script>
     <script type="module" src="js/employeeRegister.js" ></script>

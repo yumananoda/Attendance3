@@ -1,4 +1,4 @@
-import { POSITION_NAME, INFO, REMOVE_USERS, API_CONFIG } from "./const.js";
+import { POSITION_NAME, INFO, REMOVE_USERS, API_CONFIG, AGREEMENTS} from "./const.js";
 
 const formEl = document.getElementById("registerForm");
 const addBtn = document.getElementById("addEmployee");
@@ -9,6 +9,9 @@ const errorEl = document.getElementById("error");
 const name = document.getElementById("name");
 const email = document.getElementById("email");
 const hireDate = document.getElementById("hireDate");
+const agreements = document.getElementById("36Agreements");
+const agreementsValue = document.getElementById("36AgreementsValue");
+console.log(agreementsValue.value);
 
 const identifyPosition = () => {
   while (positionEl.firstChild) {
@@ -47,7 +50,7 @@ const registerShow = () => {
   while (registerUserListEl.firstChild) {
     registerUserListEl.removeChild(registerUserListEl.firstChild);
   }
-  INFO.forEach(({ id, name, email, hireDate, position }) => {
+  INFO.forEach(({ id, name, email, hireDate, position, agreementsValue}) => {
     const registerDiv = document.createElement("div");
     const check = document.createElement("input");
     check.type = "checkbox";
@@ -74,15 +77,19 @@ const registerShow = () => {
     const registerEmail = document.createElement("p");
     const registerPosition = document.createElement("p");
     const registerHireDate = document.createElement("p");
+    const registerAgreements = document.createElement("p");
     registerName.innerText = name;
     registerEmail.innerText = email;
     registerPosition.innerText = POSITION_NAME[position];
     registerHireDate.innerText = hireDate;
+      registerAgreements.innerText = AGREEMENTS[agreementsValue];
+    
     registerDiv.appendChild(check);
     registerDiv.appendChild(registerName);
     registerDiv.appendChild(registerEmail);
     registerDiv.appendChild(registerPosition);
     registerDiv.appendChild(registerHireDate);
+    registerDiv.appendChild(registerAgreements);
     registerUserListEl.appendChild(registerDiv);
   });
 };
@@ -136,6 +143,7 @@ addBtn.addEventListener("click", async function (event) {
   if(inputName === "" || inputEmail === "" || inputPosition === "" || inputHireDate === ""){
     errorEl.textContent = "エラー:入力されていない項目があります。";
     formEl.reset();
+    agreementsValue.value = "1";
     identifyPosition();
     return;
   }
@@ -144,6 +152,7 @@ addBtn.addEventListener("click", async function (event) {
   if (index !== -1) {
     errorEl.textContent = "エラー: 同一のメールアドレスが入力されています。";
     formEl.reset();
+    agreementsValue.value = "1";
     identifyPosition();
     return;
   }
@@ -162,6 +171,7 @@ addBtn.addEventListener("click", async function (event) {
     .then((text) => {
       console.log("text:",text);
       console.log(typeof text);
+      console.log("agreementsValue.value:", agreementsValue.value);
       if (text === "false") {
         INFO.push({
           id: getNextId(),
@@ -169,21 +179,21 @@ addBtn.addEventListener("click", async function (event) {
           email: inputEmail,
           position: inputPosition,
           hireDate: inputHireDate,
+          agreementsValue: agreementsValue.value,
         });
       }else{
         errorEl.textContent = "エラー: データベースに既に存在するメールアドレスは登録できません";
         formEl.reset();
+        agreementsValue.value = "1";
         identifyPosition();
         return;
       }
       console.log(INFO);
       registerShow();
       formEl.reset();
+      agreementsValue.value = "1";
       identifyPosition();
     });
-    
-    
-  
 });
 
 name.addEventListener('input', () => {
@@ -252,3 +262,12 @@ const sendEmail = ({ name, email }) => {
       }
     );
 };
+
+agreements.addEventListener('change', () => {
+  if (agreements.checked) {
+    agreementsValue.value = "1"; 
+  } else {
+    agreementsValue.value = "0";
+  }
+  console.log(agreementsValue.value);
+});

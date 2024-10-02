@@ -45,3 +45,8 @@ export const APPLICATION_STATUS = {
   2: "承認済",
   3: "拒否済",
 };
+
+export const AGREEMENTS = {
+  0: "36協定未締結",
+  1: "36協定締結済",
+};
