@@ -67,6 +67,9 @@ public class DispTimeRecordServlet extends HttpServlet {
 		ArrayList<ExceptionShiftBean> exceptionRemoveShift = shiftDao.findExceptionRemoveShiftByEmployeeCD(employeeCD2);
 		System.out.println("exceptionRemoveShift:" + exceptionRemoveShift);
 		
+		ArrayList<ExceptionShiftBean> exceptionChangeShift = shiftDao.findExceptionChangeShiftByEmployeeCD(employeeCD2);
+		System.out.println("exceptionChangeShift:" + exceptionChangeShift);
+		
 		HolidayDao holidayDao = new HolidayDao();
 		ArrayList<HolidayBean> holiday = holidayDao.findHoliDayByEmployeeCD(employeeCD2);
 		System.out.println("holiday:" + holiday);
@@ -78,13 +81,15 @@ public class DispTimeRecordServlet extends HttpServlet {
 		String json2 = mapper.writeValueAsString(shift);
 		String json3 = mapper.writeValueAsString(exceptionAddShift);
 		String json4 = mapper.writeValueAsString(exceptionRemoveShift);
-		String json5 = mapper.writeValueAsString(holiday);
+		String json5 = mapper.writeValueAsString(exceptionChangeShift);
+		String json6 = mapper.writeValueAsString(holiday);
 		System.out.println(json);
 		System.out.println(json1);
 		System.out.println(json2);
 		System.out.println(json3);
 		System.out.println(json4);
 		System.out.println(json5);
+		System.out.println(json6);
 		
 		request.setAttribute("employeeCD", employeeCD2);
 		request.setAttribute("name", name);
@@ -94,7 +99,8 @@ public class DispTimeRecordServlet extends HttpServlet {
 		request.setAttribute("shift", json2);
 		request.setAttribute("exceptionAddShift", json3);
 		request.setAttribute("exceptionRemoveShift", json4);
-		request.setAttribute("holiday", json5);
+		request.setAttribute("exceptionChangeShift", json5);
+		request.setAttribute("holiday", json6);
 		request.getRequestDispatcher("/TimeRecord.jsp").forward(request, response);
 	}
 }

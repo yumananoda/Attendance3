@@ -5,12 +5,13 @@
 <%
 	int employeeCD = (int)request.getAttribute("employeeCD");
 	String name = (String)request.getAttribute("name");
-	String agreements = (String)request.getAttribute("agreements");
+	int agreements = (int)request.getAttribute("agreements");
 	String timeRecords = (String)request.getAttribute("timeRecords");
 	String breaks = (String)request.getAttribute("breaks");
 	String shift = (String)request.getAttribute("shift");
 	String exceptionAddShift = (String)request.getAttribute("exceptionAddShift");
 	String exceptionRemoveShift = (String)request.getAttribute("exceptionRemoveShift");
+	String exceptionChangeShift = (String)request.getAttribute("exceptionChangeShift");
 	String holiday = (String)request.getAttribute("holiday");
 	System.out.println("timeRecords:" + timeRecords);
 	System.out.println("breaks:" + breaks);
@@ -44,6 +45,7 @@
         <input id="shiftHolder" type="hidden" value=<%= shift %> /> 
         <input id="addShiftHolder" type="hidden" value=<%= exceptionAddShift %> /> 
         <input id="removeShiftHolder" type="hidden" value=<%= exceptionRemoveShift %> /> 
+        <input id="changeShiftHolder" type="hidden" value=<%= exceptionChangeShift %> /> 
         <input id="holidayHolder" type="hidden" value=<%= holiday %> />
     </div>
     <div id="totalDataArea"></div>

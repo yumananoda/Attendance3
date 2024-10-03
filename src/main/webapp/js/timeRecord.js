@@ -21,6 +21,9 @@ console.log("addShiftData:", addShiftData);
 let removeShiftData = document.getElementById("removeShiftHolder").value;
 removeShiftData = JSON.parse(removeShiftData);
 console.log("removeShiftData:", removeShiftData);
+let changeShiftData = document.getElementById("changeShiftHolder").value;
+changeShiftData = JSON.parse(changeShiftData);
+console.log("changeShiftData:", changeShiftData);
 let holidayData = document.getElementById("holidayHolder").value;
 holidayData = JSON.parse(holidayData);
 console.log("holidayData:", holidayData);
@@ -239,7 +242,8 @@ const getDateAndDay = () => {
 
     const durationShift = shiftData.filter(({ shift_duration }) => shift_duration === Number(dispDuration));
     const findShift = durationShift.find(({ shift_day }) => shift_day === day);
-    if (findShift !== undefined) {
+    const findChangeShift = changeShiftData.find(({ shiftDate }) => `${new Date(shiftDate).getFullYear()} ${new Date(shiftDate).getMonth()+1} ${new Date(shiftDate).getDate()}` === specifiedDate);
+    if (findShift !== undefined && findChangeShift === undefined) {
       prescribedDays ++;
       
       const { start_time, end_time } = findShift;
@@ -263,7 +267,32 @@ const getDateAndDay = () => {
         shiftClock.innerText = `${clocklHours}時間 ${String(clockMinutes).padStart(2, "0")}分`;
         console.log(`稼働予定時間は ${clocklHours}時間 ${clockMinutes}分 です`);
       }
+    }else if(findShift !== undefined && findChangeShift !== undefined) {
+      prescribedDays ++;
+      
+      const { startTime, endTime } = findChangeShift;
+      shiftClockIn.innerText = startTime;
+      shiftClockOut.innerText = endTime;
+
+      let shiftStrat = new Date(`1970-01-01T${startTime}Z`).getTime();
+      let shiftEnd = new Date(`1970-01-01T${endTime}Z`).getTime();
+
+      estimatedWorkingTime = shiftEnd - shiftStrat;
+      console.log(estimatedWorkingTime);
+
+      if(estimatedWorkingTime >= 21600000){
+        estimatedWorkingTime -= 3600000;
+      }
+      prescribedMilliseconds += estimatedWorkingTime;
+      let hours = estimatedWorkingTime / (1000 * 60 * 60);
+      let clocklHours = Math.floor(hours);
+      let clockMinutes = Math.floor((hours - clocklHours) * 60);
+      if (estimatedWorkingTime >= 0) {
+        shiftClock.innerText = `${clocklHours}時間 ${String(clockMinutes).padStart(2, "0")}分`;
+        console.log(`稼働予定時間は ${clocklHours}時間 ${clockMinutes}分 です`);
+      }
     }
+
     console.log(workingTime, estimatedWorkingTime);
     if (workingTime !== null && workingTime > estimatedWorkingTime) {
       let over = workingTime - estimatedWorkingTime;

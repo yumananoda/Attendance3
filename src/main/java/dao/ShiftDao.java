@@ -183,7 +183,7 @@ public class ShiftDao extends CommonDao {
 				java.sql.Date shiftDate = rs.getDate("shift_date");
 				java.sql.Time startTime = rs.getTime("start_time");
 				java.sql.Time endTime = rs.getTime("end_time");
-				int category = rs.getInt("getCategory");
+				int category = rs.getInt("category");
 
 				ExceptionShiftBean shift = new ExceptionShiftBean(employeeCD, category, shiftDate, startTime, endTime);
 				System.out.println(shift.getShiftDate());
@@ -213,7 +213,37 @@ public class ShiftDao extends CommonDao {
 				java.sql.Date shiftDate = rs.getDate("shift_date");
 				java.sql.Time startTime = rs.getTime("start_time");
 				java.sql.Time endTime = rs.getTime("end_time");
-				int category = rs.getInt("getCategory");
+				int category = rs.getInt("category");
+
+				ExceptionShiftBean shift = new ExceptionShiftBean(employeeCD, category, shiftDate, startTime, endTime);
+				System.out.println(shift.getShiftDate());
+				exceptionshifts.add(shift);
+			}
+			statement.close();
+			con.close();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			// エラーハンドリングを適切に行う
+		}
+		return exceptionshifts;
+	}
+	
+	public ArrayList<ExceptionShiftBean> findExceptionChangeShiftByEmployeeCD(int args_employeeCD) {
+		ArrayList<ExceptionShiftBean> exceptionshifts = new ArrayList<ExceptionShiftBean>();
+		String query = "SELECT * FROM exception_shift WHERE employeeCD=? AND category=3";
+		try (Connection con = DriverManager.getConnection(URL, USER, PASS);
+				PreparedStatement statement = con.prepareStatement(query)) {
+
+			statement.setInt(1, args_employeeCD);
+
+			ResultSet rs = statement.executeQuery();
+			while (rs.next()) {
+				int employeeCD = rs.getInt("employeeCD");
+				java.sql.Date shiftDate = rs.getDate("shift_date");
+				java.sql.Time startTime = rs.getTime("start_time");
+				java.sql.Time endTime = rs.getTime("end_time");
+				int category = rs.getInt("category");
 
 				ExceptionShiftBean shift = new ExceptionShiftBean(employeeCD, category, shiftDate, startTime, endTime);
 				System.out.println(shift.getShiftDate());
