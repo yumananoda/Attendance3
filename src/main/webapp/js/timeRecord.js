@@ -36,6 +36,7 @@ let DispStartYear = null;
 let DispStartMonth = null;
 let dispDuration = null;
 let endDate = null;
+let totalOverMillisecondsOfYear = 0;
 
 const getCurrent = (currentYear, currentMonth) => {
   document.getElementById("year").innerHTML = `${currentYear}年`;
@@ -204,18 +205,18 @@ const getDateAndDay = () => {
       }
     }else{
       breakTime.innerText = "";
-      
     }
+    console.log(typeof(agreements), typeof(workingHours))
     
     
-    
-    //agreements(36協定の締結の有無)が１の時と０の時で動きを変える処理を付け加える
-    if(totalWorkingMillisecondsOfWeeks > 144000000){
+    //(36協定の締結の有無)が１の時と０の時で動きを変える処理を付け加える
+    if(agreements === "0" && totalWorkingMillisecondsOfWeeks > 144000000){ //1W40h
       console.log(totalWorkingMillisecondsOfWeeks)
       note.innerText = "労働基準法で定められている一週間の労働時間を超えています。"
 
-    }else if(workingHours > 8){
+    }else if(agreements === "0" && workingHours > 8){ //1D8h
       console.log(workingHours)
+      console.log("労働基準法で定められている1日の労働時間を超えています。")
       note.innerText = "労働基準法で定められている1日の労働時間を超えています。"
 
     }else if(workingHours >= 8 && breakMinutes < 60)  {
@@ -302,6 +303,13 @@ const getDateAndDay = () => {
       overTime.innerText = `${overHours}時間 ${String(overMinutes).padStart(2, "0")}分`;
       console.log(`所定時間外労働 ${overHours}時間 ${overMinutes}分 です`);
       totalOverMilliseconds += over;
+      totalOverMillisecondsOfYear += over;
+
+      if(agreements === "1" && totalOverMilliseconds > 162000000){ //時間外労働1M45h
+        note.innerText = "労働基準法で定められている一週間の時間外労働時間を超えています。"
+      }else if(agreements === "1" && totalOverMillisecondsOfYear > 1296000000){ //時間外労働1Y360h
+        note.innerText = "労働基準法で定められている1年の時間外労働時間を超えています。"
+      }
     }
 
     console.log(new Date(today), new Date(specifiedDate), new Date(today) >= new Date(specifiedDate));
@@ -337,16 +345,16 @@ const getDateAndDay = () => {
         console.log(`稼働予定時間は ${clocklHours}時間 ${clockMinutes}分 です`);
       }
     }
-    console.log(workingTime, estimatedWorkingTime);
-    if (workingTime !== null && workingTime > estimatedWorkingTime) {
-      let over = workingTime - estimatedWorkingTime;
-      let hours = over / (1000 * 60 * 60);
-      let overHours = Math.floor(hours);
-      let overMinutes = Math.floor((hours - overHours) * 60);
-      overTime.innerText = `${overHours}時間 ${String(overMinutes).padStart(2, "0")}分`;
-      console.log(`所定時間外労働 ${overHours}時間 ${overMinutes}分 です`);
-      totalOverMilliseconds += over;
-    }
+    // console.log(workingTime, estimatedWorkingTime);
+    // if (workingTime !== null && workingTime > estimatedWorkingTime) {
+    //   let over = workingTime - estimatedWorkingTime;
+    //   let hours = over / (1000 * 60 * 60);
+    //   let overHours = Math.floor(hours);
+    //   let overMinutes = Math.floor((hours - overHours) * 60);
+    //   overTime.innerText = `${overHours}時間 ${String(overMinutes).padStart(2, "0")}分`;
+    //   console.log(`所定時間外労働 ${overHours}時間 ${overMinutes}分 です`);
+    //   totalOverMilliseconds += over;
+    // }
     
     
     const findRemoveShift = removeShiftData.find(({ shiftDate }) => `${new Date(shiftDate).getFullYear()} ${new Date(shiftDate).getMonth()+1} ${new Date(shiftDate).getDate()}` === specifiedDate);
@@ -364,11 +372,6 @@ const getDateAndDay = () => {
         clockIn.innerText = "";
       }
     }
-    
-    // if (workingTime === null && estimatedWorkingTime !== null) {
-    // if (workingTime === null &&  estimatedWorkingTime !== null) {
-    //   clockIn.innerText = "欠勤";
-    // }
 
     const findHolidayDate = holidayData.find(({ applicationStartDate }) => {
       return (
@@ -525,6 +528,7 @@ const getDateAndDay = () => {
     prescribedArea.appendChild(absent_tr);
     console.log("absent:", absent);
   }
+  console.log(totalOverMillisecondsOfYear)
 }
 
 window.addEventListener("DOMContentLoaded", () => {
