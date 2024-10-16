@@ -305,10 +305,8 @@ const getDateAndDay = () => {
       totalOverMilliseconds += over;
       totalOverMillisecondsOfYear += over;
 
-      if(agreements === "1" && totalOverMilliseconds > 162000000){ //時間外労働1M45h
-        note.innerText = "労働基準法で定められている一週間の時間外労働時間を超えています。"
-      }else if(agreements === "1" && totalOverMillisecondsOfYear > 1296000000){ //時間外労働1Y360h
-        note.innerText = "労働基準法で定められている1年の時間外労働時間を超えています。"
+      if(agreements === "1" && totalOverMilliseconds > 108000000){ //時間外労働1M30h 1年360hの考慮
+        note.innerText = "労働基準法で定められている時間外労働時間を超えています。"
       }
     }
 
