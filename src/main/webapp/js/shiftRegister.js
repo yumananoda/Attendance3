@@ -11,6 +11,8 @@ const resetBtn = document.getElementById("resetBtn");
 const employeeCD = document.getElementById("employeeCD").value;
 const shiftEl = document.getElementById("shift");
 const shift = JSON.parse(shiftEl.value);
+const earliestTimeString = "09:30";
+const latestTimeString = "21:30";
 console.log("employeeCD: ", employeeCD);
 console.log("shift: ", shift);
 
@@ -23,13 +25,21 @@ const getCurrent = (currentYear, DispStartMonth) => {
   document.getElementById("year").innerHTML = `${currentYear}年`;
   document.getElementById("month").innerHTML = `${DispStartMonth}月`;
   dispDuration = currentYear + String(DispStartMonth).padStart(2, "0");
-}
+};
+
+const convertToTime = (timeString) => {
+  const [hours, minutes] = timeString.split(":").map(Number);
+  const date = new Date();
+  date.setHours(hours);
+  date.setMinutes(minutes);
+  return date;
+};
 
 const dispSelectDay = () => {
   while (selectWeekEl.firstChild) {
     selectWeekEl.removeChild(selectWeekEl.firstChild);
   }
-  
+
   for (const day of Object.values(DAYS)) {
     console.log("day:", day);
     const dayBtn = document.createElement("button");
@@ -37,20 +47,26 @@ const dispSelectDay = () => {
     dayBtn.value = day;
     selectWeekEl.appendChild(dayBtn);
 
-    
-    durationIndex = shift.findIndex(({ shift_duration, shift_day }) => shift_duration === Number(dispDuration) && shift_day === day);
-    console.log("durationIndex: ",  durationIndex);
+    durationIndex = shift.findIndex(
+      ({ shift_duration, shift_day }) =>
+        shift_duration === Number(dispDuration) && shift_day === day
+    );
+    console.log("durationIndex: ", durationIndex);
     if (durationIndex !== -1) {
       dayBtn.classList.add("gray");
     }
 
-    dayBtn.addEventListener('click', (e) => {
+    dayBtn.addEventListener("click", (e) => {
       const selectDayValue = e.target.value;
       console.log(selectDayValue);
-      const shiftIndex = shift.findIndex(({ shift_day, shift_duration }) => shift_day === Number(selectDayValue) && shift_duration === Number(dispDuration));
+      const shiftIndex = shift.findIndex(
+        ({ shift_day, shift_duration }) =>
+          shift_day === Number(selectDayValue) &&
+          shift_duration === Number(dispDuration)
+      );
       if (shiftIndex !== -1) {
         shift.splice(shiftIndex, 1);
-      } else{
+      } else {
         shift.push({
           employeeCD: Number(employeeCD),
           shift_duration: Number(dispDuration),
@@ -59,13 +75,13 @@ const dispSelectDay = () => {
           end_time: "",
         });
       }
-        dayBtn.classList.toggle("gray");
-      
+      dayBtn.classList.toggle("gray");
+
       console.log(shift);
       dispDailyTime();
-    })
+    });
   }
-}
+};
 
 const dispDailyTime = () => {
   while (DispDailyEl.firstChild) {
@@ -83,38 +99,40 @@ const dispDailyTime = () => {
   console.log("shift: ", shift);
   console.log(Number(dispDuration));
 
-  shift.forEach(item => {
+  shift.forEach((item) => {
     let { start_time, end_time } = item;
     item.start_time = start_time.slice(0, 5);
     item.end_time = end_time.slice(0, 5);
   });
 
-  let durationShift = shift.filter(({shift_duration}) => shift_duration === Number(dispDuration));
+  let durationShift = shift.filter(
+    ({ shift_duration }) => shift_duration === Number(dispDuration)
+  );
   console.log(durationShift);
   console.log(shift);
 
-  const checkPrescribed = () =>{
+  const checkPrescribed = () => {
     let prescribedMinutes = 0;
-    durationShift.forEach(item => {
-      const {start_time, end_time} = item;
+    durationShift.forEach((item) => {
+      const { start_time, end_time } = item;
       const start_time2 = start_time.replace(":", "");
       const end_time2 = end_time.replace(":", "");
-      console.log(start_time2, end_time2)
+      console.log(start_time2, end_time2);
       let intervalMinutes = end_time2 - start_time2;
-      if(intervalMinutes >= 600){
-        intervalMinutes -= 100
+      if (intervalMinutes >= 600) {
+        intervalMinutes -= 100;
       }
       prescribedMinutes += intervalMinutes;
 
-      console.log("1日:", intervalMinutes)
-      console.log("1週間合計:", prescribedMinutes)
-      if(prescribedMinutes > 4000){
-        console.log("法定労働時間超過")
+      console.log("1日:", intervalMinutes);
+      console.log("1週間合計:", prescribedMinutes);
+      if (prescribedMinutes > 4000) {
+        console.log("法定労働時間超過");
         errorEl.innerText = "1週間の法定労働時間を超えています。";
         registerBtn.disabled = true;
       }
-    })
-  }
+    });
+  };
 
   for (let i = 0; i < durationShift.length; i++) {
     const { shift_day, start_time, end_time } = durationShift[i];
@@ -122,8 +140,6 @@ const dispDailyTime = () => {
     DailyEl.id = shift_day;
     const dayTextEl = document.createElement("p");
     dayTextEl.innerText = DAY_TEXTS[shift_day];
-
-    
 
     const startTimeBox = document.createElement("input");
     startTimeBox.type = "time";
@@ -137,19 +153,40 @@ const dispDailyTime = () => {
 
     startTimeBox.addEventListener("change", (e) => {
       console.log("e: ", e.target.value);
-      const index = durationShift.findIndex(({shift_day}) => shift_day === Number(DailyEl.id));
+      const index = durationShift.findIndex(
+        ({ shift_day }) => shift_day === Number(DailyEl.id)
+      );
       console.log(index);
       if (index !== -1) {
         durationShift[index].start_time = e.target.value;
       }
+
+      const timeString = startTimeBox.value;
+      // const [hours, minutes] = timeString.split(":").map(Number);
+      // console.log(hours);
+      const inputTime = convertToTime(timeString);
+      const earliestTime = convertToTime(earliestTimeString);
+      const latestTime = convertToTime(latestTimeString);
+      console.log(earliestTimeString);
+      console.log(latestTimeString);
+      if (inputTime < earliestTime || inputTime > latestTime) {
+        errorEl.innerText = "営業時間外です。";
+        registerBtn.disabled = true;
+      } else {
+        errorEl.innerText = "";
+        registerBtn.disabled = false;
+      }
+      console.log(typeof startTimeBox.value);
       console.log(durationShift);
       console.log(shift);
       checkPrescribed();
-    })
+    });
 
     endTimeBox.addEventListener("change", (e) => {
       console.log("e: ", e.target.value);
-      const index = durationShift.findIndex(({shift_day}) => shift_day === Number(DailyEl.id));
+      const index = durationShift.findIndex(
+        ({ shift_day }) => shift_day === Number(DailyEl.id)
+      );
       if (index !== -1) {
         durationShift[index].end_time = e.target.value;
       }
@@ -162,44 +199,41 @@ const dispDailyTime = () => {
     DailyEl.appendChild(endTimeBox);
     DispDailyEl.appendChild(DailyEl);
   }
-  
+
   console.log(DispDailyEl.children.length);
-  if(DispDailyEl.children.length !== 0){
+  if (DispDailyEl.children.length !== 0) {
     btnArea.classList.add("is-open");
-  }else{
-    btnArea.classList.remove('is-open'); 
+  } else {
+    btnArea.classList.remove("is-open");
   }
   checkPrescribed();
-}
-
+};
 
 window.addEventListener("DOMContentLoaded", () => {
   const currentDate = new Date();
   currentYear = currentDate.getFullYear();
   let currentMonth = currentDate.getMonth() + 1;
-  if(currentMonth >= 4 && currentMonth < 10){
+  if (currentMonth >= 4 && currentMonth < 10) {
     DispStartMonth = 4;
-  }else{
+  } else {
     DispStartMonth = 10;
   }
   getCurrent(currentYear, DispStartMonth);
   dispSelectDay();
   dispDailyTime();
 });
-
 
 document.querySelector(".prev").addEventListener("click", () => {
   if (DispStartMonth === 4) {
     DispStartMonth = 10;
     currentYear--;
   } else {
-    DispStartMonth -= 6 ;
+    DispStartMonth -= 6;
   }
   getCurrent(currentYear, DispStartMonth);
   dispSelectDay();
   dispDailyTime();
 });
-
 
 document.querySelector(".next").addEventListener("click", () => {
   if (DispStartMonth === 10) {
@@ -213,32 +247,33 @@ document.querySelector(".next").addEventListener("click", () => {
   dispDailyTime();
 });
 
-resetBtn.addEventListener('click',() => {
-  console.log("aaa")
+resetBtn.addEventListener("click", () => {
+  console.log("aaa");
   window.location.href = `DispShiftRegisterServlet?employeeCD=${employeeCD}`;
-})
+});
 
-registerBtn.addEventListener('click', () => {
+registerBtn.addEventListener("click", () => {
   console.log(shift);
   if (
-    shift.some(({ start_time, end_time }) => start_time === "" || end_time === "")) {
+    shift.some(
+      ({ start_time, end_time }) => start_time === "" || end_time === ""
+    )
+  ) {
     errorEl.innerText = "入力されていない項目があります。";
   } else {
     errorEl.innerText = "";
     fetch("/DateTime/ShiftRegisterServlet", {
       method: "POST",
       body: JSON.stringify(shift),
-    })
-    .then((response) => {
+    }).then((response) => {
       if (!response.ok) {
         throw new Error("Network response was not ok");
       }
-        layer.classList.add("is-open");
-    })
+      layer.classList.add("is-open");
+    });
   }
 });
 
-
-closeBtn.addEventListener('click', () => {
-  layer.classList.remove('is-open'); 
-})
+closeBtn.addEventListener("click", () => {
+  layer.classList.remove("is-open");
+});
