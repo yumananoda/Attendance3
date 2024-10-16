@@ -1,6 +1,9 @@
 const dateInput1 = document.getElementById("applicationDate1");
 const dateInput2 = document.getElementById("applicationDate2");
+const dateInput3 = document.getElementById("applicationDate3");
+const dateInput4 = document.getElementById("applicationDate4");
 const worningArea = document.getElementById("worningArea");
+const worningArea2 = document.getElementById("worningArea2");
 const shiftHolder = document.getElementById("shiftData").value;
 const shiftData = JSON.parse(shiftHolder);
 console.log(shiftData);
@@ -20,6 +23,8 @@ document.addEventListener("DOMContentLoaded", function () {
   const formattedDate = `${yyyy}-${mm}-${dd}`;
   dateInput1.value = formattedDate;
   dateInput2.value = formattedDate;
+  dateInput3.value = formattedDate;
+  dateInput4.value = formattedDate;
   // startDateInput.value = formattedDate;
 });
 dateInput1.addEventListener("change", function () {
@@ -45,7 +50,28 @@ dateInput1.addEventListener("change", function () {
   }
 });
 
+dateInput3.addEventListener("change", function () {
+  dateInput4.value = dateInput3.value;
 
+  let selectYearMonth = `${new Date(dateInput3.value).getFullYear()}${String(new Date(dateInput3.value).getMonth()).padStart(2, "0")}`;
+  console.log(selectYearMonth);
+  if(selectYearMonth.slice(5) >= 4 && selectYearMonth.slice(5) < 10){
+    selectYearMonth = selectYearMonth.slice(0,4) + "04";
+  }else{
+    selectYearMonth = selectYearMonth.slice(0,4) + "10";
+  }
+  console.log(selectYearMonth);
+  const durationShift = shiftData.filter(({ shift_duration }) => shift_duration === Number(selectYearMonth));
+  console.log(durationShift);
+  const findShift = durationShift.find(({shift_day}) => shift_day === new Date(dateInput3.value).getDay());
+  console.log(new Date(dateInput3.value).getDay());
+  console.log(findShift);
+  if(findShift === undefined){
+    worningArea2.innerText = "警告:シフトに登録されていない日が選択されています。";
+  }else{
+    worningArea.innerText = "";
+  }
+});
 
 approved.addEventListener("change", () => {
   if(approved.checked) {
