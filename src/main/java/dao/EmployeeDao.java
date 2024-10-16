@@ -91,7 +91,7 @@ public class EmployeeDao extends CommonDao {
 	}
 
 	public Integer findStoreCD(int args_managerCD) {
-		String query = "SELECT storeCD FROM storeManagers WHERE employeeCD = ?";
+		String query = "SELECT storeCD FROM store_managers WHERE employeeCD = ?";
 		try (Connection con = DriverManager.getConnection(URL, USER, PASS);
 				PreparedStatement statement = con.prepareStatement(query)) {
 			statement.setInt(1, args_managerCD);

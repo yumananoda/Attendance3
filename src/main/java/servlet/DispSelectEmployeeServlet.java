@@ -26,10 +26,12 @@ public class DispSelectEmployeeServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
+		System.out.println("DispSelectEmployeeServlet");
 		
 		HttpSession session = request.getSession();
 		String managerCD = (String)session.getAttribute("employeeCD");
 		int managerCD2 = Integer.parseInt(managerCD);
+		System.out.println(managerCD2);
 
 		EmployeeDao employeeDao = new EmployeeDao();
 		int storeCD = employeeDao.findStoreCD(managerCD2);
