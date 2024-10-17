@@ -38,15 +38,17 @@ public class EditEmployeeInfoServlet extends HttpServlet {
 		String hireDate = request.getParameter("hireDate");
 		String position = request.getParameter("position");
 		int position2 = Integer.parseInt(position);
+		String retire = request.getParameter("retire");
 		System.out.println(employeeCD2);
 		System.out.println(name);
 		System.out.println(email);
 		System.out.println(storeName2);
 		System.out.println(hireDate);
 		System.out.println(position2);
+		System.out.println(retire);
 		
 		EmployeeDao employeeDao = new EmployeeDao();
-		employeeDao.updateEmployeeInfo(employeeCD2, name, storeName2, position2);
+		employeeDao.updateEmployeeInfo(employeeCD2, name, storeName2, position2,retire);
 		request.getRequestDispatcher("/EditEmployeeInfoComp.jsp").forward(request, response);
 	 }
 

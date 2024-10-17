@@ -6,9 +6,9 @@ public class EmployeeBean {
 	private Integer employeeCD;
 	private int storeCD,position,agreements,isAdmin;
 	private String name, password, email;
-	private java.sql.Date hire_date;
+	private java.sql.Date hire_date, retire;
 	public EmployeeBean(Integer employeeCD, int storeCD, int position, int agreements, int isAdmin, String name,
-			String password, String email, Date hire_date) {
+			String password, String email, Date hire_date, Date retire) {
 		super();
 		this.employeeCD = employeeCD;
 		this.storeCD = storeCD;
@@ -19,6 +19,7 @@ public class EmployeeBean {
 		this.password = password;
 		this.email = email;
 		this.hire_date = hire_date;
+		this.retire = retire;
 	}
 	public Integer getEmployeeCD() {
 		return employeeCD;
@@ -73,6 +74,12 @@ public class EmployeeBean {
 	}
 	public void setHire_date(java.sql.Date hire_date) {
 		this.hire_date = hire_date;
+	}
+	public java.sql.Date getRetire() {
+		return retire;
+	}
+	public void setRetire(java.sql.Date retire) {
+		this.retire = retire;
 	}
 	
 }

@@ -36,6 +36,7 @@ public class EditEmployeeInfoConfirmServlet extends HttpServlet {
 		String storeName =request.getParameter("storeName");
 		String hireDate =request.getParameter("hireDate");
 		String position =request.getParameter("position");
+		String retire =request.getParameter("retire");
 		
 		
 		System.out.println(employeeCD2);
@@ -44,6 +45,7 @@ public class EditEmployeeInfoConfirmServlet extends HttpServlet {
 		System.out.println(storeName);
 		System.out.println(hireDate);
 		System.out.println(position);
+		System.out.println(retire);
 		
 		request.setAttribute("employeeCD", employeeCD2);
 		request.setAttribute("name", name);
@@ -51,6 +53,7 @@ public class EditEmployeeInfoConfirmServlet extends HttpServlet {
 		request.setAttribute("storeName", storeName);
 		request.setAttribute("hireDate", hireDate);
 		request.setAttribute("position", position);
+		request.setAttribute("retire", retire);
 		request.getRequestDispatcher("/EditEmployeeInfoConfirm.jsp").forward(request, response);
 	}
 

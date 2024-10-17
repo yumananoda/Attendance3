@@ -21,10 +21,9 @@ public class BreakDao extends CommonDao{
 			
 			ResultSet rs = statement.executeQuery();
             while (rs.next()) {
-            	int breakCD = rs.getInt("breakCD");
+				int breakCD = rs.getInt("breakCD");
 				Timestamp breakStartTime = rs.getTimestamp("break_start_time");
 				Timestamp breakEndTime = rs.getTimestamp("break_end_time");
-            	
 				BreakBean breakData = new BreakBean(breakCD, breakStartTime, breakEndTime);
 				breaks.add(breakData);
 			}

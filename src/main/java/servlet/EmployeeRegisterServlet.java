@@ -96,9 +96,10 @@ public class EmployeeRegisterServlet extends HttpServlet {
 			int storeCD = employeeDao.findStoreCD(managerCD2);
 			
 			int isAdmin = 0;
+			Date retire = null;
 
 			EmployeeBean EmployeeRegisterRequest = new EmployeeBean(employeeCD, storeCD, position2, agreements2, isAdmin, name, password,
-					email, sqlDate);
+					email, sqlDate, retire);
 			EmployeeRegisterList.add(EmployeeRegisterRequest);
 		}
 

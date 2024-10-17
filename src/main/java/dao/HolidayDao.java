@@ -78,7 +78,7 @@ public class HolidayDao extends CommonDao{
 		String query = "SELECT h.*,(SELECT u.name FROM users u WHERE u.employeeCD = h.employeeCD) AS name, "
 				+ "(SELECT u.position FROM users u WHERE u.employeeCD = h.employeeCD) AS position, "
 				+ "DATEDIFF(h.application_end_date, h.application_start_date) AS days_between "
-				+ "FROM holiday h WHERE h.storeCD = ? AND h.approval_status = 1";		
+				+ "FROM holiday h WHERE h.storeCD=? AND h.approval_status = 1";		
 		try (Connection con = DriverManager.getConnection(URL, USER, PASS);
 			PreparedStatement statement = con.prepareStatement(query)) {
 			statement.setInt(1, args_storeCD);

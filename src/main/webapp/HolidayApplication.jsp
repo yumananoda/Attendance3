@@ -29,7 +29,7 @@ System.out.println("applicationListOfApproved:" + applicationListOfApproved);
 <meta charset="UTF-8">
 <title>有給申請画面</title>
 <link rel="stylesheet" href="css/tabMenu.css">
-<link rel="stylesheet" href="css/holidayApplication.css">
+<link rel="stylesheet" href="css/checkboxSelected.css">
 </head>
 <body>
 	<ul class="tab-button">

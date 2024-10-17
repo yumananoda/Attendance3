@@ -11,6 +11,7 @@
 	int storeCD2 = Integer.parseInt(storeCD);
 	String hireDate = (String)request.getAttribute("hireDate");
 	String positionCD = (String)request.getAttribute("position");
+	String retire = (String)request.getAttribute("retire");
 	int positionCD2 = Integer.parseInt(positionCD);
 %>
 <!DOCTYPE html>
@@ -54,6 +55,10 @@
 			<label form="position">役職:</label>
 			<input type="text" id="position" value=<%= position2 %> readonly />
 			<input type="hidden" name="position" value=<%= positionCD2 %> />
+		<div>
+			<label form="retire">退職日:</label>
+			<input type="text" id="retire" name="retire" value=<%= retire %> readonly />
+		</div>
 		</div>
 		<input type="submit" value="申請する" />
 	</form>

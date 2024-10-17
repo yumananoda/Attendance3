@@ -8,6 +8,7 @@ const emailEl = document.getElementById("email");
 const storeCDEl = document.getElementById("storeName");
 const hireDateEl = document.getElementById("hireDate");
 const positionEl = document.getElementById("position");
+const retireEL = document.getElementById("retire");
 const resetBtn = document.getElementById("resetBtn");
 console.log("employeeInfoEl:", employeeInfoEl);
 
@@ -16,6 +17,7 @@ const name = document.createElement("input");
 const email = document.createElement("input");
 const storeName = document.createElement("select");
 const hireDate = document.createElement("input");
+const retire = document.createElement("input");
 
 employeeCD.type = "text";
 employeeCD.name = "employeeCD";
@@ -32,7 +34,7 @@ email.value = employeeInfoEl.email;
 email.readOnly = true;
 
 storeName.name = "storeName";
-storeName.value = employeeInfoEl.storeName;
+storeName.value = employeeInfoEl.storeCD;
 const storeKeys = Object.keys(STORE_NAME);
 storeKeys.forEach(key => {
     const option = document.createElement("option");
@@ -50,6 +52,16 @@ let hireDateValue = new Date(employeeInfoEl.hire_date);
 hireDateValue = hireDateValue.getFullYear() + "年" + String((hireDateValue.getMonth()+1)).padStart(2, '0') + "月" + String(hireDateValue.getDate()).padStart(2, '0') + "日";
 hireDate.value = hireDateValue;
 hireDate.readOnly = true;
+
+retire.type = "date";
+retire.name = "retire";
+console.log(employeeInfoEl.retire)
+if(employeeInfoEl.retire !== null){
+    let retireValue = new Date(employeeInfoEl.retire);
+    retireValue = retireValue.getFullYear() + "-" + String((retireValue.getMonth()+1)).padStart(2, '0') + "-" + String(retireValue.getDate()).padStart(2, '0');
+    console.log(retireValue)
+    retire.value = retireValue;
+}
 
 const identifyPosition = () => {
     while (positionEl.firstChild) {
@@ -88,3 +100,4 @@ nameEL.appendChild(name);
 emailEl.appendChild(email);
 storeCDEl.appendChild(storeName);
 hireDateEl.appendChild(hireDate);
+retireEL.appendChild(retire);
