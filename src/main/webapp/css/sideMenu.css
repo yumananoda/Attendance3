@@ -2,3 +2,18 @@
 	padding: 0;
 	margin: 0;
 }
+
+.sidebar{
+	width: 100vh;
+	height: 100vh;
+	position: relative;
+	background-color: antiquewhite;
+}
+
+.sidebar ul{
+	width: 20%;
+	height: 100vh;
+	position: absolute;
+	display: inline-block;
+	background-color: rgb(215, 234, 250);
+}

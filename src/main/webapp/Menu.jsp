@@ -8,7 +8,7 @@
 <link rel="stylesheet" href="css/sideMenu.css" />
 </head>
 <body>
-	<div class="navigation">
+	<div class="sidebar">
     <ul>
       <li class="list active">
         <a href="#">
