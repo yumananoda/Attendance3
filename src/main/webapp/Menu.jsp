@@ -1,5 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%
+String employeeCD = (String)session.getAttribute("employeeCD"); 
+System.out.println("employeeCD:" + employeeCD);
+String name = (String)session.getAttribute("name"); 
+System.out.println("name:" + name);
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -8,7 +14,12 @@
 <link rel="stylesheet" href="css/sideMenu.css" />
 </head>
 <body>
-	<div class="sidebar">
+  <div class="container">
+
+  <div class="sidebar">
+    <ul>
+      
+    </ul>
     <ul>
       <li class="list active">
         <a href="#">
@@ -53,6 +64,7 @@
         </a>
       </li>
     </ul>
+  </div>
   </div>
 <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
 <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>     

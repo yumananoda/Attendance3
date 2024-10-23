@@ -3,17 +3,76 @@
 	margin: 0;
 }
 
-.sidebar{
-	width: 100vh;
-	height: 100vh;
-	position: relative;
+html, body{
+	height: 100%;
+}
+
+.container{
+	width: 100%;
+	height: 100%;
+	/* position: relative; */
 	background-color: antiquewhite;
 }
 
+.sidebar{
+	width: 100px;
+	height: 100%;
+	background-color: rgb(215, 234, 250); 
+	display: flex;
+	position: relative;
+	overflow: hidden;
+	transition: width 0.5s;
+}
+
+.sidebar:hover{
+	width: 300px;
+} 
+
 .sidebar ul{
-	width: 20%;
-	height: 100vh;
 	position: absolute;
-	display: inline-block;
-	background-color: rgb(215, 234, 250);
+	top: 280px;
+	/* left: 30px; */
+	width: 100%;
+}
+
+.sidebar li{
+	list-style: none;
+	border-radius: 15px;
+	/* background-color: black; */
+}
+
+.sidebar a{
+	text-decoration: none;
+	display: flex;
+	padding: 5px;
+	border-left: 30px solid rgb(215, 234, 250);
+}
+
+.sidebar a:hover{
+	opacity: 0.5;
+	background-color: rgba(166, 197, 222, 0.776);
+}
+
+.sidebar .icon{
+	display: block;
+	min-width: 45px;
+	width: 50px;
+	height: 60px;
+	line-height: 70px;
+	text-align: center;
+	/* background-color: antiquewhite; */
+}
+
+.sidebar .icon ion-icon{
+	font-size: 1.5em;
+}
+
+.sidebar a .title{
+	display: block;
+	padding-left: 10px;
+	padding-right: 10px;
+	height: 60px;
+	line-height: 60px;
+	/* background-color: antiquewhite; */
+	white-space: nowrap;
 }

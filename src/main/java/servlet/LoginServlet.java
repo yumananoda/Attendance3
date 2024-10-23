@@ -54,6 +54,8 @@ public class LoginServlet extends HttpServlet {
 			System.out.println(isAdmin);
 			
 			session.setAttribute("employeeCD", String.valueOf(user.getEmployeeCD()));
+			session.setAttribute("name", String.valueOf(user.getName()));
+			session.setAttribute("storeCD", String.valueOf(user.getStoreCD()));
 			session.setAttribute("isAdmin", isAdmin);
 			Timestamp clockIn = employeeDao.getClockIn(user.getEmployeeCD());
 			if(clockIn != null) {
