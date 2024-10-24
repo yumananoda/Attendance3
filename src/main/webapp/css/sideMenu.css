@@ -15,42 +15,43 @@ html, body{
 }
 
 .sidebar{
-	width: 100px;
+	width: 300px;
 	height: 100%;
-	background-color: rgb(215, 234, 250); 
-	display: flex;
+	background-color: rgb(220, 215, 250); 
+	/* display: flex; */
 	position: relative;
 	overflow: hidden;
 	transition: width 0.5s;
 }
 
-.sidebar:hover{
+/* .sidebar:hover{
 	width: 300px;
-} 
+}  */
 
-.sidebar ul{
+.sidebar .sidebarUL{
 	position: absolute;
 	top: 280px;
 	/* left: 30px; */
 	width: 100%;
 }
 
-.sidebar li{
+.sidebar .sidebarUL li{
 	list-style: none;
-	border-radius: 15px;
-	/* background-color: black; */
+	background-color: rgb(201, 211, 243);
+	border-left: 20px solid rgb(215, 234, 250);
 }
 
 .sidebar a{
 	text-decoration: none;
 	display: flex;
 	padding: 5px;
-	border-left: 30px solid rgb(215, 234, 250);
+	border-radius: 15px 0 0 15px;
 }
 
 .sidebar a:hover{
-	opacity: 0.5;
-	background-color: rgba(166, 197, 222, 0.776);
+	/* opacity: 0.5; */
+	color: white;
+	background-color: rgba(155, 96, 80, 0.776);
 }
 
 .sidebar .icon{
@@ -69,10 +70,29 @@ html, body{
 
 .sidebar a .title{
 	display: block;
-	padding-left: 10px;
-	padding-right: 10px;
+	padding-left: 40px;
+	padding-right: 40px;
 	height: 60px;
 	line-height: 60px;
 	/* background-color: antiquewhite; */
 	white-space: nowrap;
+}
+
+.profile{
+	position: absolute;
+	top: 70px;
+	/* background-color: rgb(93, 23, 9);  */
+    height: auto; /* 高さを指定 */
+    width: 100%; /* 幅も必要に応じて指定 */
+}
+
+.sidebar .profileUL li{
+	list-style: none;
+	padding: 5px;
+	height: 30px;
+	line-height: 30px;
+	font-size: 1.2em;
+	text-align: center;
+	background-color: rgb(201, 211, 243);
+	border-left: 20px solid rgb(215, 234, 250);
 }

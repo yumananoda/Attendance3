@@ -18,9 +18,6 @@ System.out.println("name:" + name);
 
   <div class="sidebar">
     <ul>
-      
-    </ul>
-    <ul>
       <li class="list active">
         <a href="#">
           <span class="icon"><ion-icon name="calendar-number-outline"></ion-icon></span>
