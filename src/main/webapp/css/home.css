@@ -1,0 +1,57 @@
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+body{
+    position: relative;
+}
+
+.contents{
+    width: 70%;
+    height: 100vh;
+    position: absolute;
+    top:0;
+    left: 30%
+}
+
+.timeBox{
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    top: 0;
+    left: 0;
+    background-color: red;
+    width: 100%;
+    height: 50vh;
+    /* transition: width 0.5s; */
+}
+
+.timeBox #realtime{
+    width: 100%;
+    padding: 20px;
+    margin: 30px;
+    margin-bottom: 50px;
+    /* height: calc(100% - 50px); */
+    max-width: 700px;
+    background-color: aqua;
+}
+
+.buttonArea{
+    position: absolute;
+    display: flex;
+    /* justify-content: space-around; */
+    /* align-items: center; */
+    left: 0;
+    /* top: calc(50vh + 30px); */
+    bottom: 0;
+    width: 100%;
+    height: 50vh;
+    background-color: yellow;
+    padding: 20px;
+}
+
+.buttonWrap1{
+    width: 100%;
+}

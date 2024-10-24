@@ -54,8 +54,8 @@ public class LoginServlet extends HttpServlet {
 			System.out.println(isAdmin);
 			
 			session.setAttribute("employeeCD", String.valueOf(user.getEmployeeCD()));
-			session.setAttribute("name", String.valueOf(user.getName()));
-			session.setAttribute("storeCD", String.valueOf(user.getStoreCD()));
+			session.setAttribute("name", user.getName());
+			session.setAttribute("storeCD", user.getStoreCD());
 			session.setAttribute("isAdmin", isAdmin);
 			Timestamp clockIn = employeeDao.getClockIn(user.getEmployeeCD());
 			if(clockIn != null) {
@@ -63,11 +63,11 @@ public class LoginServlet extends HttpServlet {
 				System.out.println(localDateTime);
 				session.setAttribute("clockIn",localDateTime);
 			}
-			if(isAdmin == 1) {
-				request.getRequestDispatcher("/ManagerHome.jsp").forward(request, response);
-			}else {
-				request.getRequestDispatcher("/EmployeeHome.jsp").forward(request, response);
-			}
+//			if(isAdmin == 1) {
+				request.getRequestDispatcher("/Home.jsp").forward(request, response);
+//			}else {
+//				request.getRequestDispatcher("/Home.jsp").forward(request, response);
+//			}
 			
 		}else {
 			System.out.print("ログイン失敗");
